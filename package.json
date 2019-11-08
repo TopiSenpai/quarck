@@ -1,0 +1,19 @@
+{
+  "name": "quarck",
+  "version": "0.0.1",
+  "description": "a hopefully save chat app",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TopiSenpai/quarck.git"
+  },
+  "author": "Topi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TopiSenpai/quarck/issues"
+  },
+  "homepage": "https://github.com/TopiSenpai/quarck#readme"
+}
