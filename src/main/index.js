@@ -1,5 +1,7 @@
 import { app, BrowserWindow, Menu, Tray } from 'electron'
 import path from 'path'
+import fs from 'fs'
+import windowStateKeeper from 'electron-window-state'
 /**
  * Set `__static` path to static files in production
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
@@ -8,28 +10,38 @@ if (process.env.NODE_ENV !== 'development') {
 	global.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\')
 }
 
-let mainWindow
-const winURL = process.env.NODE_ENV === 'development'
-	? `http://localhost:9080`
-	: `file://${__dirname}/index.html`
+let win
+let winState
+const winURL = process.env.NODE_ENV === 'development' ?
+	`http://localhost:9080` :
+	`file://${__dirname}/index.html`
 
-function createWindow () {
-	mainWindow = new BrowserWindow({
-		height: 563,
-		width: 1000,
+function createWindow() {
+	win = new BrowserWindow({
+		'x': winState.x,
+		'y': winState.y,
+		'width': winState.width,
+		'height': winState.height,
+		minWidth: 700,
+		minHeight: 500,
 		frame: false,
-		icon: __dirname + '/logo.png'
+		backgroundColor: '#262626',
+		icon: `${__dirname}/logo.png`
 	})
+	win.loadURL(winURL)
 
-	mainWindow.loadURL(winURL)
-
-	mainWindow.on('closed', () => {
-		mainWindow = null
+	win.on('closed', () => {
+		win = null
 	})
 }
 
 let tray = null
 app.on('ready', () => {
+	winState = windowStateKeeper({
+		defaultWidth: 1200,
+		defaultHeight: 900,
+		fullScreen: true
+	})
 	createWindow()
 	tray = new Tray(path.join(__dirname, 'logo.png'))
 	const contextMenu = Menu.buildFromTemplate([
@@ -38,7 +50,7 @@ app.on('ready', () => {
 		},
 		{
 			label: 'quit quarck',
-			click: function () {
+			click: function() {
 				app.quit()
 			}
 		},
@@ -46,13 +58,13 @@ app.on('ready', () => {
 	tray.setToolTip('quarck')
 	tray.setContextMenu(contextMenu)
 	tray.on('click', () => {
-		if(mainWindow === null){
+		if (win === null) {
 			createWindow()
-		}
-		else{
-			mainWindow.focus()
+		} else {
+			win.focus()
 		}
 	})
+	winState.manage(win)
 })
 
 app.on('window-all-closed', () => {
@@ -60,7 +72,7 @@ app.on('window-all-closed', () => {
 })
 
 app.on('activate', () => {
-	if (mainWindow === null) {
+	if (win === null) {
 		createWindow()
 	}
 })

@@ -1,7 +1,7 @@
 <template>
     <div class="ui-window-toolbar">
         <div class="ui-window-toolbar-container">
-            <img class="ui-window-toolbar-title-icon" src="../assets/logo.png" />
+            <!-- <img class="ui-window-toolbar-title-icon" src="../assets/logo.png" /> -->
             <span class="ui-window-toolbar-title">quarrck</span>
         </div>
         <div class="ui-window-toolbar-container">
@@ -25,6 +25,7 @@
 </template>
 <script>
 const { BrowserWindow } = require('electron').remote
+
 export default {
     name: 'ui-window-toolbar',
 
@@ -48,13 +49,15 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+@import '../colors.less';
 
 .ui-window-toolbar {
     display: flex;
     height: 22px;
     width: 100%;
+    margin-top: 2px;
     -webkit-app-region: drag;
-    background-color: #262626;
+    background-color: @toolbar;
     user-select: none;
     justify-content: space-between;
     &-container {
@@ -65,13 +68,13 @@ export default {
         height: 22px;
         border: none;
         padding: 0;
-        color: #ffffff;
-        background-color: #262626;
+        color: @icon;
+        background-color: @toolbar;
         -webkit-app-region: no-drag;
         cursor: pointer;
         outline: none;
         &:hover {
-            background-color: #383838;
+            background-color: @toolbar-light;
             &.close-icon {
                 background-color: red;
             }
@@ -81,6 +84,7 @@ export default {
         }
     }
     &-title {
+        margin-left: 4px;
         height: 22px;
         -webkit-app-region: no-drag;
         cursor: default;

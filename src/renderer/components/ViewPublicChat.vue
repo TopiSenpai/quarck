@@ -1,87 +1,73 @@
 <template>
 	<div class="view-public-chat">
-		<div class="view-public-chat-header">
-			<span>Public Network</span>
-			<span>Search</span>
-			</div>
-		<div class="view-public-chat-body">
-			<div class="view-public-chat-body-container">
-				<div class="view-public-chat-body-container-messages">
-					<ui-message v-for="message in messages" :key="message.id" :message="message" />
-				</div>
-				<div class="view-public-chat-body-container-input">
-					<ui-textbox />
-				</div>
-			</div>
-			<div class="view-public-chat-body-user-list">
-				
-			</div>
+		<div class="view-public-chat-list">
+			<ui-chat v-for="chat in chats" :key="chat.id" :chat="chat" />
 		</div>
+		<ui-chat-layout class="view-public-chat-layout" title="Public Chat" :messages="messages" :users="users" />
 	</div>
 </template>
 <script>
-import UiMessage from './UiMessage'
-import { UiTextbox } from 'keen-ui'
+import UiChat from './ui/UiChat'
+import UiChatLayout from './ui/UiChatLayout'
+import { UiTextbox, UiIconButton } from 'keen-ui'
 
 export default {
 	
 	name: 'view-public-chat',
 
 	components: {
-		UiMessage
+		UiChat,
+		UiChatLayout,
+		UiTextbox,
+		UiIconButton
 	},
 
 	data () {
 		return {
 			messages: [
 				{
-					username: '',
-					icon: '',
-					text: '',
-					timespamp: '',
-					isRead: true
+					username: 'Topi',
+					icon: require('../assets/avatar.png'),
+					text: 'Hello World!',
+					timestamp: Date.now()
+				},
+				{
+					username: 'Topi',
+					icon: require('../assets/avatar.png'),
+					text: 'Hello World!',
+					timestamp: Date.now()
+				},
+				{
+					username: 'Topi',
+					icon: require('../assets/avatar.png'),
+					text: 'Hello World!',
+					timestamp: Date.now()
 				}
+			],
+			users: [
+
+			],
+			chats: [
+			
 			]
 		}
 	}
 }
 </script>
 <style lang="less" scoped>
+@import '../colors.less';
 
 .view-public-chat {
 	display: flex;
 	flex-direction: column;
-	&-header{
-		display: flex;
-		padding: 4px;
-		width: 100%;
-		border-bottom: 1px solid #272727;
+	&-layout{
+		flex: 1 0 auto;
 	}
-	&-body {
-		flex: 1 1 auto;
+	&-list {
 		display: flex;
-		&-container {
-			display: flex;
-			flex-direction: column;
-			flex: 1 0 auto;
-			&-messages {
-				display: flex;
-				flex-direction: column;
-				flex: 1 0 auto;
-				background-color: yellow;
-			}
-			&-input {
-				display: flex;
-				height: 100px;
-				background-color: green;
-			}
-		}
-		&-user-list {
-			display: flex;
-			flex-direction: column;
-			width: 100px;
-			background-color: red;
-		}
+		flex-direction: column;
+		width: 200px;
+		background-color: @list;
 	}
 }
 

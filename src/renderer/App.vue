@@ -1,8 +1,8 @@
 <template>
 	<div id="app">
-		<ui-window-toolbar></ui-window-toolbar>
+		<ui-window-toolbar />
 		<div class="app-content">
-			<ui-sidebar :servers="servers"></ui-sidebar>
+			<ui-sidebar :servers="servers" @add-server="eventServerAdded"></ui-sidebar>
 			<router-view class="app-content-content"></router-view>
 		</div>
 	</div>
@@ -15,29 +15,59 @@ import UiWindowToolbar from './components/UiWindowToolbar'
 export default {
 	
 	name: 'quarck',
-	
+
 	components: {
-	UiSidebar,
-	UiWindowToolbar
+		UiSidebar,
+		UiWindowToolbar
+	},
+	data () {
+		return {
+			servers: [
+				{
+					name: 'test1',
+					url: 'test1.anteiku.de',
+					icon: require('./assets/avatar.png'),
+					chats: [
+						{
+							name: 'Test',
+							messages: [
+							{
+								username: 'Topi',
+								icon: this.icon,
+								text: 'Hellow World!'
+							},
+							{
+								username: 'Idiot',
+								icon: this.icon,
+								text: 'stfu'
+							},
+							{
+								username: 'Topi',
+								icon: this.icon,
+								text: 'ok'
+							},
+							]
+						}
+					],
+					users: [
+						{
+							name: 'Topi',
+							icon: ''
+						}
+					]
+				}
+			]
+		}
 	},
 
-	data () {
-	return {
-		servers: [
-			{
-				name: 'test1',
-				url: 'test1.anteiku.de'
-			},
-			{
-				name: 'test2',
-				url: 'test2.anteiku.de'
-			},
-			{
-				name: 'test3',
-				url: 'test3.anteiku.de'
-			},
-		]
-	}
+	methods: {
+eventServerAdded (name, address) {
+			this.servers.push({
+				name: name,
+				url: address,
+				icon: require('./assets/avatar.png')
+			})
+		}
 	}
 }
 </script>
@@ -54,6 +84,7 @@ export default {
 	display: flex;
 	align-items: stretch;
 	flex: 1 1 auto;
+	background-color: @primary;
 	&-content {
 		flex: 1 1 auto;
 	}
@@ -61,14 +92,17 @@ export default {
 
 html, body, #app {
 	margin: 0;
-	color: white;
-	background-color: @primary;
+	color: @fc-default;
+	background-color: @toolbar;
 	width: 100%;
 	height: 100%;
-	font: 13px 'roboto', Arial, sans-serif
+	font: 18px 'roboto', Arial, sans-serif;
+	font-size: 100%;
 }
 
-* {
+*,
+*::before,
+*::after {
 	box-sizing: border-box;
 }
 </style>
