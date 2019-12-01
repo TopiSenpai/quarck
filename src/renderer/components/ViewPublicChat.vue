@@ -12,7 +12,7 @@
 import UiChat from './ui/UiChat'
 import UiChatLayout from './ui/UiChatLayout'
 import { UiTextbox, UiIconButton } from 'keen-ui'
-import * as network from '../../main/network'
+import network from '../../main/network'
 
 export default {
 	

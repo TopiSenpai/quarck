@@ -4,5 +4,12 @@
 			"path": "."
 		}
 	],
-	"settings": {}
+	"settings": {
+{
+  "files.watcherExclude": {
+    "**/build/win-unpacked/**": true
+  }
+}
+	},
+
 }
