@@ -1,6 +1,6 @@
 <template>
     <div class="ui-message-list">
-        <ui-chat v-for="message in messages" :key="message.id" :message="message" />
+        <ui-message v-for="message in messages" :key="message.id" :message="message" />
     </div>
 </template>
 

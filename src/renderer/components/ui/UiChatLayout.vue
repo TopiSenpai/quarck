@@ -2,11 +2,11 @@
 	<div class="ui-chat-layout">
 		<div class="ui-chat-layout-header">
 			<span>{{ chat.name }}</span>
-			<ui-icon-button type="secondary" icon="supervisor_account" color="white" @click="hideUsers = !hideUsers" />
+		<!--	<ui-icon-button type="secondary" icon="supervisor_account" color="white" @click="hideUsers = !hideUsers" /> -->
 		</div>
 		<div class="ui-chat-layout-body">
 			<ui-message-list class="ui-chat-layout-body-message-list" :messages="chat.messages" />
-			<ui-messagebox class="ui-chat-layout-body-message-box" placeholder="Type Message..."/>
+			<ui-messagebox class="ui-chat-layout-body-message-box" placeholder="Type Message..." @message="eventMessage" />
 		</div>
 	</div>
 </template>
@@ -30,6 +30,12 @@ export default {
 		UiMessageList,
 		UiMessagebox,
 		UiIconButton
+	},
+
+	methods: {
+		eventMessage (message) {
+			this.$emit('message', message)
+		}
 	}
 }
 </script>

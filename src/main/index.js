@@ -2,10 +2,7 @@ import { app, BrowserWindow, Menu, Tray } from 'electron'
 import path from 'path'
 import fs from 'fs'
 import windowStateKeeper from 'electron-window-state'
-/**
- * Set `__static` path to static files in production
- * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
- */
+
 if (process.env.NODE_ENV !== 'development') {
 	global.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\')
 }
@@ -15,6 +12,7 @@ let winState
 const winURL = process.env.NODE_ENV === 'development' ?
 	`http://localhost:9080` :
 	`file://${__dirname}/index.html`
+
 
 function createWindow() {
 	win = new BrowserWindow({
@@ -26,7 +24,10 @@ function createWindow() {
 		minHeight: 500,
 		frame: false,
 		backgroundColor: '#262626',
-		icon: `${__dirname}/logo.png`
+		icon: `${__dirname}/logo.png`,
+		webPreferences: {
+			nodeIntegration: true
+		}
 	})
 	win.loadURL(winURL)
 

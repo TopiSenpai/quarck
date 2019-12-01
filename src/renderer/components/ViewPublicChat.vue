@@ -2,14 +2,17 @@
 	<div class="view-public-chat">
 		<div class="view-public-chat-list">
 			<ui-chat v-for="chat in chats" :key="chat.id" :chat="chat" />
+			
 		</div>
-		<ui-chat-layout class="view-public-chat-layout" title="Public Chat" :messages="messages" :users="users" />
+		{{ messages }}
+	<!--	<ui-chat-layout v-for="chat in chats" :key="chat.id" :chat="chat" class="view-public-chat-layout" @message="eventMessage" /> -->
 	</div>
 </template>
 <script>
 import UiChat from './ui/UiChat'
 import UiChatLayout from './ui/UiChatLayout'
 import { UiTextbox, UiIconButton } from 'keen-ui'
+import * as network from '../../main/network'
 
 export default {
 	
@@ -24,32 +27,40 @@ export default {
 
 	data () {
 		return {
-			messages: [
-				{
-					username: 'Topi',
-					icon: require('../assets/avatar.png'),
-					text: 'Hello World!',
-					timestamp: Date.now()
-				},
-				{
-					username: 'Topi',
-					icon: require('../assets/avatar.png'),
-					text: 'Hello World!',
-					timestamp: Date.now()
-				},
-				{
-					username: 'Topi',
-					icon: require('../assets/avatar.png'),
-					text: 'Hello World!',
-					timestamp: Date.now()
-				}
-			],
-			users: [
-
-			],
+			messages: network.data,
+			selectedChat: '23423756',
 			chats: [
-			
+				{
+					id: '23423756',
+					name: 'default',
+					messages: [
+						{
+							username: 'Topi',
+							icon: require('../assets/avatar.png'),
+							text: 'Hello World!',
+							timestamp: Date.now()
+						},
+						{
+							username: 'Topi',
+							icon: require('../assets/avatar.png'),
+							text: 'Hello World!',
+							timestamp: Date.now()
+						},
+						{
+							username: 'Topi',
+							icon: require('../assets/avatar.png'),
+							text: 'Hello World!',
+							timestamp: Date.now()
+						}
+					]
+				}
 			]
+		}
+	},
+
+	methods: {
+		eventMessage (message) {
+			server.send(Buffer.from(message), 41232, '255.255.255.255')
 		}
 	}
 }
@@ -59,7 +70,6 @@ export default {
 
 .view-public-chat {
 	display: flex;
-	flex-direction: column;
 	&-layout{
 		flex: 1 0 auto;
 	}

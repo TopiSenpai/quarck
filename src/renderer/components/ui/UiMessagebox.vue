@@ -1,7 +1,7 @@
 <template>
     <div class="ui-messagebox">
         <ui-icon-button icon="attach_file" color="white" />
-        <ui-textbox v-model="text" :placeholder="placeholder" />
+        <ui-textbox v-model="text" :placeholder="placeholder" @keydown-enter="eventMessage" />
         <ui-icon-button icon="insert_emoticon" color="white" />
     </div>
 </template>
@@ -29,6 +29,13 @@ export default {
     data () {
         return {
             text: ''
+        }
+    },
+
+    methods: {
+        eventMessage () {
+            this.$emit('message', this.text)
+            this.text = ''
         }
     }
 }

@@ -1,6 +1,7 @@
 <template>
     <div class="ui-chat">
         <span>#{{ chat.name }}</span>
+        <span>{{ chat.id }}</span>
     </div>
 </template>
 
