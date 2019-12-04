@@ -110,8 +110,7 @@ function broadcastUdpPacket (packet) {
 
 function sendUdpPacket (packet, address, port = UDP_PORT) {
     var string = packet.decode()
-    console.log(string)
-    //udp.send(string, 0, string.length + 1, port, address)
+    udp.send(string, 0, string.length + 1, port, address)
 }
 
 export default {
