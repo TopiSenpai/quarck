@@ -80,10 +80,12 @@ udp.on('message', (message, info) => {
             break;
         
         case PacketTypes.DiscoverAnswer:
-            users.push({
-                key: packet.data.key,
-                name: packet.data.name
-            })
+            if(users.find(u => u.key = packet.data.key) == undefined){
+                users.push({
+                    key: packet.data.key,
+                    name: packet.data.name
+                })
+            }
             console.log('ANSWER')
             break;
         
