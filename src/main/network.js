@@ -118,7 +118,9 @@ function sendUdpPacket (packet, address, port = UDP_PORT) {
 }
 
 function sendMessage (message) {
-    broadcastUdpPacket(new ChannelMessagePacket(PUBLICKEY, message))
+    let packet = new ChannelMessagePacket(PUBLICKEY, message)
+    messages.push(packet.data)
+    broadcastUdpPacket(packet)
 }
 
 

@@ -5,6 +5,7 @@
 		</div> -->
 		<div>
 			<ui-message-list :messages="getMessages" />
+			{{ messages }}
 	<!--	<ui-chat-layout v-for="chat in chats" :key="chat.id" :chat="chat" class="view-public-chat-layout" @message="eventMessage" @toggle-users="eventToggleUsers"/> -->
 			<ui-messagebox @message="eventMessage"/>
 		</div>
@@ -36,7 +37,7 @@ export default {
 
 	data () {
 		return {
-			messages: network.data,
+			messages: network.messages,
 			selectedChat: '23423756',
 			users: network.users,
 			hideUsers: false,
