@@ -70,11 +70,12 @@ udp.on('message', (message, info) => {
             message.push(packet.data)
             break;
         case PacketTypes.DiscoverClients:
-            users.push({
-                key: packet.data.key,
-                name: packet.data.name
-            })
-            
+            if(users.find(u => u.key = packet.data.key) == undefined){
+                users.push({
+                    key: packet.data.key,
+                    name: packet.data.name
+                })
+            }
             sendUdpPacket(new DiscoverAnswerPacket(PUBLICKEY, name, 'url', 'online'), info.address, info.port)
             break;
         
@@ -100,7 +101,9 @@ function findClient (key) {
 }
 
 function addClient (client) {
-    findClient() === undefined ? client.push() : ''
+    if(findClient() === undefined) {
+        client.push()
+    }
 }
 
 function discoverClients () {
