@@ -1,9 +1,13 @@
 <template>
 	<div class="view-public-chat">
-		<div class="view-public-chat-list">
+		<!-- <div class="view-public-chat-list">
 			<ui-chat v-for="chat in chats" :key="chat.id" :chat="chat" />
+		</div> -->
+		<div>
+			<ui-message-list :messages="getMessages" />
+	<!--	<ui-chat-layout v-for="chat in chats" :key="chat.id" :chat="chat" class="view-public-chat-layout" @message="eventMessage" @toggle-users="eventToggleUsers"/> -->
+			<ui-messagebox @message="eventMessage"/>
 		</div>
-		<ui-chat-layout v-for="chat in chats" :key="chat.id" :chat="chat" class="view-public-chat-layout" @message="eventMessage" @toggle-users="eventToggleUsers"/>
 		<ui-user-list v-if="!hideUsers" :users="users" />
 	</div>
 </template>
@@ -11,8 +15,11 @@
 import UiChat from './ui/UiChat'
 import UiChatLayout from './ui/UiChatLayout'
 import UiUserList from './ui/UiUserList'
+import UiMessageList from './ui/UiMessageList'
+import UiMessagebox from './ui/UiMessagebox'
 import { UiTextbox, UiIconButton } from 'keen-ui'
 import network from '../../main/network'
+import ChannelMessagePacket from '../../main/packets/ChannelMessagePacket'
 
 export default {
 	
@@ -22,7 +29,8 @@ export default {
 		UiChat,
 		UiChatLayout,
 		UiUserList,
-		UiTextbox,
+		UiMessageList,
+		UiMessagebox,
 		UiIconButton
 	},
 
@@ -61,12 +69,18 @@ export default {
 		}
 	},
 
+	computed: {
+		getMessages () {
+			return network.messages
+		}
+	},
+
 	methods: {
 		eventToggleUsers (value) {
 			this.hideUsers = value
 		},
 		eventMessage (message) {
-			
+			network.sendMessage(message)
 		}
 	}
 }

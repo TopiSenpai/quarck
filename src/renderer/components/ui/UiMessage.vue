@@ -1,6 +1,6 @@
 <template>
 	<div class="ui-message">
-		<img class="ui-message-icon" :src="message.icon" />
+	<!--<img class="ui-message-icon" :src="message.icon" /> -->
 		<div class="ui-message-content">
 			<div class="ui-message-header">
 				<span class="ui-message-header-username">{{ message.username }}</span>

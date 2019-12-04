@@ -14,13 +14,14 @@ const udp = dgram.createSocket('udp4')
 const clients = []
 const users = []
 const data = []
+const messages = []
 
 const IP = ip.address()
 const ADDRESS = '255.255.255.255'
 const UDP_PORT = 6969
 
 const PUBLICKEY = 'mxentgtrcfbueqwoxaeunut6x7ozuclz54'
-const name = 'Toπ'
+const name = 'Toπ Senpai'
 
 
 /* TCP */
@@ -65,6 +66,9 @@ udp.on('message', (message, info) => {
         return
 
     switch(packet.type) {
+        case PacketTypes.ChannelMessagePacket:
+            message.push(packet.data)
+            break;
         case PacketTypes.DiscoverClients:
             users.push({
                 key: packet.data.key,
@@ -113,10 +117,18 @@ function sendUdpPacket (packet, address, port = UDP_PORT) {
     udp.send(string, 0, string.length + 1, port, address)
 }
 
+function sendMessage (message) {
+    broadcastUdpPacket(new ChannelMessagePacket(PUBLICKEY, message))
+}
+
+
 export default {
     data,
     clients,
+    messages,
     users,
     discoverClients,
-    broadcastUdpPacket
+    broadcastUdpPacket,
+    sendUdpPacket,
+    sendMessage
 }
