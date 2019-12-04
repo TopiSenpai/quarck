@@ -1,5 +1,6 @@
 import dgram from 'dgram'
 import net from 'net'
+import ip from 'ip'
 import Packet from './packets/Packet'
 import PacketTypes from './packets/PacketTypes'
 import DiscoverAnswerPacket from './packets/DiscoverAnswerPacket'
@@ -14,6 +15,7 @@ const clients = []
 const users = []
 const data = []
 
+const IP = ip.address()
 const ADDRESS = '255.255.255.255'
 const UDP_PORT = 6969
 
@@ -57,24 +59,21 @@ udp.on('error', (err) => {
 })
 
 udp.on('message', (message, info) => {
-    console.log('message', message.toString())
-    console.log('rInfo', info)
+    console.log('ADDRESS', IP, info.address)
     var packet = JSON.parse(message)
-    console.log('Packet: ', packet)
-    if(info.address === udp.address.address)
-        return
-
+    
     switch(packet.type) {
         case PacketTypes.DiscoverClients:
             users.push({
                 key: packet.data.key,
                 name: packet.data.name
             })
+            if(info.address === IP)
+                return
             sendUdpPacket(new DiscoverAnswerPacket(PUBLICKEY, name, 'url', 'online'), info.address, info.port)
             break;
         
         case PacketTypes.DiscoverAnswer:
-
             users.push({
                 key: packet.data.key,
                 name: packet.data.name
