@@ -45,10 +45,7 @@ export default {
 @import '../../colors.less';
 
 .ui-messagebox {
-	margin: auto;
-	margin-top: 10px;
-	margin-bottom: 10px;
-	width: 90%;
+	margin: 20px;
 	padding: 8px;
 	display: flex;
 	border-radius: 20px;

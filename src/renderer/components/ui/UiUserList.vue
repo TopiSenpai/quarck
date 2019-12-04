@@ -1,6 +1,6 @@
 <template>
     <div class="ui-user-list">
-        <ui-user v-for="user in users" :key="user.hash" :user="user" />
+        <ui-user v-for="user in users" :key="user.key" :user="user" />
     </div>
 </template>
 
@@ -33,6 +33,7 @@ export default {
     flex-direction: column;
     width: 200px;
     background-color: @list;
+    overflow-y: auto;
 }
 
 </style>

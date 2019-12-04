@@ -22,41 +22,7 @@ export default {
 	},
 	data () {
 		return {
-			servers: [
-				{
-					name: 'test1',
-					url: 'test1.anteiku.de',
-					icon: require('./assets/avatar.png'),
-					chats: [
-						{
-							name: 'Test',
-							messages: [
-							{
-								username: 'Topi',
-								icon: this.icon,
-								text: 'Hellow World!'
-							},
-							{
-								username: 'Idiot',
-								icon: this.icon,
-								text: 'stfu'
-							},
-							{
-								username: 'Topi',
-								icon: this.icon,
-								text: 'ok'
-							},
-							]
-						}
-					],
-					users: [
-						{
-							name: 'Topi',
-							icon: ''
-						}
-					]
-				}
-			]
+			servers: []
 		}
 	},
 

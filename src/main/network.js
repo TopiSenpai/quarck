@@ -8,10 +8,10 @@ import ChannelMessagePacket from './packets/ChannelMessagePacket'
 import PrivateMessagePacket from './packets/PrivateMessagePacket'
 
 
-/* UDP */
-const udp = dgram.createSocket('udp4')
 const tcp = net.createServer()
+const udp = dgram.createSocket('udp4')
 const clients = []
+const users = []
 const data = []
 
 const ADDRESS = '255.255.255.255'
@@ -20,33 +20,6 @@ const UDP_PORT = 6969
 const PUBLICKEY = 'mxentgtrcfbueqwoxaeunut6x7ozuclz54'
 const name = 'Toπ'
 
-udp.on('listening', () => {
-    let address = udp.address()
-    console.log(`udp server listening  on ${address.address}:${address.port}...`)
-    udp.setBroadcast(true)
-})
-
-udp.on('error', (err) => {
-    console.log(`udp error:\n${err.stack}`);
-})
-
-udp.on('message', (message, rInfo) => {
-    console.log('message', message.toString())
-    console.log('rInfo', rInfo)
-    var packet = JSON.parse(message)
-    console.log('Packet: ', packet)
-    switch(packet.type) {
-        case PacketTypes.DiscoverClients: 
-            console.log(rInfo)
-            break;
-        
-        case PacketTypes.DiscoverAnswer: 
-            break;
-        
-    }
-})
-
-udp.bind(UDP_PORT)
 
 /* TCP */
 
@@ -71,6 +44,51 @@ tcp.listen()
 
 const TCP_PORT = tcp.port
 
+/* UDP */
+
+udp.on('listening', () => {
+    let address = udp.address()
+    udp.setBroadcast(true)
+    console.log(`udp server listening  on ${address.address}:${address.port}...`)
+})
+
+udp.on('error', (err) => {
+    console.log(`udp error:\n${err.stack}`);
+})
+
+udp.on('message', (message, info) => {
+    console.log('message', message.toString())
+    console.log('rInfo', info)
+    var packet = JSON.parse(message)
+    console.log('Packet: ', packet)
+    if(info.address === udp.address.address)
+        return
+
+    switch(packet.type) {
+        case PacketTypes.DiscoverClients:
+            users.push({
+                key: packet.data.key,
+                name: packet.data.name
+            })
+            sendUdpPacket(new DiscoverAnswerPacket(PUBLICKEY, name, 'url', 'online'), info.address, info.port)
+            break;
+        
+        case PacketTypes.DiscoverAnswer:
+
+            users.push({
+                key: packet.data.key,
+                name: packet.data.name
+            })
+            console.log('ANSWER')
+            break;
+        
+    }
+})
+
+udp.bind(UDP_PORT)
+
+
+
 discoverClients()
 
 function findClient (key) {
@@ -82,14 +100,11 @@ function addClient (client) {
 }
 
 function discoverClients () {
-    let packet = new DiscoverClientsPacket(PUBLICKEY, name, 'bla', 'online')
-    console.log(packet)
-    broadcastPacket(packet)
+    broadcastUdpPacket(new DiscoverClientsPacket(PUBLICKEY, name, 'bla', 'online', TCP_PORT))
 }
 
-function broadcastPacket (packet) {
+function broadcastUdpPacket (packet) {
     var string = packet.decode()
-    console.log('decoded', string)
     udp.send(string, 0, string.length + 1, UDP_PORT, ADDRESS)
 }
 
@@ -101,6 +116,7 @@ function sendUdpPacket (packet, address, port = UDP_PORT) {
 export default {
     data,
     clients,
+    users,
     discoverClients,
-    broadcastPacket
+    broadcastUdpPacket
 }

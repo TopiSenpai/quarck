@@ -1,6 +1,6 @@
 export default {
-    DiscoverClients: '00',
-    DiscoverAnswer: '01',
-    ChannelMessage: '02',
-    PrivateMessage: '03',
+    DiscoverClients: 'discover_clients',
+    DiscoverAnswer: 'discover_clients',
+    ChannelMessage: 'channel_message',
+    PrivateMessage: 'private_message',
 }
