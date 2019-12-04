@@ -59,11 +59,11 @@ udp.on('error', (err) => {
 })
 
 udp.on('message', (message, info) => {
-    console.log('ADDRESS', IP, info.address)
     var packet = JSON.parse(message)
+    console.log('Packet', packet)
     if(info.address === IP)
         return
-        
+
     switch(packet.type) {
         case PacketTypes.DiscoverClients:
             users.push({
@@ -110,7 +110,8 @@ function broadcastUdpPacket (packet) {
 
 function sendUdpPacket (packet, address, port = UDP_PORT) {
     var string = packet.decode()
-    udp.send(string, 0, string.length + 1, port, address)
+    console.log(string)
+    //udp.send(string, 0, string.length + 1, port, address)
 }
 
 export default {

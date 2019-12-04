@@ -1,5 +1,3 @@
-import PacketTypes from './Packet'
-
 export default class Packet {
 
 	constructor (type, data) {
