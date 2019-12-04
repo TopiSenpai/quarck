@@ -61,15 +61,16 @@ udp.on('error', (err) => {
 udp.on('message', (message, info) => {
     console.log('ADDRESS', IP, info.address)
     var packet = JSON.parse(message)
-    
+    if(info.address === IP)
+        return
+        
     switch(packet.type) {
         case PacketTypes.DiscoverClients:
             users.push({
                 key: packet.data.key,
                 name: packet.data.name
             })
-            if(info.address === IP)
-                return
+            
             sendUdpPacket(new DiscoverAnswerPacket(PUBLICKEY, name, 'url', 'online'), info.address, info.port)
             break;
         
