@@ -19,6 +19,7 @@ const messages = []
 const IP = ip.address()
 const ADDRESS = '255.255.255.255'
 const UDP_PORT = 6969
+const TCP_PORT = 9696
 
 const PUBLICKEY = 'mxentgtrcfbueqwoxaeunut6x7ozuclz54'
 const name = 'Toπ Senpai'
@@ -40,12 +41,15 @@ tcp.on('error', (err) => {
 })
 
 tcp.on('data', (data) => {
-    console.log('data received!', data)
+    console.log('tcp data received!', data)
 })
 
-tcp.listen()
+tcp.listen(TCP_PORT)
 
-const TCP_PORT = tcp.port
+function sendTcpPacket (packet, address, port = TCP_PORT) {
+    var string = packet.decode()
+    tcp.send(string, 0, string.length + 1, port, address)
+}
 
 /* UDP */
 

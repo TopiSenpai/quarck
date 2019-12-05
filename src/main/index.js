@@ -1,6 +1,7 @@
 import { app, BrowserWindow, Menu, Tray } from 'electron'
 import path from 'path'
 import fs from 'fs'
+import network from './network'
 import windowStateKeeper from 'electron-window-state'
 
 if (process.env.NODE_ENV !== 'development') {
