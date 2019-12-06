@@ -3,13 +3,13 @@
 		<!-- <div class="view-public-chat-list">
 			<ui-chat v-for="chat in chats" :key="chat.id" :chat="chat" />
 		</div> -->
-		<div>
-			<ui-message-list :messages="getMessages" />
+		<div class="view-public-chat-chat">
+			<ui-message-list class="view-public-chat-chat-messsage-list" :messages="$store.getters.messages" />
 			{{ messages }}
 	<!--	<ui-chat-layout v-for="chat in chats" :key="chat.id" :chat="chat" class="view-public-chat-layout" @message="eventMessage" @toggle-users="eventToggleUsers"/> -->
-			<ui-messagebox @message="eventMessage"/>
+			<ui-messagebox class="view-public-chat-chat-messagebox" @message="eventMessage"/>
 		</div>
-		<ui-user-list v-if="!hideUsers" :users="users" />
+		<ui-user-list v-if="!hideUsers" :users="$store.getters.users" />
 	</div>
 </template>
 <script>
@@ -37,7 +37,6 @@ export default {
 
 	data () {
 		return {
-			messages: network.messages,
 			selectedChat: '23423756',
 			users: network.users,
 			hideUsers: false,
@@ -93,6 +92,15 @@ export default {
 	display: flex;
 	&-layout{
 		flex: 1 0 auto;
+	}
+	&-chat{
+		display: flex;
+		flex-grow: 1;
+		flex-direction: column;
+		&-messsage-list{
+			flex-grow: 1;
+		}
+		
 	}
 	&-list {
 		display: flex;

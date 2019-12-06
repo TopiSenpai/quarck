@@ -1,6 +1,9 @@
 import dgram from 'dgram'
 import net from 'net'
 import ip from 'ip'
+
+import store from '../stores/store'
+
 import Packet from './packets/Packet'
 import PacketTypes from './packets/PacketTypes'
 import DiscoverAnswerPacket from './packets/DiscoverAnswerPacket'
@@ -12,9 +15,6 @@ import PrivateMessagePacket from './packets/PrivateMessagePacket'
 const tcp = net.createServer()
 const udp = dgram.createSocket('udp4')
 const clients = []
-const users = []
-const data = []
-const messages = []
 
 const IP = ip.address()
 const ADDRESS = '255.255.255.255'
@@ -71,26 +71,21 @@ udp.on('message', (message, info) => {
 
     switch(packet.type) {
         case PacketTypes.ChannelMessagePacket:
-            message.push(packet.data)
+            store.commit('message', packet.data)
             break;
         case PacketTypes.DiscoverClients:
-            if(users.find(u => u.key = packet.data.key) == undefined){
-                users.push({
-                    key: packet.data.key,
-                    name: packet.data.name
-                })
-            }
+            store.commit('user', {
+                key: packet.data.key,
+                name: packet.data.name
+            })
             sendUdpPacket(new DiscoverAnswerPacket(PUBLICKEY, name, 'url', 'online'), info.address, info.port)
             break;
         
         case PacketTypes.DiscoverAnswer:
-            if(users.find(u => u.key = packet.data.key) == undefined){
-                users.push({
-                    key: packet.data.key,
-                    name: packet.data.name
-                })
-            }
-            console.log('ANSWER')
+            store.commit('user', {
+                key: packet.data.key,
+                name: packet.data.name
+            })
             break;
         
     }
@@ -128,16 +123,12 @@ function sendUdpPacket (packet, address, port = UDP_PORT) {
 
 function sendMessage (message) {
     let packet = new ChannelMessagePacket(PUBLICKEY, message)
-    messages.push(packet.data)
+    store.commit('message', packet.data)
     broadcastUdpPacket(packet)
 }
 
 
 export default {
-    data,
-    clients,
-    messages,
-    users,
     discoverClients,
     broadcastUdpPacket,
     sendUdpPacket,
