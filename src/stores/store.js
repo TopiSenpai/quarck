@@ -5,16 +5,16 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
 	state: {
-		messages: {},
-		users: {}
+		messages: [],
+		users: []
 	},
 	mutations: {
 		message(message) {
-			state.messages.push(message)
+			this.state.messages.push(message)
 		},
 		user(user) {
-			if(users.find(u => u.key = packet.data.key) == undefined){
-                state.users.push(user)
+			if(this.state.users.find(u => u.key = user.key) == undefined){
+                this.state.users.push(user)
             }
 		}
 	},

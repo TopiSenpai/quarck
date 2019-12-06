@@ -5,7 +5,7 @@
 		</div> -->
 		<div class="view-public-chat-chat">
 			<ui-message-list class="view-public-chat-chat-messsage-list" :messages="$store.getters.messages" />
-			{{ messages }}
+
 	<!--	<ui-chat-layout v-for="chat in chats" :key="chat.id" :chat="chat" class="view-public-chat-layout" @message="eventMessage" @toggle-users="eventToggleUsers"/> -->
 			<ui-messagebox class="view-public-chat-chat-messagebox" @message="eventMessage"/>
 		</div>

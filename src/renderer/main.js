@@ -2,6 +2,7 @@ import Vue from 'vue'
 import axios from 'axios'
 
 import store from '../stores/store'
+import network from '../main/network'
 
 import App from './App'
 import router from './router'
