@@ -13,7 +13,7 @@ export default new Vuex.Store({
 			state.messages.push(message)
 		},
 		user(state, user) {
-			if(state.users.find(u => u.key = user.key) == undefined){
+			if(state.users.find(u => u.key === user.key) == undefined){
                 state.users.push(user)
             }
 		}
