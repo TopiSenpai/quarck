@@ -3,8 +3,8 @@ import PacketTypes from './PacketTypes'
 
 export default class DiscoverClientsPacket extends Packet {
 	
-	constructor (publicKey, name, imageUrl, status, tcpPort) {
-		super(PacketTypes.DiscoverClients, {key: publicKey, name: name, image: imageUrl, status: status, tcp_port: tcpPort})
+	constructor (publicKey, username, imageUrl, status, tcpPort) {
+		super(PacketTypes.DiscoverClients, {key: publicKey, username: username, image: imageUrl, status: status, tcp_port: tcpPort})
 	}
 
 }

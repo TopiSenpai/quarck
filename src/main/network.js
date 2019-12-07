@@ -75,18 +75,12 @@ udp.on('message', (message, info) => {
             store.commit('message', packet.data)
             break;
         case PacketTypes.DiscoverClients:
-            store.commit('user', {
-                key: packet.data.key,
-                username: packet.data.username
-            })
+            store.commit('user', packet.data)
             sendUdpPacket(new DiscoverAnswerPacket(PUBLICKEY, username, 'url', 'online'), info.address, info.port)
             break;
         
         case PacketTypes.DiscoverAnswer:
-            store.commit('user', {
-                key: packet.data.key,
-                username: packet.data.username
-            })
+            store.commit('user', packet.data)
             break;
         
     }
