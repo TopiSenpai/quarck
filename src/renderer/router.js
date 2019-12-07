@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import ViewHome from './components/ViewHome'
+import ViewSettings from './components/ViewSettings'
 import ViewPublicChat from './components/ViewPublicChat'
 import ViewServer from './components/ViewServer'
 import ViewNotFound from './components/ViewNotFound'
@@ -13,6 +14,10 @@ export default new Router({
     {
       path: '/',
       component: ViewHome
+    },
+    {
+      path: '/settings',
+      component: ViewSettings
     },
     {
       path: '/server/local',

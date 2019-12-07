@@ -1,5 +1,6 @@
 import { app, BrowserWindow, Menu, Tray } from 'electron'
 import path from 'path'
+import '../stores/store'
 import fs from 'fs'
 import windowStateKeeper from 'electron-window-state'
 

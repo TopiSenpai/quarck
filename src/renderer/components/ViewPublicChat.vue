@@ -4,7 +4,7 @@
 			<ui-chat v-for="chat in chats" :key="chat.id" :chat="chat" />
 		</div> -->
 		<div class="view-public-chat-chat">
-			<ui-message-list class="view-public-chat-chat-messsage-list" :messages="getMessages" />
+			<ui-message-list :messages="getMessages" />
 
 	<!--	<ui-chat-layout v-for="chat in chats" :key="chat.id" :chat="chat" class="view-public-chat-layout" @message="eventMessage" @toggle-users="eventToggleUsers"/> -->
 			<ui-messagebox class="view-public-chat-chat-messagebox" placeholder="Message global chat..." @message="eventMessage"/>
@@ -71,10 +71,6 @@ export default {
 		display: flex;
 		flex-grow: 1;
 		flex-direction: column;
-		&-messsage-list{
-			flex-grow: 1;
-		}
-		
 	}
 	&-list {
 		display: flex;

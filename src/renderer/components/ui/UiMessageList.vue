@@ -28,10 +28,12 @@ export default {
 <style lang="less" scoped>
 @import '../../colors.less';
 
-.ui-messages-list {
+.ui-message-list {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
+    overflow: auto;
+    border: 1px solid red;
 }
 
 </style>

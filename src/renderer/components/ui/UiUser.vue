@@ -1,9 +1,9 @@
 
 <template>
     <div class="ui-user">
-        <img class="ui-user-icon" :src="user.icon"/>
+        <!-- <img class="ui-user-icon" :src="user.icon"/> -->
         <div class="ui-user-name">
-            <span class="ui-user-name-name">{{ user.name }}</span>
+            <span class="ui-user-name-name">{{ user.username }}</span>
             
         </div>
     </div>

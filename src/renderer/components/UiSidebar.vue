@@ -1,6 +1,12 @@
 <template>
 	<div class="ui-sidebar">
 		<div>
+			<router-link to="/settings">
+				<ui-icon class="server-icon" type="secondary" icon="settings_applications" color="white" />
+			</router-link>
+			<ui-tooltip position="right">Settings</ui-tooltip>
+		</div>
+		<div>
 			<router-link to="/server/local">
 				<ui-icon class="server-icon" type="secondary" icon="public" color="white" />
 			</router-link>

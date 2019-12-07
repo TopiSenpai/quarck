@@ -27,7 +27,7 @@ export default {
 	},
 
 	methods: {
-eventServerAdded (name, address) {
+		eventServerAdded (name, address) {
 			this.servers.push({
 				name: name,
 				url: address,

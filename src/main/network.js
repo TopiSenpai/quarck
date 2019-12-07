@@ -68,19 +68,19 @@ udp.on('message', (message, info) => {
     if(info.address === IP)
         return
         
-    console.log('Packet', packet)
+    console.log('new Packet', packet)
 
     switch(packet.type) {
         case PacketTypes.ChannelMessagePacket:
-            store.commit('message', packet.data)
+            store.dispatch('message', packet.data)
             break;
         case PacketTypes.DiscoverClients:
-            store.commit('user', packet.data)
+            store.dispatch('user', packet.data)
             sendUdpPacket(new DiscoverAnswerPacket(PUBLICKEY, username, 'url', 'online'), info.address, info.port)
             break;
         
         case PacketTypes.DiscoverAnswer:
-            store.commit('user', packet.data)
+            store.dispatch('user', packet.data)
             break;
         
     }
@@ -118,8 +118,7 @@ function sendUdpPacket (packet, address, port = UDP_PORT) {
 
 function sendMessage (message) {
     let packet = new ChannelMessagePacket(username, message, PUBLICKEY)
-    store.commit('message', packet.data)
-    console.log('packet', packet.data)
+    store.dispatch('message', packet.data)
     broadcastUdpPacket(packet)
 }
 
