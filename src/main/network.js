@@ -22,7 +22,7 @@ const UDP_PORT = 6969
 const TCP_PORT = 9696
 
 const PUBLICKEY = 'mxentgtrcfbueqwoxaeunut6x7ozuclz54'
-const name = 'Toπ Senpai'
+const username = 'Toπ Senpai'
 
 
 /* TCP */
@@ -65,9 +65,10 @@ udp.on('error', (err) => {
 
 udp.on('message', (message, info) => {
     var packet = JSON.parse(message)
-    console.log('Packet', packet)
     if(info.address === IP)
         return
+        
+    console.log('Packet', packet)
 
     switch(packet.type) {
         case PacketTypes.ChannelMessagePacket:
@@ -76,15 +77,15 @@ udp.on('message', (message, info) => {
         case PacketTypes.DiscoverClients:
             store.commit('user', {
                 key: packet.data.key,
-                name: packet.data.name
+                username: packet.data.username
             })
-            sendUdpPacket(new DiscoverAnswerPacket(PUBLICKEY, name, 'url', 'online'), info.address, info.port)
+            sendUdpPacket(new DiscoverAnswerPacket(PUBLICKEY, username, 'url', 'online'), info.address, info.port)
             break;
         
         case PacketTypes.DiscoverAnswer:
             store.commit('user', {
                 key: packet.data.key,
-                name: packet.data.name
+                username: packet.data.username
             })
             break;
         
@@ -108,7 +109,7 @@ function addClient (client) {
 }
 
 function discoverClients () {
-    broadcastUdpPacket(new DiscoverClientsPacket(PUBLICKEY, name, 'bla', 'online', TCP_PORT))
+    broadcastUdpPacket(new DiscoverClientsPacket(PUBLICKEY, username, 'bla', 'online', TCP_PORT))
 }
 
 function broadcastUdpPacket (packet) {
@@ -122,8 +123,9 @@ function sendUdpPacket (packet, address, port = UDP_PORT) {
 }
 
 function sendMessage (message) {
-    let packet = new ChannelMessagePacket(PUBLICKEY, message)
+    let packet = new ChannelMessagePacket(username, message, PUBLICKEY)
     store.commit('message', packet.data)
+    console.log('packet', packet.data)
     broadcastUdpPacket(packet)
 }
 

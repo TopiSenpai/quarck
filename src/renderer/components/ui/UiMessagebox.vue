@@ -34,8 +34,11 @@ export default {
 
     methods: {
         eventMessage () {
-            this.$emit('message', this.text)
-            this.text = ''
+            let text = this.text.trim()
+            if(text !== ''){
+                this.$emit('message', this.text)
+                this.text = ''
+            }
         }
     }
 }

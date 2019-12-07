@@ -3,8 +3,8 @@ import PacketTypes from './PacketTypes'
 
 export default class ChannelMessagePacket extends Packet {
 	
-	constructor (publicKey, message) {
-		super(PacketTypes.ChannelMessage, {username: publicKey, text: message})
+	constructor (username, message, publicKey) {
+		super(PacketTypes.ChannelMessage, {username: username, text: message, id: Date.now(), time: Date.now(), publicKey: publicKey})
 	}
 
 }

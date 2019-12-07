@@ -4,12 +4,12 @@
 			<ui-chat v-for="chat in chats" :key="chat.id" :chat="chat" />
 		</div> -->
 		<div class="view-public-chat-chat">
-			<ui-message-list class="view-public-chat-chat-messsage-list" :messages="$store.getters.messages" />
+			<ui-message-list class="view-public-chat-chat-messsage-list" :messages="getMessages" />
 
 	<!--	<ui-chat-layout v-for="chat in chats" :key="chat.id" :chat="chat" class="view-public-chat-layout" @message="eventMessage" @toggle-users="eventToggleUsers"/> -->
-			<ui-messagebox class="view-public-chat-chat-messagebox" @message="eventMessage"/>
+			<ui-messagebox class="view-public-chat-chat-messagebox" placeholder="Message global chat..." @message="eventMessage"/>
 		</div>
-		<ui-user-list v-if="!hideUsers" :users="$store.getters.users" />
+		<ui-user-list v-if="!hideUsers" :users="getUsers" />
 	</div>
 </template>
 <script>
@@ -20,7 +20,7 @@ import UiMessageList from './ui/UiMessageList'
 import UiMessagebox from './ui/UiMessagebox'
 import { UiTextbox, UiIconButton } from 'keen-ui'
 import network from '../../main/network'
-import ChannelMessagePacket from '../../main/packets/ChannelMessagePacket'
+import { mapGetters } from 'vuex'
 
 export default {
 	
@@ -38,41 +38,15 @@ export default {
 	data () {
 		return {
 			selectedChat: '23423756',
-			users: network.users,
-			hideUsers: false,
-			chats: [
-				{
-					id: '23423756',
-					name: 'default',
-					messages: [
-						{
-							username: 'Topi',
-							icon: require('../assets/avatar.png'),
-							text: 'Hello World!',
-							timestamp: Date.now()
-						},
-						{
-							username: 'Topi',
-							icon: require('../assets/avatar.png'),
-							text: 'Hello World!',
-							timestamp: Date.now()
-						},
-						{
-							username: 'Topi',
-							icon: require('../assets/avatar.png'),
-							text: 'Hello World!',
-							timestamp: Date.now()
-						}
-					]
-				}
-			]
+			hideUsers: false
 		}
 	},
 
 	computed: {
-		getMessages () {
-			return network.messages
-		}
+		...mapGetters([
+			'getMessages',
+			'getUsers'
+		])
 	},
 
 	methods: {

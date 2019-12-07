@@ -9,17 +9,17 @@ export default new Vuex.Store({
 		users: []
 	},
 	mutations: {
-		message(message) {
-			this.state.messages.push(message)
+		message(state, message) {
+			state.messages.push(message)
 		},
-		user(user) {
-			if(this.state.users.find(u => u.key = user.key) == undefined){
-                this.state.users.push(user)
+		user(state, user) {
+			if(state.users.find(u => u.key = user.key) == undefined){
+                state.users.push(user)
             }
 		}
 	},
 	getters: {
-		messages: state => state.messages,
-		users: state => state.users
+		getMessages: state => state.messages,
+		getUsers: state => state.users
 	}
 })

@@ -5,11 +5,6 @@
 		}
 	],
 	"settings": {
-{
-  "files.watcherExclude": {
-    "**/build/win-unpacked/**": true
-  }
-}
 	},
 
 }
