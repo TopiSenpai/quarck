@@ -15,7 +15,7 @@
 		<div v-for="server in servers" :key="server.url">
 			<router-link :to="`/server/${server.url}`">
 				<img :src="server.icon" class="server-icon" />
-				<ui-tooltip position="right-end">{{ server.name }}</ui-tooltip>
+				<ui-tooltip position="right">{{ server.name }}</ui-tooltip>
 			</router-link>
 		</div>
 		<div>
@@ -71,7 +71,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import "../colors.less";
+@import "../../colors.less";
 
 .server-icon {
 	width: 60px;

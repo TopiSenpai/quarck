@@ -9,8 +9,8 @@
 </template>
 
 <script>
-import UiSidebar from './components/UiSidebar'
-import UiWindowToolbar from './components/UiWindowToolbar'
+import UiSidebar from './components/ui/UiSidebar'
+import UiWindowToolbar from './components/ui/UiWindowToolbar'
 
 export default {
 	
@@ -49,10 +49,9 @@ export default {
 .app-content {
 	display: flex;
 	align-items: stretch;
-	flex: 1 1 auto;
 	background-color: @primary;
 	&-content {
-		flex: 1 1 auto;
+		flex-grow: 1;
 	}
 }
 
@@ -70,5 +69,16 @@ html, body, #app {
 *::before,
 *::after {
 	box-sizing: border-box;
+}
+
+*::-webkit-scrollbar{
+	background-color: transparent;
+	width: 10px;
+	&-thumb{
+		background-color: #262626;
+	}
+	&-track{
+		background-color: #2e3233;
+	}
 }
 </style>

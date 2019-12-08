@@ -49,9 +49,10 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-@import '../colors.less';
+@import '../../colors.less';
 
 .ui-window-toolbar {
+    flex-shrink: 0;
     display: flex;
     height: 22px;
     width: 100%;

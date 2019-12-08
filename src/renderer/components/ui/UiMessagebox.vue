@@ -50,12 +50,13 @@ export default {
 .ui-messagebox {
 	margin: 20px;
 	padding: 8px;
-	display: flex;
+    display: flex;
+    flex-shrink: 0;
 	border-radius: 20px;
 	background-color: #414447;
-	align-items: center;
+    align-items: center;
 	& .ui-textbox {
-		flex-grow: 1;
+        flex-grow: 1;
 	}
 	& /deep/ .ui-textbox__input {
 		color: @fc-default;

@@ -1,7 +1,10 @@
 import { app, BrowserWindow, Menu, Tray } from 'electron'
 import path from 'path'
-import '../stores/store'
+import store from '../stores/store'
+import Store from 'electron-store'
 import fs from 'fs'
+import { generateKeyPairSync } from 'crypto'
+import uuid from 'uuid'
 import windowStateKeeper from 'electron-window-state'
 
 if (process.env.NODE_ENV !== 'development') {
@@ -38,6 +41,38 @@ function createWindow() {
 }
 
 let tray = null
+//app.setPath ('userData', './data');
+
+const config = new Store();
+
+if(!config.has('username')){
+	let username = `user#${Math.random() * 1000}`
+	config.set('username', username)
+}
+store.dispatch('username', config.get('username'))
+
+if(!config.has('private_key') ||  !config.has('public_key')){
+	// const { publicKey, privateKey } = generateKeyPairSync('rsa', {
+	// 	modulusLength: 4096,
+	// 	publicKeyEncoding: {
+	// 		type: 'spki',
+	// 		format: 'pem'
+	// 	},
+	// 	privateKeyEncoding: {
+	// 		type: 'pkcs8',
+	// 		format: 'pem',
+	// 		cipher: 'aes-256-cbc',
+	// 		passphrase: store.getters.getUsername
+	// 	}
+	// })
+	let privateKey = 'iuqrx8n7ntmcr'
+	let publicKey = 'wemcutznevgzeu'
+	config.set('private_key', privateKey)
+	config.set('public_key', publicKey)
+}
+store.dispatch('privateKey', config.get('private_key'))
+store.dispatch('publicKey', config.get('public_key'))
+
 app.on('ready', () => {
 	winState = windowStateKeeper({
 		defaultWidth: 1200,

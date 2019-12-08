@@ -40,6 +40,7 @@ export default {
 .ui-message {
 	display: flex;
 	flex-direction: column;
+	flex-shrink: 0;
 	padding: 16px;
 	&-text {
 		color: #c2c2c2;

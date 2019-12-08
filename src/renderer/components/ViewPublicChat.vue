@@ -65,7 +65,7 @@ export default {
 .view-public-chat {
 	display: flex;
 	&-layout{
-		flex: 1 0 auto;
+		flex-grow: 1;
 	}
 	&-chat{
 		display: flex;

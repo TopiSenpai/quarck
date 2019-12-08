@@ -60,7 +60,7 @@ export default {
 .ui-chat-layout {
 	display: flex;
 	flex-direction: column;
-	flex: 1 1 auto;
+	flex-grow: 1;
 	&-header{
 		display: flex;
 		align-items: center;

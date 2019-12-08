@@ -15,6 +15,7 @@ export default new Vuex.Store({
 		username: '',
 		privateKey: '',
 		publicKey: '',
+		bla: ''
 	},
 	actions: {
 		message(store, message) {
@@ -26,8 +27,11 @@ export default new Vuex.Store({
 		username(store, username) {
 			store.commit('username', username)
 		},
-		keypair(store, privateKey, publicKey) {
-			store.commit('keypair', privateKey, publicKey)
+		privateKey(store, privateKey){
+			store.commit('privateKey', privateKey)
+		},
+		publicKey(store, publicKey){
+			store.commit('publicKey', publicKey)
 		},
 	},
 	mutations: {
@@ -42,8 +46,10 @@ export default new Vuex.Store({
 		username(state, username) {
 			state.username = username
 		},
-		keypair(state, privateKey, publicKey) {
+		privateKey(state, privateKey){
 			state.privateKey = privateKey
+		},
+		publicKey(state, publicKey) {
 			state.publicKey = publicKey
 		},
 	},
@@ -52,6 +58,6 @@ export default new Vuex.Store({
 		getUsers: state => state.users,
 		getUsername: state => state.username,
 		getPrivateKey: state => state.privateKey,
-		getPublicKey: state => state.publicKey,
+		getPublicKey: state => state.publicKey
 	}
 })
