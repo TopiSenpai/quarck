@@ -1,3 +1,5 @@
+import querystring from 'querystring'
+
 export default class Packet {
 
 	constructor (type, data) {
@@ -6,13 +8,12 @@ export default class Packet {
 	}
 
 	decode () {
-		return rawurlencode(
-			JSON.stringify({
-				type: this.type,
-				data: this.data,
-				time: Date.now()
-			})
-		)
+		return querystring.stringify({
+			type: this.type,
+			data: this.data,
+			time: Date.now()
+		})
+		
 	}
 
 }

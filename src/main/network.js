@@ -1,6 +1,7 @@
 import dgram from 'dgram'
 import net from 'net'
 import ip from 'ip'
+import querystring from 'querystring'
 
 import store from '../stores/store'
 
@@ -64,7 +65,7 @@ udp.on('error', (err) => {
 })
 
 udp.on('message', (message, info) => {
-    var packet = JSON.parse(decodeURIComponent(message))
+    var packet = querystring.parse(message)
     if(info.address === IP)
         return
         
