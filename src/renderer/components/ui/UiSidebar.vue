@@ -1,30 +1,39 @@
 <template>
 	<div class="ui-sidebar">
+		<div class="ui-sidebar-servers">
+			<div>
+				<router-link to="/">
+					<ui-icon class="server-icon" type="secondary" icon="home" color="white" />
+				</router-link>
+				<ui-tooltip position="right">Home</ui-tooltip>
+			</div>
+			<div>
+				<router-link to="/chats">
+					<ui-icon class="server-icon" type="secondary" icon="forum" color="white" />
+				</router-link>
+				<ui-tooltip position="right">Chats</ui-tooltip>
+			</div>
+			<div v-for="server in servers" :key="server.url">
+				<router-link :to="`/server/${server.url}`">
+					<img :src="server.icon" class="server-icon" />
+					<ui-tooltip position="right">{{ server.name }}</ui-tooltip>
+				</router-link>
+			</div>
+			<div>
+				<ui-icon-button class="server-icon" type="secondary" icon="add" color="white" tooltip="Add Server" tooltipPosition="right-end" @click="openAddServerModal" />
+			</div>
+		</div>
 		<div>
 			<router-link to="/settings">
 				<ui-icon class="server-icon" type="secondary" icon="settings_applications" color="white" />
 			</router-link>
 			<ui-tooltip position="right">Settings</ui-tooltip>
 		</div>
-		<div>
-			<router-link to="/server/local">
-				<ui-icon class="server-icon" type="secondary" icon="public" color="white" />
-			</router-link>
-			<ui-tooltip position="right">Public Chat</ui-tooltip>
-		</div>
-		<div v-for="server in servers" :key="server.url">
-			<router-link :to="`/server/${server.url}`">
-				<img :src="server.icon" class="server-icon" />
-				<ui-tooltip position="right">{{ server.name }}</ui-tooltip>
-			</router-link>
-		</div>
-		<div>
-			<ui-icon-button class="server-icon" type="secondary" icon="add" color="white" tooltip="Add Server" tooltipPosition="right-end" @click="openAddServerModal" />
-		</div>
+		<!-- Modals -->
 		<ui-modal ref="addServer">
-			<ui-textbox label="Name" />
-			<ui-textbox label="IP-Address" />
-			<ui-icon-button v-model="address" label="connect" icon="arrow_forward_ios" color="white" @click="addServer" />
+			<ui-textbox v-model="name" label="Name" />
+			<ui-textbox v-model="address" label="IP-Address" />
+			<ui-icon-button label="connect" icon="arrow_forward_ios" color="white" @click="addServer" />
 		</ui-modal>
 	</div>
 </template>
@@ -83,8 +92,14 @@ export default {
 .ui-sidebar {
 	display: flex;
 	flex-direction: column;
+	flex-shrink: 0;
 	padding: 8px;
 	background-color: @toolbar;
-	overflow-y: auto;
+	&-servers{
+		display: flex;
+		flex-direction: column;
+		overflow-y: auto;
+		flex-grow: 1;
+	}
 }
 </style>

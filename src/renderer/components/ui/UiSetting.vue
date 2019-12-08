@@ -32,7 +32,7 @@ export default {
     }
     &-setting {
         padding: 8px;
-        width: 600px;
+        max-width: 600px;
     }
 }
 

@@ -102,7 +102,7 @@ function addClient (client) {
 }
 
 function discoverClients () {
-    broadcastUdpPacket(new DiscoverClientsPacket(PUBLICKEY, username, 'bla', 'online', TCP_PORT))
+    broadcastUdpPacket(new DiscoverClientsPacket(getPublicKey(), username, 'bla', 'online', TCP_PORT))
 }
 
 function broadcastUdpPacket (packet) {
@@ -115,11 +115,16 @@ function sendUdpPacket (packet, address, port = UDP_PORT) {
     udp.send(string, 0, string.length + 1, port, address)
 }
 
-function sendMessage (message) {
-    let packet = new ChannelMessagePacket(username, message, PUBLICKEY)
+function sendMessage (message, chat) {
+    let packet = new ChannelMessagePacket(getPublicKey(), message, chat)
     store.dispatch('message', packet.data)
     broadcastUdpPacket(packet)
 }
+
+function getPublicKey(){
+    store.getters.getPublicKey
+}
+
 
 
 export default {

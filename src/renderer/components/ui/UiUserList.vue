@@ -1,5 +1,8 @@
 <template>
     <div class="ui-user-list">
+        <div class="ui-">
+
+        </div>
         <ui-user v-for="user in users" :key="user.key" :user="user" />
     </div>
 </template>

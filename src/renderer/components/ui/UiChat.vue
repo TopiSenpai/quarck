@@ -1,7 +1,8 @@
 <template>
     <div class="ui-chat">
-        <span>#{{ chat.name }}</span>
-        <span>{{ chat.id }}</span>
+        <router-link class="ui-chat-link" :to="`/chats/${chat.name}`">
+            <span class="ui-chat-text">{{ chat.name }}</span>
+        </router-link>
     </div>
 </template>
 
@@ -23,7 +24,13 @@ export default {
 
 .ui-chat {
     padding: 8px;
-    border-bottom: 1px solid red;
+    &-link {
+        flex-grow: 1;
+    }
+    &-text {
+        color: white;
+        text-decoration: none;
+    }
 }
 
 </style>

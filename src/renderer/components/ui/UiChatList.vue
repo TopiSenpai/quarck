@@ -1,6 +1,6 @@
 <template>
     <div class="ui-chat-list">
-        <span class="ui-chat-list-header">Chat List</span>
+        <span class="ui-chat-list-header">Chats</span>
         <ui-chat v-for="chat in chats" :key="chat.hash" :chat="chat" />
     </div>
 </template>
@@ -34,6 +34,7 @@ export default {
     flex-direction: column;
     width: 200px;
     background-color: @list;
+    flex-shrink: 0;
     &-header {
         padding: 8px;
     }

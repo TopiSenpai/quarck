@@ -1,14 +1,11 @@
 <template>
 	<div class="view-server">
 		<ui-chat-list class="view-server-chat-list" :chats="server.chats" @select-chat="eventSelectChat" />
-		<ui-chat-layout class="view-server-chat-layout" :chat="getSelectedChat" />
-		<ui-user-list class="view-server-user-list" :users="server.users" />
 	</div>
 </template>
 <script>
 import UiChatList from './ui/UiChatList'
 import UiUserList from './ui/UiUserList'
-import UiChatLayout from './ui/UiChatLayout'
 
 export default {
 	
@@ -22,9 +19,7 @@ export default {
 	},
 
 	components: {
-		UiChatList,
-		UiUserList,
-		UiChatLayout
+		UiChatList
 	},
 
 	data () {
