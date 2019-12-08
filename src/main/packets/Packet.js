@@ -6,11 +6,13 @@ export default class Packet {
 	}
 
 	decode () {
-		return JSON.stringify({
-			type: this.type,
-			data: this.data,
-			time: Date.now()
-		})
+		return rawurlencode(
+			JSON.stringify({
+				type: this.type,
+				data: this.data,
+				time: Date.now()
+			})
+		)
 	}
 
 }

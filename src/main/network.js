@@ -64,14 +64,13 @@ udp.on('error', (err) => {
 })
 
 udp.on('message', (message, info) => {
-    var packet = JSON.parse(message)
+    var packet = JSON.parse(decodeURIComponent(message))
     if(info.address === IP)
         return
         
-    console.log('new Packet', packet)
-
+    console.log('new Packet', packet.type)
     switch(packet.type) {
-        case PacketTypes.ChannelMessagePacket:
+        case PacketTypes.ChannelMessage:
             store.dispatch('message', packet.data)
             break;
         case PacketTypes.DiscoverClients:
