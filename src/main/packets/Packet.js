@@ -1,5 +1,3 @@
-import querystring from 'querystring'
-
 export default class Packet {
 
 	constructor (type, data) {
@@ -8,12 +6,11 @@ export default class Packet {
 	}
 
 	decode () {
-		return querystring.stringify({
+		return Buffer.from(JSON.stringify({
 			type: this.type,
 			data: this.data,
 			time: Date.now()
-		})
-		
+		}), 'ascii')
 	}
 
 }

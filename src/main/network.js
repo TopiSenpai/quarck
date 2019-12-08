@@ -1,7 +1,6 @@
 import dgram from 'dgram'
 import net from 'net'
 import ip from 'ip'
-import querystring from 'querystring'
 
 import store from '../stores/store'
 
@@ -65,11 +64,11 @@ udp.on('error', (err) => {
 })
 
 udp.on('message', (message, info) => {
-    var packet = querystring.parse(message)
+    var packet = JSON.parse(message)
     if(info.address === IP)
         return
         
-    console.log('new Packet', packet.type)
+    console.log('new Packet', packet)
     switch(packet.type) {
         case PacketTypes.ChannelMessage:
             store.dispatch('message', packet.data)
