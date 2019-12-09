@@ -22,6 +22,7 @@ import UiUserList from './ui/UiUserList'
 import UiList from './ui/UiList'
 import UiMessagebox from './ui/UiMessagebox'
 import { UiIconButton, UiIcon } from 'keen-ui'
+import network from '../../main/network'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -54,7 +55,7 @@ export default {
 
 	methods: {
 		eventMessage (message) {
-			
+			network.sendMessage(message, this.chat.name)
 		},
 		eventToggleUserList() {
 			this.showUserList = !this.showUserList

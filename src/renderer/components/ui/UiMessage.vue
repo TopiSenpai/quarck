@@ -43,7 +43,7 @@ export default {
 	flex-shrink: 0;
 	padding: 16px;
 	&-text {
-		color: #c2c2c2;
+		color: white;
 	}
 	&-header {
 		&-username {

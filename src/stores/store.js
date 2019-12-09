@@ -70,7 +70,7 @@ export default new Vuex.Store({
 
 
 		message(state, message) {
-			state.chats.find(c => c.name === message.chat).push(message)
+			state.chats.find(c => c.name === message.chat).messages.push(message)
 		},
 		user(state, user) {
 			if(state.allUsers.find(u => u.key === user.key) == undefined){

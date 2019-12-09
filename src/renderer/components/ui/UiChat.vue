@@ -1,7 +1,7 @@
 <template>
     <div class="ui-chat">
         <router-link class="ui-chat-link" :to="`/chats/${chat.name}`">
-            <span class="ui-chat-text">{{ chat.name }}</span>
+            {{ chat.name }}
         </router-link>
     </div>
 </template>
@@ -23,13 +23,17 @@ export default {
 <style lang="less" scoped>
 
 .ui-chat {
+    display: flex;
     padding: 8px;
     &-link {
+        border-radius: 8px;
+        padding: 8px;
         flex-grow: 1;
-    }
-    &-text {
-        color: white;
         text-decoration: none;
+        color: white;
+        &:hover {
+            background-color: #262626;
+        }
     }
 }
 

@@ -50,7 +50,7 @@ export default {
 	display: flex;
 	flex-grow: 1;
 	align-items: stretch;
-	background-color: @primary;
+	background-color: @toolbar;
 	&-content {
 		flex-grow: 1;
 	}

@@ -1,8 +1,7 @@
 <template>
 	<div class="view-chats">
 		<ui-chat-list :chats="getChats" />
-		<router-view></router-view>
-		<!-- <ui-chat-layout v-for="chat in chats" :key="chat.id" :chat="chat" class="view-public-chat-layout" /> -->
+		<router-view class="view-chats-chat"></router-view>
 	</div>
 </template>
 <script>
@@ -29,6 +28,9 @@ export default {
 
 .view-chats {
 	display: flex;
+	&-chat {
+		background-color: @primary;
+	}
 }
 
 </style>
