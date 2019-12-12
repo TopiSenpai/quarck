@@ -1,7 +1,7 @@
 <template>
     <div class="ui-chat-list">
         <div class="ui-chat-list-header">
-            <span>Chats</span>
+            Chats
         </div>
         <ui-chat v-for="chat in chats" :key="chat.hash" :chat="chat" />
     </div>
@@ -34,9 +34,9 @@ export default {
 .ui-chat-list {
     display: flex;
     flex-direction: column;
-    border-top-left-radius: 16px;
     width: 200px;
     background-color: @list;
+    flex-grow: 1;
     flex-shrink: 0;
     &-header {
         display: flex;

@@ -1,13 +1,13 @@
 <template>
-	<div class="view-home">
-		<h1>Home</h1>
+	<div class="view-games">
+		<h1>Games</h1>
 	</div>
 </template>
 <script>
 
 export default {
 	
-	name: 'view-home'
+	name: 'view-games'
 
 }
 </script>

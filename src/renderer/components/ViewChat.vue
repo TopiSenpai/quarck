@@ -12,41 +12,32 @@
 				<ui-message-list class="view-chat-body-message-list" :messages="chat.messages" />
 				<ui-messagebox placeholder="Type Message..." @message="eventMessage" />
 			</div>
-			<ui-list v-if="showUserList" :entries="chat.users" key="name" label="name" title="Users" />
+			<ui-user-list v-if="getShowUserlist" :users="chat.users" />
 		</div>
 	</div>
 </template>
 <script>
 import UiMessageList from './ui/UiMessageList'
 import UiUserList from './ui/UiUserList'
-import UiList from './ui/UiList'
 import UiMessagebox from './ui/UiMessagebox'
-import { UiIconButton, UiIcon } from 'keen-ui'
 import network from '../../main/network'
+import store from '../../stores/store'
 import { mapGetters } from 'vuex'
 
 export default {
 	
 	name: 'view-chat',
-	
-	data() {
-		return {
-			showUserList: true
-		}
-	},
 
 	components: {
 		UiMessageList,
 		UiUserList,
-		UiList,
-		UiIcon,
 		UiMessagebox,
-		UiIconButton
 	},
 
 	computed: {
 		...mapGetters([
-			'getChat'
+			'getChat',
+			'getShowUserlist'
 		]),
 		chat(){
 			return this.getChat(this.$route.params.name)
@@ -58,7 +49,7 @@ export default {
 			network.sendMessage(message, this.chat.name)
 		},
 		eventToggleUserList() {
-			this.showUserList = !this.showUserList
+			store.dispatch('showUserlist', !this.getShowUserlist)
 		}
 		
 	}
@@ -74,7 +65,6 @@ export default {
 .view-chat {
 	display: flex;
 	flex-direction: column;
-	flex-grow: 1;
 	&-header{
 		display: flex;
 		align-items: center;

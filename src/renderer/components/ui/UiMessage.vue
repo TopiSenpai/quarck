@@ -1,7 +1,7 @@
 <template>
 	<div class="ui-message">
 		<div class="ui-message-header">
-			<span class="ui-message-header-username">{{ message.username }}</span>
+			<span class="ui-message-header-username">{{ user.username }}</span>
 			<span class="ui-message-header-time">{{ getTime }}</span>
 		</div>
 		<div class="ui-message-text">
@@ -11,6 +11,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
 	name: "ui-message",
 
@@ -21,11 +23,13 @@ export default {
 		}
 	},
 
-	mounted(){
-		console.log('message', this.message)
-	},
-
 	computed: {
+		...mapGetters([
+			'getUser'
+		]),
+		user(){
+			return this.getUser(this.message.key)
+		},
 		getTime () {
 			let date = new Date(this.message.time)
 			return `${date.getHours()}:${date.getMinutes()}`
@@ -43,14 +47,14 @@ export default {
 	flex-shrink: 0;
 	padding: 16px;
 	&-text {
-		color: white;
+		color: @fc;
 	}
 	&-header {
 		&-username {
 			font-weight: bold;
 		}
 		&-time {
-			color: #7c7c7c;
+			color: @fc-dark;
 			font-size: 70%;
 		}
 	}

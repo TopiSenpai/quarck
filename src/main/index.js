@@ -46,9 +46,10 @@ let tray = null
 const config = new Store();
 
 if(!config.has('username')){
-	let username = `user#${Math.random() * 1000}`
+	let username = `user#${(Math.random() * 10000).toString().substring(0, 4)}`
 	config.set('username', username)
 }
+console.log('username', config.get('username'))
 store.dispatch('username', config.get('username'))
 
 if(!config.has('private_key') ||  !config.has('public_key')){

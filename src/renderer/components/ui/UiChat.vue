@@ -1,6 +1,6 @@
 <template>
     <div class="ui-chat">
-        <router-link class="ui-chat-link" :to="`/chats/${chat.name}`">
+        <router-link class="ui-chat-link" :to="`/chat/${chat.name}`">
             {{ chat.name }}
         </router-link>
     </div>
@@ -21,6 +21,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
+@import '../../colors.less';
 
 .ui-chat {
     display: flex;
@@ -30,9 +31,9 @@ export default {
         padding: 8px;
         flex-grow: 1;
         text-decoration: none;
-        color: white;
+        color: @fc;
         &:hover {
-            background-color: #262626;
+            background-color: @list-hover;
         }
     }
 }

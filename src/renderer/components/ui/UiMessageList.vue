@@ -1,6 +1,6 @@
 <template>
     <div class="ui-message-list">
-        <ui-message v-for="message in messages" :key="message.id" :message="message" />
+        <ui-message v-for="message in messages" :key="message.time" :message="message" />
     </div>
 </template>
 
@@ -33,6 +33,7 @@ export default {
     flex-direction: column;
     flex-grow: 1;
     overflow: auto;
+    user-select: text;
 }
 
 </style>

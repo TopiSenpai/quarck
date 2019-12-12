@@ -1,9 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
+import ViewOverview from './components/ViewOverview'
 import ViewHome from './components/ViewHome'
+import ViewGames from './components/ViewGames'
 import ViewSettings from './components/ViewSettings'
-import ViewChats from './components/ViewChats'
 import ViewChat from './components/ViewChat'
 import ViewUsers from './components/ViewUsers'
 import ViewServer from './components/ViewServer'
@@ -15,29 +16,29 @@ export default new Router({
   routes: [
     {
       path: '/',
-      component: ViewHome
+      component: ViewOverview,
+      children: [
+        {
+          path: '/',
+          component: ViewHome
+        },
+        {
+          path: '/users',
+          component: ViewUsers
+        },
+        {
+          path: '/games',
+          component: ViewGames
+        },
+        {
+          path: 'chat/:name',
+          component: ViewChat
+        },
+      ]
     },
     {
       path: '/settings',
       component: ViewSettings
-    },
-    {
-      path: '/chats',
-      component: ViewChats,
-      children: [
-        {
-          path: '',
-          component: ViewUsers
-        },
-        {
-          path: ':name',
-          component: ViewChat
-        }
-      ]
-    },
-    {
-      path: '/chat/:id',
-      component: ViewChat
     },
     {
       path: '/server/:url',

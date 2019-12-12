@@ -7,7 +7,6 @@
 </template>
 
 <script>
-import { UiTextbox, UiIconButton } from 'keen-ui'
 
 export default {
 
@@ -19,11 +18,6 @@ export default {
             type: String,
             default: ''
         }
-    },
-
-    components: {
-        UiTextbox,
-        UiIconButton
     },
 
     data () {
@@ -53,13 +47,13 @@ export default {
     display: flex;
     flex-shrink: 0;
 	border-radius: 20px;
-	background-color: #414447;
+	background-color: @box;
     align-items: center;
 	& .ui-textbox {
         flex-grow: 1;
 	}
 	& /deep/ .ui-textbox__input {
-		color: @fc-default;
+		color: @fc;
 	}
 	& > * {
 		margin-left: 4px;

@@ -1,7 +1,8 @@
 <template>
 	<div class="view-settings">
 		<div class="view-settings-header">
-			<span class="view-settings-header-text">Settings</span>
+			<span>Settings</span>
+			<ui-icon-button icon="close" type="secondary" color="red" @click="$router.go(-1)" />
 		</div>
 		<div class="view-settings-content">
 			<ui-setting label="Username">
@@ -23,17 +24,21 @@
 		</div>
 		<div class="view-settings-footer">
 			<ui-button color="green" type="primary" @click="eventSaveSettings">Save</ui-button>
+			<ui-button color="red" type="secondary" @click="$router.go(-1)">cancel</ui-button>
 		</div>
 	</div>
 </template>
 <script>
-import { UiTextbox, UiButton } from 'keen-ui'
 import UiSetting from './ui/UiSetting'
 import { mapGetters } from 'vuex'
 
 export default {
 	
 	name: 'view-settings',
+
+	components: {
+		UiSetting,
+	},
 	
 	data () {
 		return {
@@ -56,16 +61,11 @@ export default {
 		eventSaveSettings(){
 
 		}
-	},
-
-	components: {
-		UiTextbox,
-		UiButton,
-		UiSetting,
 	}
 }
 </script>
 <style lang="less" scoped>
+@import '../colors.less';
 
 /deep/ .ui-button {
 	width: fit-content;
@@ -75,7 +75,11 @@ export default {
 .view-settings{
 	display: flex;
 	flex-direction: column;
+	background-color: @primary;
 	&-header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
 		padding: 16px;
 		font-size: 150%;
 		font-weight: bold;
@@ -91,6 +95,7 @@ export default {
 	&-footer {
 		display: flex;
 		flex-direction: row;
+		justify-content: space-between;
 		padding: 16px;
 	}
 }

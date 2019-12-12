@@ -75,7 +75,7 @@ export default {
         cursor: pointer;
         outline: none;
         &:hover {
-            background-color: @toolbar-light;
+            background-color: @toolbar-hover;
             &.close-icon {
                 background-color: red;
             }
@@ -87,7 +87,6 @@ export default {
     &-title {
         margin-left: 4px;
         height: 22px;
-        -webkit-app-region: no-drag;
         cursor: default;
         &-icon {
             width: 22px;

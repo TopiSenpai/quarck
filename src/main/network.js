@@ -88,21 +88,15 @@ udp.on('message', (message, info) => {
 udp.bind(UDP_PORT)
 
 
-
+store.dispatch('user', {key: getPublicKey(), username: getUsername(), image: 'blaaa', status: 'online'})
 discoverClients()
 
 function findClient (key) {
     return clients.find(c => c.key === key)
 }
 
-function addClient (client) {
-    if(findClient() === undefined) {
-        client.push()
-    }
-}
-
 function discoverClients () {
-    broadcastUdpPacket(new DiscoverClientsPacket(getPublicKey(), username, 'bla', 'online', TCP_PORT))
+    broadcastUdpPacket(new DiscoverClientsPacket(getPublicKey(), getUsername(), 'bla', 'online', TCP_PORT))
 }
 
 function broadcastUdpPacket (packet) {
@@ -122,7 +116,11 @@ function sendMessage (message, chat) {
 }
 
 function getPublicKey(){
-    store.getters.getPublicKey
+    return store.getters.getPublicKey
+}
+
+function getUsername(){
+    return store.getters.getUsername
 }
 
 

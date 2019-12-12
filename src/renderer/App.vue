@@ -44,6 +44,7 @@ export default {
 #app {
 	display: flex;
 	flex-direction: column;
+	user-select: none;
 }
 
 .app-content {
@@ -58,12 +59,21 @@ export default {
 
 html, body, #app {
 	margin: 0;
-	color: @fc-default;
+	color: @fc;
 	background-color: @toolbar;
 	width: 100%;
 	height: 100%;
-	font: 18px 'roboto', Arial, sans-serif;
+	font-family: @font;
 	font-size: 100%;
+	cursor: default;
+}
+
+.ui-icon-button{
+	cursor: pointer!important;
+}
+
+.tippy-tooltip{
+	background-color: @tooltip!important;
 }
 
 *,
@@ -76,10 +86,10 @@ html, body, #app {
 	background-color: transparent;
 	width: 10px;
 	&-thumb{
-		background-color: #262626;
+		background-color: @scrollbar-thumb;
 	}
 	&-track{
-		background-color: #2e3233;
+		background-color: @scrollbar-track;
 	}
 }
 </style>
