@@ -6,18 +6,19 @@
 		</div>
 		<div class="view-settings-content">
 			<ui-setting label="Username">
+				username: {{ username }}
 				<ui-textbox v-model="username" placeholder="username..." />
 			</ui-setting>
 
 			<ui-setting label="Public Key">
 				<span>
-					{{ $store.getters.getPublicKey }}
+					{{ getPublicKey }}
 				</span>
 			</ui-setting>
 
 			<ui-setting label="Private Key">
 				<span>
-					{{ $store.getters.getPrivateKey }}
+					{{ getPrivateKey }}
 				</span>
 			</ui-setting>
 			<ui-button color="primary" type="secondary" @click="eventRegenerateKeyPair">Regenerate Key Pair</ui-button>
@@ -39,11 +40,15 @@ export default {
 	components: {
 		UiSetting,
 	},
-	
+
 	data () {
 		return {
-			username: this.getUsername
+			username: ''
 		}
+	},
+
+	mounted(){
+		this.username = this.getUsername
 	},
 
 	computed: {
@@ -59,7 +64,7 @@ export default {
 
 		},
 		eventSaveSettings(){
-
+			this.$store.dispatch('username', this.username)
 		}
 	}
 }
