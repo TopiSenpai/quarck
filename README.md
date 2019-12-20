@@ -1,4 +1,4 @@
-# quarck
+# quarrck
 
 > An electron-vue project
 
