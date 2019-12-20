@@ -1,6 +1,6 @@
 <template>
-    <div class="ui-message-list">
-        <ui-message v-for="message in messages" :key="message.time" :message="message" />
+    <div class="ui-message-list" ref="messageList">
+        <ui-message v-for="message in messages" :key="message.time" ref="messages" :message="message" />
     </div>
 </template>
 
@@ -20,6 +20,20 @@ export default {
 
     components: {
         UiMessage
+    },
+
+    mounted(){
+        let list = this.$refs.messageList
+        list.scrollTop = list.scrollHeight
+    },
+
+    updated() {
+        this.$nextTick(() => {
+            let list = this.$refs.messageList
+            if(list.scrollTop >= list.scrollHeight - list.clientHeight - this.$refs.messages[this.$refs.messages.length - 1].$el.clientHeight) {
+                list.scrollTop = list.scrollHeight
+            }
+        })
     }
 
 }

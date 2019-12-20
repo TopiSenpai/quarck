@@ -48,6 +48,7 @@ export default {
 	padding: 16px;
 	&-text {
 		color: @fc;
+		word-break: break-all;
 	}
 	&-header {
 		&-username {

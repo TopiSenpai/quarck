@@ -67,6 +67,7 @@ export default {
 	flex-direction: column;
 	&-header{
 		display: flex;
+		flex-shrink: 0;
 		align-items: center;
 		padding: 8px;
 		justify-content: space-between;

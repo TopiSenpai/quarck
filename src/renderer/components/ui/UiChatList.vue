@@ -1,9 +1,14 @@
 <template>
     <div class="ui-chat-list">
         <div class="ui-chat-list-header">
-            Chats
+            <span>Chats</span>
+            <ui-icon-button icon="person_add" type="secondary" color="white" @click="openAddChatModal" />
         </div>
         <ui-chat v-for="chat in chats" :key="chat.hash" :chat="chat" />
+        <ui-modal ref="add_chat">
+            <!-- //TODO user list to select user to create private chat -->
+            <ui-button color="green">create</ui-button>
+        </ui-modal>
     </div>
 </template>
 
@@ -23,6 +28,12 @@ export default {
 
     components: {
         UiChat
+    },
+
+    methods: {
+        openAddChatModal(){
+            this.$refs.add_chat.open()
+        }
     }
 
 }
@@ -40,7 +51,9 @@ export default {
     flex-shrink: 0;
     &-header {
         display: flex;
-        padding: 16px;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px;
         border-bottom: 1px solid #2c2c2c;
     }
 }

@@ -10,6 +10,7 @@ import DiscoverAnswerPacket from './packets/DiscoverAnswerPacket'
 import DiscoverClientsPacket from './packets/DiscoverClientsPacket'
 import ChannelMessagePacket from './packets/ChannelMessagePacket'
 import PrivateMessagePacket from './packets/PrivateMessagePacket'
+import UserUpdatePacket from './packets/UserUpdatePacket'
 
 
 const tcp = net.createServer()
@@ -82,6 +83,10 @@ udp.on('message', (message, info) => {
             store.dispatch('user', packet.data)
             break;
         
+        case PacketTypes.UserUpdate:
+            store.dispatch('updateUser', packet.data)
+            break;
+        
     }
 })
 
@@ -115,10 +120,18 @@ function sendMessage (message, chat) {
     broadcastUdpPacket(packet)
 }
 
+function sendUserUpdate () {
+    let packet = new UserUpdatePacket(getPublicKey(), getUsername(), getStatus())
+    store.dispatch('updateUser', packet.data)
+    broadcastUdpPacket(packet)
+}
+
 function getPublicKey(){
     return store.getters.getPublicKey
 }
-
+function getStatus(){
+    return store.getters.getStatus
+}
 function getUsername(){
     return store.getters.getUsername
 }

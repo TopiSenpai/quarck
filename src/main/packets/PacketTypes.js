@@ -3,4 +3,5 @@ export default {
     DiscoverAnswer: 'discover_answer',
     ChannelMessage: 'channel_message',
     PrivateMessage: 'private_message',
+    UserUpdate: 'user_update'
 }

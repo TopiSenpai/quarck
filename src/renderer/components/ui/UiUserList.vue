@@ -34,6 +34,7 @@ export default {
 .ui-user-list {
     display: flex;
     flex-direction: column;
+    flex-shrink: 0;
     width: 200px;
     background-color: @list;
     overflow-y: auto;

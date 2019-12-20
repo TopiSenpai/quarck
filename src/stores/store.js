@@ -6,7 +6,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
 	plugins: [
-		createPersistedState(),
+		//createPersistedState(),
 		createSharedMutations()
 	],
 	state: {
@@ -19,6 +19,7 @@ export default new Vuex.Store({
 		],
 		servers: [],
 		username: '',
+		status: '',
 		privateKey: '',
 		publicKey: '',
 
@@ -38,6 +39,9 @@ export default new Vuex.Store({
 		username(store, username) {
 			store.commit('username', username)
 		},
+		status(store, status) {
+			store.commit('status', status)
+		},
 		privateKey(store, privateKey){
 			store.commit('privateKey', privateKey)
 		},
@@ -52,6 +56,9 @@ export default new Vuex.Store({
 		user(store, user) {
 			store.commit('user', user)
 		},
+		updateUser(store, user) {
+			store.commit('updateUser', user)
+		},
 	},
 	mutations: {
 		showUserlist(state, show) {
@@ -65,6 +72,9 @@ export default new Vuex.Store({
 		},
 		username(state, username) {
 			state.username = username
+		},
+		status(state, status) {
+			state.status = status
 		},
 		privateKey(state, privateKey){
 			state.privateKey = privateKey
@@ -82,6 +92,14 @@ export default new Vuex.Store({
                 state.users.push(user)
 			}
 		},
+		updateUser(state, user) {
+			let u = state.users.find(u => u.key === user.key)
+			if(u !== undefined){
+				Object.entries().forEach(([k, v]) => {
+					u[k] = v
+				})
+			}
+		},
 	},
 	getters: {
 		getPublicChat: state => state.publicChat,
@@ -90,6 +108,7 @@ export default new Vuex.Store({
 		getChat: state => name => state.chats.find(c => c.name == name),
 		getUser: state => key => state.users.find(u => u.key === key),
 		getUsername: state => state.username,
+		getStatus: state => state.status,
 		getPrivateKey: state => state.privateKey,
 		getPublicKey: state => state.publicKey,
 

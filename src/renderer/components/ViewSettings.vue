@@ -31,6 +31,7 @@
 </template>
 <script>
 import UiSetting from './ui/UiSetting'
+import network from '../../main/network'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -65,6 +66,7 @@ export default {
 		},
 		eventSaveSettings(){
 			this.$store.dispatch('username', this.username)
+			network.sendUserUpdate()
 		}
 	}
 }
