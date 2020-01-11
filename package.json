@@ -6,12 +6,12 @@
 	"license": "ISC",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/TopiSenpai/quarck.git"
+		"url": "git+https://github.com/TopiSenpai/quarrck.git"
 	},
 	"bugs": {
-		"url": "https://github.com/TopiSenpai/quarck/issues"
+		"url": "https://github.com/TopiSenpai/quarrck/issues"
 	},
-	"homepage": "https://github.com/TopiSenpai/quarck#readme",
+	"homepage": "https://github.com/TopiSenpai/quarrck#readme",
 	"main": "./dist/electron/main.js",
 	"scripts": {
 		"test": "npx eslint src/**/*.{js,vue,ejs}",
@@ -26,8 +26,8 @@
 		"postinstall": ""
 	},
 	"build": {
-		"productName": "quarck",
-		"appId": "de.anteiku.quarck",
+		"productName": "quarrck",
+		"appId": "de.anteiku.quarrck",
 		"directories": {
 			"output": "build"
 		},
