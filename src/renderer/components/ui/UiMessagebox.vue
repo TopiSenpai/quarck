@@ -10,7 +10,6 @@
 
 <script>
 import emoji from "node-emoji";
-import UiEmoji from "./UiEmoji";
 
 export default {
 
@@ -22,10 +21,6 @@ export default {
             type: String,
             default: "",
         },
-    },
-
-    components: {
-        UiEmoji,
     },
 
     data () {
@@ -43,7 +38,7 @@ export default {
                 this.text = "";
             }
         },
-        eventClickEmoji(value){
+        eventClickEmoji(){
             this.emojiIcon = emoji.random().emoji;
         },
     },

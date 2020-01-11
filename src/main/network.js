@@ -4,18 +4,16 @@ import ip from "ip";
 
 import store from "../stores/store";
 
-import Packet from "./packets/Packet";
 import PacketTypes from "./packets/PacketTypes";
 import DiscoverAnswerPacket from "./packets/DiscoverAnswerPacket";
 import DiscoverClientsPacket from "./packets/DiscoverClientsPacket";
 import ChannelMessagePacket from "./packets/ChannelMessagePacket";
-import PrivateMessagePacket from "./packets/PrivateMessagePacket";
+//import PrivateMessagePacket from "./packets/PrivateMessagePacket";
 import UserUpdatePacket from "./packets/UserUpdatePacket";
 
 
 const tcp = net.createServer();
 const udp = dgram.createSocket("udp4");
-const clients = [];
 
 const IP = ip.address();
 const ADDRESS = "255.255.255.255";
@@ -43,11 +41,6 @@ tcp.on("data", (data) => {
 
 tcp.listen(TCP_PORT);
 
-function sendTcpPacket(packet, address, port = TCP_PORT) {
-	var string = packet.decode();
-	tcp.send(string, 0, string.length + 1, port, address);
-}
-
 /* UDP */
 
 udp.on("listening", () => {
@@ -72,7 +65,7 @@ udp.on("message", (message, info) => {
 			break;
 		case PacketTypes.DiscoverClients:
 			store.dispatch("user", packet.data);
-			sendUdpPacket(new DiscoverAnswerPacket(store.getters.getPublicKey, username, "url", "online", IP), info.address, info.port);
+			sendUdpPacket(new DiscoverAnswerPacket(getPublicKey(), getUsername(), "image", getStatus(), IP), info.address, info.port);
 			break;
 
 		case PacketTypes.DiscoverAnswer:
@@ -91,12 +84,8 @@ udp.on("message", (message, info) => {
 udp.bind(UDP_PORT);
 
 
-store.dispatch("user", { key: getPublicKey(), username: getUsername(), image: "blaaa", status: "online" });
+store.dispatch("user", { key: getPublicKey(), username: getUsername(), image: "blaaa", status: getStatus() });
 discoverClients();
-
-function findClient(key) {
-	return clients.find(c => c.key === key);
-}
 
 function discoverClients() {
 	broadcastUdpPacket(new DiscoverClientsPacket(getPublicKey(), getUsername(), "bla", "online", TCP_PORT));
@@ -130,7 +119,7 @@ function sendMessage(message, chat) {
 	}
 }
 
-function sendUserUpdate(publicKey, username, status) {
+function sendUserUpdate() {
 	let packet = new UserUpdatePacket(getPublicKey(), getUsername(), getStatus());
 	store.dispatch("updateUser", packet.data);
 	broadcastUdpPacket(packet);

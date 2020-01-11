@@ -3,9 +3,6 @@ import path from "path";
 import store from "../stores/store";
 import Store from "electron-store";
 import generateKey from "./helper";
-import fs from "fs";
-import { generateKeyPairSync } from "crypto";
-import uuid from "uuid";
 import windowStateKeeper from "electron-window-state";
 
 if (process.env.NODE_ENV !== "development") {

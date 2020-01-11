@@ -5,7 +5,6 @@
 </template>
 <script>
 import UiChatList from "./ui/UiChatList";
-import UiUserList from "./ui/UiUserList";
 
 export default {
 

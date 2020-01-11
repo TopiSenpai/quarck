@@ -53,9 +53,6 @@ export default new Vuex.Store({
 		publicKey(store, publicKey){
 			store.commit("publicKey", publicKey);
 		},
-		status(store, status){
-			store.commit("status", status);
-		},
 		settings(store, settings){
 			store.commit("settings", settings);
 		},
@@ -99,9 +96,6 @@ export default new Vuex.Store({
 		publicKey(state, publicKey) {
 			state.settings.publicKey = publicKey;
 			config.set("public_key", publicKey);
-		},
-		status(state, status){
-			state.settings.status = status;
 		},
 		settings(state, settings){
 			Object.entries(settings).forEach(([k, v]) => {
