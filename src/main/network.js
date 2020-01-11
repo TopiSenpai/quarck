@@ -22,10 +22,6 @@ const ADDRESS = '255.255.255.255'
 const UDP_PORT = 6969
 const TCP_PORT = 9696
 
-const PUBLICKEY = 'mxentgtrcfbueqwoxaeunut6x7ozuclz54'
-const username = 'Toπ Senpai'
-
-
 /* TCP */
 
 tcp.on('listening', () => {
@@ -76,14 +72,16 @@ udp.on('message', (message, info) => {
             break;
         case PacketTypes.DiscoverClients:
             store.dispatch('user', packet.data)
-            sendUdpPacket(new DiscoverAnswerPacket(PUBLICKEY, username, 'url', 'online'), info.address, info.port)
+            sendUdpPacket(new DiscoverAnswerPacket(PUBLICKEY, username, 'url', 'online', IP), info.address, info.port)
             break;
         
         case PacketTypes.DiscoverAnswer:
+            packet.data.address = info.address
             store.dispatch('user', packet.data)
             break;
         
         case PacketTypes.UserUpdate:
+            packet.data.address = info.address
             store.dispatch('updateUser', packet.data)
             break;
         
@@ -100,27 +98,40 @@ function findClient (key) {
     return clients.find(c => c.key === key)
 }
 
-function discoverClients () {
+function discoverClients() {
     broadcastUdpPacket(new DiscoverClientsPacket(getPublicKey(), getUsername(), 'bla', 'online', TCP_PORT))
 }
 
-function broadcastUdpPacket (packet) {
+function broadcastUdpPacket(packet) {
     var string = packet.decode()
     udp.send(string, 0, string.length + 1, UDP_PORT, ADDRESS)
 }
 
-function sendUdpPacket (packet, address, port = UDP_PORT) {
+function broadcastUdpPacketUsers(packet, users) {
+    var string = packet.decode()
+    users.forEach(u => {
+        let user = store.getters.getUser(u)
+        udp.send(string, 0, string.length + 1, UDP_PORT, user.address)
+    })
+}
+
+function sendUdpPacket(packet, address, port = UDP_PORT) {
     var string = packet.decode()
     udp.send(string, 0, string.length + 1, port, address)
 }
 
-function sendMessage (message, chat) {
+function sendMessage(message, chat) {
     let packet = new ChannelMessagePacket(getPublicKey(), message, chat)
     store.dispatch('message', packet.data)
-    broadcastUdpPacket(packet)
+    if(chat === 'public'){
+        broadcastUdpPacket(packet)
+    }
+    else{
+        broadcastUdpPacketUsers(packet, store.getters.getChat(chat).users)
+    }
 }
 
-function sendUserUpdate () {
+function sendUserUpdate(publicKey, username, status) {
     let packet = new UserUpdatePacket(getPublicKey(), getUsername(), getStatus())
     store.dispatch('updateUser', packet.data)
     broadcastUdpPacket(packet)
@@ -142,5 +153,6 @@ export default {
     discoverClients,
     broadcastUdpPacket,
     sendUdpPacket,
-    sendMessage
+    sendMessage,
+    sendUserUpdate
 }
