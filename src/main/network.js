@@ -72,7 +72,7 @@ udp.on('message', (message, info) => {
             break;
         case PacketTypes.DiscoverClients:
             store.dispatch('user', packet.data)
-            sendUdpPacket(new DiscoverAnswerPacket(PUBLICKEY, username, 'url', 'online', IP), info.address, info.port)
+            sendUdpPacket(new DiscoverAnswerPacket(store.getters.getPublicKey, username, 'url', 'online', IP), info.address, info.port)
             break;
         
         case PacketTypes.DiscoverAnswer:
