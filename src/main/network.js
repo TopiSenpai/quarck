@@ -1,158 +1,158 @@
-import dgram from 'dgram'
-import net from 'net'
-import ip from 'ip'
+import dgram from "dgram";
+import net from "net";
+import ip from "ip";
 
-import store from '../stores/store'
+import store from "../stores/store";
 
-import Packet from './packets/Packet'
-import PacketTypes from './packets/PacketTypes'
-import DiscoverAnswerPacket from './packets/DiscoverAnswerPacket'
-import DiscoverClientsPacket from './packets/DiscoverClientsPacket'
-import ChannelMessagePacket from './packets/ChannelMessagePacket'
-import PrivateMessagePacket from './packets/PrivateMessagePacket'
-import UserUpdatePacket from './packets/UserUpdatePacket'
+import Packet from "./packets/Packet";
+import PacketTypes from "./packets/PacketTypes";
+import DiscoverAnswerPacket from "./packets/DiscoverAnswerPacket";
+import DiscoverClientsPacket from "./packets/DiscoverClientsPacket";
+import ChannelMessagePacket from "./packets/ChannelMessagePacket";
+import PrivateMessagePacket from "./packets/PrivateMessagePacket";
+import UserUpdatePacket from "./packets/UserUpdatePacket";
 
 
-const tcp = net.createServer()
-const udp = dgram.createSocket('udp4')
-const clients = []
+const tcp = net.createServer();
+const udp = dgram.createSocket("udp4");
+const clients = [];
 
-const IP = ip.address()
-const ADDRESS = '255.255.255.255'
-const UDP_PORT = 6969
-const TCP_PORT = 9696
+const IP = ip.address();
+const ADDRESS = "255.255.255.255";
+const UDP_PORT = 6969;
+const TCP_PORT = 9696;
 
 /* TCP */
 
-tcp.on('listening', () => {
-    let address = tcp.address()
-    console.log(`tcp server listening  on ${address.address}:${address.port}...`)
-})
+tcp.on("listening", () => {
+	let address = tcp.address();
+	console.log(`tcp server listening  on ${address.address}:${address.port}...`);
+});
 
-tcp.on('connection', (connection) => {
-    console.log(`new connection from ${connection}`)
-})
+tcp.on("connection", (connection) => {
+	console.log(`new connection from ${connection}`);
+});
 
-tcp.on('error', (err) => {
-    console.log(`tcp error:\n${err.stack}`)
-})
+tcp.on("error", (err) => {
+	console.log(`tcp error:\n${err.stack}`);
+});
 
-tcp.on('data', (data) => {
-    console.log('tcp data received!', data)
-})
+tcp.on("data", (data) => {
+	console.log("tcp data received!", data);
+});
 
-tcp.listen(TCP_PORT)
+tcp.listen(TCP_PORT);
 
 function sendTcpPacket (packet, address, port = TCP_PORT) {
-    var string = packet.decode()
-    tcp.send(string, 0, string.length + 1, port, address)
+	var string = packet.decode();
+	tcp.send(string, 0, string.length + 1, port, address);
 }
 
 /* UDP */
 
-udp.on('listening', () => {
-    let address = udp.address()
-    udp.setBroadcast(true)
-    console.log(`udp server listening  on ${address.address}:${address.port}...`)
-})
+udp.on("listening", () => {
+	let address = udp.address();
+	udp.setBroadcast(true);
+	console.log(`udp server listening  on ${address.address}:${address.port}...`);
+});
 
-udp.on('error', (err) => {
-    console.log(`udp error:\n${err.stack}`);
-})
+udp.on("error", (err) => {
+	console.log(`udp error:\n${err.stack}`);
+});
 
-udp.on('message', (message, info) => {
-    var packet = JSON.parse(message)
-    if(info.address === IP)
-        return
+udp.on("message", (message, info) => {
+	var packet = JSON.parse(message);
+	if(info.address === IP)
+		return;
         
-    console.log('new Packet', packet)
-    switch(packet.type) {
-        case PacketTypes.ChannelMessage:
-            store.dispatch('message', packet.data)
-            break;
-        case PacketTypes.DiscoverClients:
-            store.dispatch('user', packet.data)
-            sendUdpPacket(new DiscoverAnswerPacket(store.getters.getPublicKey, username, 'url', 'online', IP), info.address, info.port)
-            break;
+	console.log("new Packet", packet);
+	switch(packet.type) {
+	case PacketTypes.ChannelMessage:
+		store.dispatch("message", packet.data);
+		break;
+	case PacketTypes.DiscoverClients:
+		store.dispatch("user", packet.data);
+		sendUdpPacket(new DiscoverAnswerPacket(store.getters.getPublicKey, username, "url", "online", IP), info.address, info.port);
+		break;
         
-        case PacketTypes.DiscoverAnswer:
-            packet.data.address = info.address
-            store.dispatch('user', packet.data)
-            break;
+	case PacketTypes.DiscoverAnswer:
+		packet.data.address = info.address;
+		store.dispatch("user", packet.data);
+		break;
         
-        case PacketTypes.UserUpdate:
-            packet.data.address = info.address
-            store.dispatch('updateUser', packet.data)
-            break;
+	case PacketTypes.UserUpdate:
+		packet.data.address = info.address;
+		store.dispatch("updateUser", packet.data);
+		break;
         
-    }
-})
+	}
+});
 
-udp.bind(UDP_PORT)
+udp.bind(UDP_PORT);
 
 
-store.dispatch('user', {key: getPublicKey(), username: getUsername(), image: 'blaaa', status: 'online'})
-discoverClients()
+store.dispatch("user", {key: getPublicKey(), username: getUsername(), image: "blaaa", status: "online"});
+discoverClients();
 
 function findClient (key) {
-    return clients.find(c => c.key === key)
+	return clients.find(c => c.key === key);
 }
 
 function discoverClients() {
-    broadcastUdpPacket(new DiscoverClientsPacket(getPublicKey(), getUsername(), 'bla', 'online', TCP_PORT))
+	broadcastUdpPacket(new DiscoverClientsPacket(getPublicKey(), getUsername(), "bla", "online", TCP_PORT));
 }
 
 function broadcastUdpPacket(packet) {
-    var string = packet.decode()
-    udp.send(string, 0, string.length + 1, UDP_PORT, ADDRESS)
+	var string = packet.decode();
+	udp.send(string, 0, string.length + 1, UDP_PORT, ADDRESS);
 }
 
 function broadcastUdpPacketUsers(packet, users) {
-    var string = packet.decode()
-    users.forEach(u => {
-        let user = store.getters.getUser(u)
-        udp.send(string, 0, string.length + 1, UDP_PORT, user.address)
-    })
+	var string = packet.decode();
+	users.forEach(u => {
+		let user = store.getters.getUser(u);
+		udp.send(string, 0, string.length + 1, UDP_PORT, user.address);
+	});
 }
 
 function sendUdpPacket(packet, address, port = UDP_PORT) {
-    var string = packet.decode()
-    udp.send(string, 0, string.length + 1, port, address)
+	var string = packet.decode();
+	udp.send(string, 0, string.length + 1, port, address);
 }
 
 function sendMessage(message, chat) {
-    let packet = new ChannelMessagePacket(getPublicKey(), message, chat)
-    store.dispatch('message', packet.data)
-    if(chat === 'public'){
-        broadcastUdpPacket(packet)
-    }
-    else{
-        broadcastUdpPacketUsers(packet, store.getters.getChat(chat).users)
-    }
+	let packet = new ChannelMessagePacket(getPublicKey(), message, chat);
+	store.dispatch("message", packet.data);
+	if(chat === "public"){
+		broadcastUdpPacket(packet);
+	}
+	else{
+		broadcastUdpPacketUsers(packet, store.getters.getChat(chat).users);
+	}
 }
 
 function sendUserUpdate(publicKey, username, status) {
-    let packet = new UserUpdatePacket(getPublicKey(), getUsername(), getStatus())
-    store.dispatch('updateUser', packet.data)
-    broadcastUdpPacket(packet)
+	let packet = new UserUpdatePacket(getPublicKey(), getUsername(), getStatus());
+	store.dispatch("updateUser", packet.data);
+	broadcastUdpPacket(packet);
 }
 
 function getPublicKey(){
-    return store.getters.getPublicKey
+	return store.getters.getPublicKey;
 }
 function getStatus(){
-    return store.getters.getStatus
+	return store.getters.getStatus;
 }
 function getUsername(){
-    return store.getters.getUsername
+	return store.getters.getUsername;
 }
 
 
 
 export default {
-    discoverClients,
-    broadcastUdpPacket,
-    sendUdpPacket,
-    sendMessage,
-    sendUserUpdate
-}
+	discoverClients,
+	broadcastUdpPacket,
+	sendUdpPacket,
+	sendMessage,
+	sendUserUpdate,
+};

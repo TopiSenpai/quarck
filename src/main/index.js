@@ -1,58 +1,58 @@
-import { app, BrowserWindow, Menu, Tray } from 'electron'
-import path from 'path'
-import store from '../stores/store'
-import Store from 'electron-store'
-import generateKey from './helper'
-import fs from 'fs'
-import { generateKeyPairSync } from 'crypto'
-import uuid from 'uuid'
-import windowStateKeeper from 'electron-window-state'
+import { app, BrowserWindow, Menu, Tray } from "electron";
+import path from "path";
+import store from "../stores/store";
+import Store from "electron-store";
+import generateKey from "./helper";
+import fs from "fs";
+import { generateKeyPairSync } from "crypto";
+import uuid from "uuid";
+import windowStateKeeper from "electron-window-state";
 
-if (process.env.NODE_ENV !== 'development') {
-	global.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\')
+if (process.env.NODE_ENV !== "development") {
+	global.__static = require("path").join(__dirname, "/static").replace(/\\/g, "\\\\");
 }
 
-let win
-let winState
-const winURL = process.env.NODE_ENV === 'development' ?
-	`http://localhost:9080` :
-	`file://${__dirname}/index.html`
+let win;
+let winState;
+const winURL = process.env.NODE_ENV === "development" ?
+	"http://localhost:9080" :
+	`file://${__dirname}/index.html`;
 
 
 function createWindow() {
 	win = new BrowserWindow({
-		'x': winState.x,
-		'y': winState.y,
-		'width': winState.width,
-		'height': winState.height,
+		"x": winState.x,
+		"y": winState.y,
+		"width": winState.width,
+		"height": winState.height,
 		minWidth: 700,
 		minHeight: 500,
 		frame: false,
-		backgroundColor: '#262626',
+		backgroundColor: "#262626",
 		icon: `${__dirname}/logo.png`,
 		webPreferences: {
-			nodeIntegration: true
-		}
-	})
-	win.loadURL(winURL)
+			nodeIntegration: true,
+		},
+	});
+	win.loadURL(winURL);
 
-	win.on('closed', () => {
-		win = null
-	})
+	win.on("closed", () => {
+		win = null;
+	});
 }
 
-let tray = null
+let tray = null;
 //app.setPath ('userData', './data');
 
 const config = new Store();
 
-if(!config.has('username')){
-	let username = `user#${(Math.random() * 10000).toString().substring(0, 4)}`
-	config.set('username', username)
+if(!config.has("username")){
+	let username = `user#${(Math.random() * 10000).toString().substring(0, 4)}`;
+	config.set("username", username);
 }
-store.dispatch('username', config.get('username'))
+store.dispatch("username", config.get("username"));
 
-if(!config.has('private_key') ||  !config.has('public_key')){
+if(!config.has("private_key") ||  !config.has("public_key")){
 	// const { publicKey, privateKey } = generateKeyPairSync('rsa', {
 	// 	modulusLength: 4096,
 	// 	publicKeyEncoding: {
@@ -66,52 +66,52 @@ if(!config.has('private_key') ||  !config.has('public_key')){
 	// 		passphrase: store.getters.getUsername
 	// 	}
 	// })
-	config.set('private_key', generateKey())
-	config.set('public_key', generateKey())
+	config.set("private_key", generateKey());
+	config.set("public_key", generateKey());
 }
-store.dispatch('privateKey', config.get('private_key'))
-store.dispatch('publicKey', config.get('public_key'))
+store.dispatch("privateKey", config.get("private_key"));
+store.dispatch("publicKey", config.get("public_key"));
 
-app.on('ready', () => {
+app.on("ready", () => {
 	winState = windowStateKeeper({
 		defaultWidth: 1200,
 		defaultHeight: 900,
-		fullScreen: true
-	})
-	createWindow()
-	tray = new Tray(path.join(__dirname, 'logo.png'))
+		fullScreen: true,
+	});
+	createWindow();
+	tray = new Tray(path.join(__dirname, "logo.png"));
 	const contextMenu = Menu.buildFromTemplate([
 		{
 			label: `verion ${app.getVersion()}`,
 		},
 		{
-			label: 'quit quarck',
+			label: "quit quarck",
 			click: function() {
-				app.quit()
-			}
+				app.quit();
+			},
 		},
-	])
-	tray.setToolTip('quarck')
-	tray.setContextMenu(contextMenu)
-	tray.on('click', () => {
+	]);
+	tray.setToolTip("quarck");
+	tray.setContextMenu(contextMenu);
+	tray.on("click", () => {
 		if (win === null) {
-			createWindow()
+			createWindow();
 		} else {
-			win.focus()
+			win.focus();
 		}
-	})
-	winState.manage(win)
-})
+	});
+	winState.manage(win);
+});
 
-app.on('window-all-closed', () => {
+app.on("window-all-closed", () => {
 
-})
+});
 
-app.on('activate', () => {
+app.on("activate", () => {
 	if (win === null) {
-		createWindow()
+		createWindow();
 	}
-})
+});
 
 /**
  * Auto Updater
