@@ -1,29 +1,34 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import Store from 'electron-store'
 import { createPersistedState, createSharedMutations } from "vuex-electron"
 
 Vue.use(Vuex)
 
+const config = new Store();
+
 export default new Vuex.Store({
 	plugins: [
-		//createPersistedState(),
+		createPersistedState(),
 		createSharedMutations()
 	],
 	state: {
+		users: [],
 		chats: [
 			{
 				name: 'public',
+				id: 'public',
 				messages: [],
 				users: []
 			}
 		],
 		servers: [],
-		username: '',
-		status: '',
-		privateKey: '',
-		publicKey: '',
-
-		users: [],
+		settings: {
+			username: '',
+			status: '',
+			privateKey: '',
+			publicKey: ''
+		},
 		showUserlist: true
 	},
 	actions: {
@@ -48,6 +53,12 @@ export default new Vuex.Store({
 		publicKey(store, publicKey){
 			store.commit('publicKey', publicKey)
 		},
+		status(store, status){
+			store.commit('status', status)
+		},
+		settings(store, settings){
+			store.commit('settings', settings)
+		},
 
 
 		message(store, message) {
@@ -71,21 +82,43 @@ export default new Vuex.Store({
 			state.servers.push(server)
 		},
 		username(state, username) {
-			state.username = username
+			state.settings.username = username
+			let u = state.users.find(u => u.key === this.state.publicKey)
+			config.set('username', username)
+			if(u !== undefined){
+				u.username = username
+			}
 		},
 		status(state, status) {
-			state.status = status
+			state.settings.status = status
 		},
 		privateKey(state, privateKey){
-			state.privateKey = privateKey
+			state.settings.privateKey = privateKey
+			config.set('private_key', privateKey)
 		},
 		publicKey(state, publicKey) {
-			state.publicKey = publicKey
+			state.settings.publicKey = publicKey
+			config.set('public_key', publicKey)
+		},
+		status(state, status){
+			state.settings.status = status
+		},
+		settings(state, settings){
+			Object.entries(settings).forEach(([k, v]) => {
+				state.settings[k] = v
+			})
+			config.set('public_key', state.settings.publicKey)
+			config.set('private_key', state.settings.privateKey)
+			config.set('username', state.settings.username)
+			let u = state.users.find(u => u.key === state.settings.publicKey)
+			if(u !== undefined){
+				u.username = state.settings.username
+			}
 		},
 
 
 		message(state, message) {
-			state.chats.find(c => c.name === message.chat).messages.push(message)
+			state.chats.find(c => c.id === message.chat).messages.push(message)
 		},
 		user(state, user) {
 			if(state.users.find(u => u.key === user.key) === undefined){
@@ -95,22 +128,23 @@ export default new Vuex.Store({
 		updateUser(state, user) {
 			let u = state.users.find(u => u.key === user.key)
 			if(u !== undefined){
-				Object.entries().forEach(([k, v]) => {
+				Object.entries(u).forEach(([k, v]) => {
 					u[k] = v
 				})
 			}
 		},
 	},
 	getters: {
-		getPublicChat: state => state.publicChat,
-		getServers: state => state.server,
+		getServers: state => state.servers,
 		getChats: state => state.chats,
-		getChat: state => name => state.chats.find(c => c.name == name),
+		getChat: state => id => state.chats.find(c => c.id == id),
 		getUser: state => key => state.users.find(u => u.key === key),
-		getUsername: state => state.username,
-		getStatus: state => state.status,
-		getPrivateKey: state => state.privateKey,
-		getPublicKey: state => state.publicKey,
+		getUsername: state => state.settings.username,
+		getStatus: state => state.settings.status,
+		getPrivateKey: state => state.settings.privateKey,
+		getPublicKey: state => state.settings.publicKey,
+
+		getSettings: state => state.settings,
 
 		getUsers: state => state.users,
 		getShowUserlist: state => state.showUserlist
