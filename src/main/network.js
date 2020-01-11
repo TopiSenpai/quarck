@@ -58,10 +58,11 @@ udp.on("message", (message, info) => {
 	if (info.address === IP)
 		return;
 
-	console.log("new Packet", packet);
+	//console.log("new Packet", packet);
 	switch (packet.type) {
 		case PacketTypes.ChannelMessage:
 			store.dispatch("message", packet.data);
+			console.log("=>", packet.data);
 			break;
 		case PacketTypes.DiscoverClients:
 			store.dispatch("user", packet.data);
@@ -112,6 +113,7 @@ function sendUdpPacket(packet, address, port = UDP_PORT) {
 function sendMessage(message, chat) {
 	let packet = new ChannelMessagePacket(getPublicKey(), message, chat);
 	store.dispatch("message", packet.data);
+	console.log("<=", packet.data);
 	if (chat === "public") {
 		broadcastUdpPacket(packet);
 	} else {
@@ -136,8 +138,6 @@ function getStatus() {
 function getUsername() {
 	return store.getters.getUsername;
 }
-
-
 
 export default {
 	discoverClients,
