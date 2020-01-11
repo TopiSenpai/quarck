@@ -46,13 +46,13 @@ let tray = null;
 
 const config = new Store();
 
-if(!config.has("username")){
+if (!config.has("username")) {
 	let username = `user#${(Math.random() * 10000).toString().substring(0, 4)}`;
 	config.set("username", username);
 }
 store.dispatch("username", config.get("username"));
 
-if(!config.has("private_key") ||  !config.has("public_key")){
+if (!config.has("private_key") || !config.has("public_key")) {
 	// const { publicKey, privateKey } = generateKeyPairSync('rsa', {
 	// 	modulusLength: 4096,
 	// 	publicKeyEncoding: {

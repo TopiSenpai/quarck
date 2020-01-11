@@ -1,7 +1,7 @@
 import net from "net";
 class Client {
 
-	constructor(key, address, port){
+	constructor(key, address, port) {
 		this.key = key;
 		this.address = address;
 		this.port = port;

@@ -43,7 +43,7 @@ tcp.on("data", (data) => {
 
 tcp.listen(TCP_PORT);
 
-function sendTcpPacket (packet, address, port = TCP_PORT) {
+function sendTcpPacket(packet, address, port = TCP_PORT) {
 	var string = packet.decode();
 	tcp.send(string, 0, string.length + 1, port, address);
 }
@@ -62,39 +62,39 @@ udp.on("error", (err) => {
 
 udp.on("message", (message, info) => {
 	var packet = JSON.parse(message);
-	if(info.address === IP)
+	if (info.address === IP)
 		return;
-        
+
 	console.log("new Packet", packet);
-	switch(packet.type) {
-	case PacketTypes.ChannelMessage:
-		store.dispatch("message", packet.data);
-		break;
-	case PacketTypes.DiscoverClients:
-		store.dispatch("user", packet.data);
-		sendUdpPacket(new DiscoverAnswerPacket(store.getters.getPublicKey, username, "url", "online", IP), info.address, info.port);
-		break;
-        
-	case PacketTypes.DiscoverAnswer:
-		packet.data.address = info.address;
-		store.dispatch("user", packet.data);
-		break;
-        
-	case PacketTypes.UserUpdate:
-		packet.data.address = info.address;
-		store.dispatch("updateUser", packet.data);
-		break;
-        
+	switch (packet.type) {
+		case PacketTypes.ChannelMessage:
+			store.dispatch("message", packet.data);
+			break;
+		case PacketTypes.DiscoverClients:
+			store.dispatch("user", packet.data);
+			sendUdpPacket(new DiscoverAnswerPacket(store.getters.getPublicKey, username, "url", "online", IP), info.address, info.port);
+			break;
+
+		case PacketTypes.DiscoverAnswer:
+			packet.data.address = info.address;
+			store.dispatch("user", packet.data);
+			break;
+
+		case PacketTypes.UserUpdate:
+			packet.data.address = info.address;
+			store.dispatch("updateUser", packet.data);
+			break;
+
 	}
 });
 
 udp.bind(UDP_PORT);
 
 
-store.dispatch("user", {key: getPublicKey(), username: getUsername(), image: "blaaa", status: "online"});
+store.dispatch("user", { key: getPublicKey(), username: getUsername(), image: "blaaa", status: "online" });
 discoverClients();
 
-function findClient (key) {
+function findClient(key) {
 	return clients.find(c => c.key === key);
 }
 
@@ -123,10 +123,9 @@ function sendUdpPacket(packet, address, port = UDP_PORT) {
 function sendMessage(message, chat) {
 	let packet = new ChannelMessagePacket(getPublicKey(), message, chat);
 	store.dispatch("message", packet.data);
-	if(chat === "public"){
+	if (chat === "public") {
 		broadcastUdpPacket(packet);
-	}
-	else{
+	} else {
 		broadcastUdpPacketUsers(packet, store.getters.getChat(chat).users);
 	}
 }
@@ -137,13 +136,15 @@ function sendUserUpdate(publicKey, username, status) {
 	broadcastUdpPacket(packet);
 }
 
-function getPublicKey(){
+function getPublicKey() {
 	return store.getters.getPublicKey;
 }
-function getStatus(){
+
+function getStatus() {
 	return store.getters.getStatus;
 }
-function getUsername(){
+
+function getUsername() {
 	return store.getters.getUsername;
 }
 

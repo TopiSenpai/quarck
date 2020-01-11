@@ -1,11 +1,11 @@
 export default class Packet {
 
-	constructor (type, data) {
+	constructor(type, data) {
 		this.type = type;
 		this.data = data;
 	}
 
-	decode () {
+	decode() {
 		return Buffer.from(JSON.stringify({
 			type: this.type,
 			data: this.data,
