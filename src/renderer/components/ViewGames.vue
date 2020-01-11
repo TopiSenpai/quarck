@@ -6,10 +6,10 @@
 <script>
 
 export default {
-	
-	name: 'view-games'
 
-}
+	name: "view-games",
+
+};
 </script>
 <style lang="less" scoped>
 

@@ -10,7 +10,7 @@
 	</div>
 </template>
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters } from "vuex";
 
 export default {
 	name: "ui-message",
@@ -18,22 +18,22 @@ export default {
 	props: {
 		message: {
 			required: true,
-			type: Object
-		}
+			type: Object,
+		},
 	},
 
 	computed: {
 		...mapGetters([
-			'getUser'
+			"getUser",
 		]),
 		user(){
-			return this.getUser(this.message.key)
+			return this.getUser(this.message.key);
 		},
 		getTime () {
-			let date = new Date(this.message.time)
-			return `${date.getHours()}:${date.getMinutes()}`
-		}
-	}
+			let date = new Date(this.message.time);
+			return `${date.getHours()}:${date.getMinutes()}`;
+		},
+	},
 };
 </script>
 

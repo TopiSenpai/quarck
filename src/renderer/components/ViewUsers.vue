@@ -5,26 +5,26 @@
 	</div>
 </template>
 <script>
-import UiUserList from './ui/UiUserList'
-import { mapGetters } from 'vuex'
+import UiUserList from "./ui/UiUserList";
+import { mapGetters } from "vuex";
 
 export default {
-	
-	name: 'view-users',
+
+	name: "view-users",
 
 	components: {
-		UiUserList
+		UiUserList,
 	},
 
 	computed: {
 		...mapGetters([
-			'getUsers'
+			"getUsers",
 		]),
 		users(){
-			return this.getUsers
-		}
+			return this.getUsers;
+		},
 	},
-}
+};
 </script>
 <style lang="less" scoped>
 

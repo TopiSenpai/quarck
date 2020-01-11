@@ -8,24 +8,24 @@
 </template>
 
 <script>
-import UiUser from './UiUser'
+import UiUser from "./UiUser";
 
 export default {
 
-    name: 'ui-user-list',
+    name: "ui-user-list",
 
     props: {
         users: {
             required: true,
-            type: Array
-        }
+            type: Array,
+        },
     },
-    
-    components: {
-        UiUser
-    }
 
-}
+    components: {
+        UiUser,
+    },
+
+};
 </script>
 
 <style lang="less" scoped>

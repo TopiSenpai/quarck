@@ -25,7 +25,7 @@
 			<ui-setting>
 				<ui-button color="primary" type="secondary" @click="eventRegenerateKeyPair">Regenerate Key Pair</ui-button>
 			</ui-setting>
-			
+
 		</div>
 		<div class="view-settings-footer">
 			<ui-button color="green" type="primary" :disabled="saveButtonDisabled" @click="eventSaveSettings">Save</ui-button>
@@ -37,14 +37,14 @@
 	</div>
 </template>
 <script>
-import UiSetting from './ui/UiSetting'
-import network from '../../main/network'
-import { mapGetters } from 'vuex'
-import generateKey from '../../main/helper'
+import UiSetting from "./ui/UiSetting";
+import network from "../../main/network";
+import { mapGetters } from "vuex";
+import generateKey from "../../main/helper";
 
 export default {
-	
-	name: 'view-settings',
+
+	name: "view-settings",
 
 	components: {
 		UiSetting,
@@ -54,65 +54,65 @@ export default {
 		return {
 			initialSettings: {},
 			settings: {},
-		}
+		};
 	},
 
 	mounted(){
-		this.initialSettings = this.getSettings
+		this.initialSettings = this.getSettings;
 	},
 
 	computed: {
 		...mapGetters([
-			'getSettings',
+			"getSettings",
 		]),
 		settingss() {
-			return this.settings
+			return this.settings;
 		},
 		saveButtonDisabled() {
-			return Object.keys(this.settings).length === 0
-		}
+			return Object.keys(this.settings).length === 0;
+		},
 	},
 
 	methods: {
 		getSettingValue(name) {
 			if(Object.keys(this.settings).includes(name)){
-				return this.settings[name]
+				return this.settings[name];
 			}
-			return this.initialSettings[name]
+			return this.initialSettings[name];
 		},
 		setSettingValue(name, value) {
 			if(value === this.initialSettings[name]){
-				this.$delete(this.settings, name)
+				this.$delete(this.settings, name);
 			}
 			else {
-				this.$set(this.settings, name, value)
+				this.$set(this.settings, name, value);
 			}
 		},
 		eventInputUsername(value) {
-			this.setSettingValue('username', value)
+			this.setSettingValue("username", value);
 		},
 		eventInputStatus(value) {
-			this.setSettingValue('status', value)
+			this.setSettingValue("status", value);
 		},
 		eventRegenerateKeyPair() {
-			this.setSettingValue('publicKey', generateKey())
-			this.setSettingValue('privateKey', generateKey())
+			this.setSettingValue("publicKey", generateKey());
+			this.setSettingValue("privateKey", generateKey());
 		},
 		eventSaveSettings(){
-			this.$store.dispatch('settings', this.settings)
-			network.sendUserUpdate(this.getPublicKey, this.username, 'das ist ein status')
-			this.$router.go(-1)
+			this.$store.dispatch("settings", this.settings);
+			network.sendUserUpdate(this.getPublicKey, this.username, "das ist ein status");
+			this.$router.go(-1);
 		},
 		eventClickCancel(){
 			if(!this.saveButtonDisabled){
-				this.$refs.discardChangesModal.open()
+				this.$refs.discardChangesModal.open();
 			}
 			else{
-				this.$router.go(-1)
+				this.$router.go(-1);
 			}
-		}
-	}
-}
+		},
+	},
+};
 </script>
 <style lang="less" scoped>
 @import '../colors.less';

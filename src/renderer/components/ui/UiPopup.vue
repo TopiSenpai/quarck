@@ -7,20 +7,20 @@
 </template>
 <script>
 export default {
-	
-	name: 'ui-popup',
+
+	name: "ui-popup",
 
 	methods: {
 		open(){
-			this.$refs.popup.style.display = 'block'
-			console.log('open')
+			this.$refs.popup.style.display = "block";
+			console.log("open");
 		},
 		close() {
-			this.$refs.popup.style.display = 'none'
-		}
-	}
+			this.$refs.popup.style.display = "none";
+		},
+	},
 
-}
+};
 </script>
 <style lang="less" scoped>
 @import '../../colors.less';

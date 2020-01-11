@@ -16,16 +16,16 @@
 <script>
 export default {
 
-    name: 'ui-setting',
+    name: "ui-setting",
 
     props: {
         label: {
             required: false,
             type: String,
-            default: ''
-        }
-    }
-}
+            default: "",
+        },
+    },
+};
 </script>
 
 <style lang="less" scoped>

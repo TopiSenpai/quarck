@@ -4,7 +4,7 @@
         <!-- <img class="ui-user-icon" :src="user.icon"/> -->
         <div class="ui-user-name">
             <span class="ui-user-name-name">{{ user.username }}</span>
-            
+
         </div>
     </div>
 </template>
@@ -12,15 +12,15 @@
 <script>
 export default {
 
-    name: 'ui-user',
+    name: "ui-user",
 
     props: {
         user: {
             required: true,
-            type: Object
-        }
-    }
-}
+            type: Object,
+        },
+    },
+};
 </script>
 
 <style lang="less" scoped>

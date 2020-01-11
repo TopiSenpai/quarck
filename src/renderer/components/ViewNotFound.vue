@@ -6,6 +6,6 @@
 </template>
 <script>
 export default {
-    name: 'view-not-found'
-}
+    name: "view-not-found",
+};
 </script>

@@ -9,15 +9,15 @@
 <script>
 export default {
 
-    name: 'ui-chat',
+    name: "ui-chat",
 
     props: {
         chat: {
             required: true,
-            type: Object
-        }
-    }
-}
+            type: Object,
+        },
+    },
+};
 </script>
 
 <style lang="less" scoped>

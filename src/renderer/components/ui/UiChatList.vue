@@ -16,60 +16,60 @@
 </template>
 
 <script>
-import Multiselect from 'vue-multiselect'
-import UiChat from './UiChat'
-import generateKey from '../../../main/helper'
-import { mapGetters } from 'vuex'
-import 'vue-multiselect/dist/vue-multiselect.min.css'
+import Multiselect from "vue-multiselect";
+import UiChat from "./UiChat";
+import generateKey from "../../../main/helper";
+import { mapGetters } from "vuex";
+import "vue-multiselect/dist/vue-multiselect.min.css";
 export default {
 
-    name: 'ui-chat-list',
+    name: "ui-chat-list",
 
     props: {
         chats: {
             required: true,
-            type: Array
-        }
+            type: Array,
+        },
     },
 
     data(){
         return {
-            chatName: '',
-            selectedUsers: []
-        }
+            chatName: "",
+            selectedUsers: [],
+        };
     },
 
     components: {
         UiChat,
-        Multiselect
+        Multiselect,
     },
 
     computed: {
         ...mapGetters([
-			'getUsers'
+			"getUsers",
 		]),
     },
 
     methods: {
         openAddChatModal(){
-            this.chatName = ''
-            this.selectedUsers = []
-            this.$refs.add_chat.open()
+            this.chatName = "";
+            this.selectedUsers = [];
+            this.$refs.add_chat.open();
         },
         createChat(){
-            this.$store.dispatch('chat', {
+            this.$store.dispatch("chat", {
                 name: this.chatName,
                 id: generateKey(),
                 messages: [],
-                users: this.selectedUsers
-            })
-            this.$refs.add_chat.close()
-            this.chatName = ''
-            this.selectedUsers = []
-        }
-    }
+                users: this.selectedUsers,
+            });
+            this.$refs.add_chat.close();
+            this.chatName = "";
+            this.selectedUsers = [];
+        },
+    },
 
-}
+};
 </script>
 
 <style lang="less" scoped>

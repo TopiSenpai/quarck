@@ -12,18 +12,18 @@
 	</div>
 </template>
 <script>
-import emoji from 'node-emoji'
+import emoji from "node-emoji";
 
 export default {
-	
-	name: 'ui-emoji',
+
+	name: "ui-emoji",
 
 	computed: {
 		emojis() {
-			return emoji.search('')
-		}
-	}
-}
+			return emoji.search("");
+		},
+	},
+};
 </script>
 
 <style lang="less" scoped>

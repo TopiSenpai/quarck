@@ -17,16 +17,16 @@
 	</div>
 </template>
 <script>
-import UiMessageList from './ui/UiMessageList'
-import UiUserList from './ui/UiUserList'
-import UiMessagebox from './ui/UiMessagebox'
-import network from '../../main/network'
-import store from '../../stores/store'
-import { mapGetters } from 'vuex'
+import UiMessageList from "./ui/UiMessageList";
+import UiUserList from "./ui/UiUserList";
+import UiMessagebox from "./ui/UiMessagebox";
+import network from "../../main/network";
+import store from "../../stores/store";
+import { mapGetters } from "vuex";
 
 export default {
-	
-	name: 'view-chat',
+
+	name: "view-chat",
 
 	components: {
 		UiMessageList,
@@ -36,24 +36,24 @@ export default {
 
 	computed: {
 		...mapGetters([
-			'getChat',
-			'getShowUserlist'
+			"getChat",
+			"getShowUserlist",
 		]),
 		chat(){
-			return this.getChat(this.$route.params.id)
-		}
+			return this.getChat(this.$route.params.id);
+		},
 	},
 
 	methods: {
 		eventMessage (message) {
-			network.sendMessage(message, this.chat.id)
+			network.sendMessage(message, this.chat.id);
 		},
 		eventToggleUserList() {
-			store.dispatch('showUserlist', !this.getShowUserlist)
-		}
-		
-	}
-}
+			store.dispatch("showUserlist", !this.getShowUserlist);
+		},
+
+	},
+};
 </script>
 <style lang="less" scoped>
 @import '../colors.less';

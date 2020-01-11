@@ -1,58 +1,63 @@
 /* Background Colors */
-	@primary: #34383b;
-	@secondary: #242424;
-	@info: #242424;
-	@box: #414447;
+@primary: #34383b;
+@secondary: #242424;
+@info: #242424;
+@box: #414447;
 
 /* Lists */
-	@list: #2e3233;
-	@list-hover: darken(@list, 2%);
+@list: #2e3233;
+@list-hover: darken(@list, 2%);
 
 /* Toolbar */
-	@toolbar: #262626;
-	@toolbar-hover: lighten(@toolbar, 5%);
+@toolbar: #262626;
+@toolbar-hover: lighten(@toolbar, 5%);
 
 /* Tooltip */
-	@tooltip: #111111;
+@tooltip: #111111;
 
 
 /* Font */
-	@font: 'roboto';
-	@fc: #e6e6e6;
-	@fc-dark: darken(@fc, 10%);
+@font: 'roboto';
+@fc: #e6e6e6;
+@fc-dark: darken(@fc, 10%);
 
 /* Icon Color */
-	@icon: #ffffff;
+@icon: #ffffff;
 
 
 
 /* Scrollbar */
-	@scrollbar-thumb: #262626;
-	@scrollbar-track: #2e3233;
+@scrollbar-thumb: #262626;
+@scrollbar-track: #2e3233;
 
 /* General Ui-Modal styling */
 /deep/ .ui-modal__container {
 	background-color: transparent;
 	color: @fc;
+
 	.ui-textbox__label-text,
 	.ui-textbox__label-text:hover,
 	.ui-textbox__input {
-		color: @fc!important;
+		color: @fc  !important;
 	}
+
 	.ui-modal__close-button {
 		& .ui-icon {
 			color: @fc;
 		}
-		&:hover .ui-icon{
+
+		&:hover .ui-icon {
 			color: red;
 		}
 	}
-    .ui-focus-container__content {
+
+	.ui-focus-container__content {
 		background-color: @primary;
 		color: @fc;
-        .ui-modal__header {
+
+		.ui-modal__header {
 			background-color: @secondary;
 			color: @fc;
 		}
-    }
+	}
 }

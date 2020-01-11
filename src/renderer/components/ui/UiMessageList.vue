@@ -5,40 +5,40 @@
 </template>
 
 <script>
-import UiMessage from './UiMessage'
+import UiMessage from "./UiMessage";
 
 export default {
 
-    name: 'ui-message-list',
+    name: "ui-message-list",
 
     props: {
         messages: {
             required: true,
-            type: Array
-        }
+            type: Array,
+        },
     },
 
     components: {
-        UiMessage
+        UiMessage,
     },
 
     mounted(){
-        let list = this.$refs.messageList
-        list.scrollTop = list.scrollHeight
+        let list = this.$refs.messageList;
+        list.scrollTop = list.scrollHeight;
     },
 
     updated() {
         this.$nextTick(() => {
             if(this.messages.length > 1) {
-                let list = this.$refs.messageList
+                let list = this.$refs.messageList;
                 if(list.scrollTop >= list.scrollHeight - list.clientHeight - this.$refs.messages[this.$refs.messages.length - 1].$el.clientHeight) {
-                    list.scrollTop = list.scrollHeight
+                    list.scrollTop = list.scrollHeight;
                 }
             }
-        })
-    }
+        });
+    },
 
-}
+};
 </script>
 
 <style lang="less" scoped>

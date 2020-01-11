@@ -30,41 +30,41 @@
 	</div>
 </template>
 <script>
-import { clipboard } from 'electron'
-import UiChatList from './ui/UiChatList'
-import { mapGetters } from 'vuex'
+import { clipboard } from "electron";
+import UiChatList from "./ui/UiChatList";
+import { mapGetters } from "vuex";
 
 export default {
-	
-	name: 'view-overview',
+
+	name: "view-overview",
 
 	components: {
-		UiChatList
+		UiChatList,
 	},
 
 	computed: {
 		...mapGetters([
-			'getChats',
-			'getUsername',
-			'getStatus'
+			"getChats",
+			"getUsername",
+			"getStatus",
 		]),
 		username(){
-			return this.getUsername
+			return this.getUsername;
 		},
 		status(){
-			return this.getStatus
-		}
+			return this.getStatus;
+		},
 	},
 
 	methods: {
 		copyUsername(){
-			clipboard.writeText(this.username)
+			clipboard.writeText(this.username);
 		},
 		editStatus(){
-			
-		}
-	}
-}
+
+		},
+	},
+};
 </script>
 <style lang="less" scoped>
 @import '../colors.less';

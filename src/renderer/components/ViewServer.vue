@@ -4,45 +4,45 @@
 	</div>
 </template>
 <script>
-import UiChatList from './ui/UiChatList'
-import UiUserList from './ui/UiUserList'
+import UiChatList from "./ui/UiChatList";
+import UiUserList from "./ui/UiUserList";
 
 export default {
-	
-	name: 'view-server',
+
+	name: "view-server",
 
 	props: {
 		server: {
 			required: true,
-			type: Object
-		}
+			type: Object,
+		},
 	},
 
 	components: {
-		UiChatList
+		UiChatList,
 	},
 
 	data () {
 		return {
-			selectedChat: -1
-		}
+			selectedChat: -1,
+		};
 	},
 
 	computed: {
 		getSelectedChat () {
 			if(this.selectedChat === -1) {
-				return this.server.chats[0]
+				return this.server.chats[0];
 			}
-			return this.server.chats[this.selectedChat]
-		}
+			return this.server.chats[this.selectedChat];
+		},
 	},
 
 	methods: {
 		eventSelectChat (chat) {
-			this.selectedChat = chat
-		}
-	}
-}
+			this.selectedChat = chat;
+		},
+	},
+};
 </script>
 <style lang="less" scoped>
 @import '../colors.less';

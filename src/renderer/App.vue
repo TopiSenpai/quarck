@@ -9,21 +9,21 @@
 </template>
 
 <script>
-import UiSidebar from './components/ui/UiSidebar'
-import UiWindowToolbar from './components/ui/UiWindowToolbar'
+import UiSidebar from "./components/ui/UiSidebar";
+import UiWindowToolbar from "./components/ui/UiWindowToolbar";
 
 export default {
-	
-	name: 'quarck',
+
+	name: "quarck",
 
 	components: {
 		UiSidebar,
-		UiWindowToolbar
+		UiWindowToolbar,
 	},
 	data () {
 		return {
-			servers: []
-		}
+			servers: [],
+		};
 	},
 
 	methods: {
@@ -31,11 +31,11 @@ export default {
 			this.servers.push({
 				name: name,
 				url: address,
-				icon: require('./assets/avatar.png')
-			})
-		}
-	}
-}
+				icon: require("./assets/avatar.png"),
+			});
+		},
+	},
+};
 </script>
 
 <style lang="less">

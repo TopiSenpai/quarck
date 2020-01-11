@@ -9,45 +9,45 @@
 </template>
 
 <script>
-import emoji from 'node-emoji'
-import UiEmoji from './UiEmoji'
+import emoji from "node-emoji";
+import UiEmoji from "./UiEmoji";
 
 export default {
 
-    name: 'ui-messagebox',
-    
+    name: "ui-messagebox",
+
     props: {
         placeholder: {
             required: false,
             type: String,
-            default: ''
-        }
+            default: "",
+        },
     },
 
     components: {
-        UiEmoji
+        UiEmoji,
     },
 
     data () {
         return {
-            text: '',
-            emojiIcon: emoji.random().emoji
-        }
+            text: "",
+            emojiIcon: emoji.random().emoji,
+        };
     },
 
     methods: {
         eventMessage () {
-            let text = this.text.trim()
-            if(text !== ''){
-                this.$emit('message', this.text)
-                this.text = ''
+            let text = this.text.trim();
+            if(text !== ""){
+                this.$emit("message", this.text);
+                this.text = "";
             }
         },
         eventClickEmoji(value){
-            this.emojiIcon = emoji.random().emoji
-        }
-    }
-}
+            this.emojiIcon = emoji.random().emoji;
+        },
+    },
+};
 </script>
 
 <style lang="less" scoped>

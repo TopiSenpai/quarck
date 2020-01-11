@@ -21,32 +21,32 @@
                 </svg>
             </button>
         </div>
-    </div>    
+    </div>
 </template>
 <script>
-const { BrowserWindow } = require('electron').remote
+const { BrowserWindow } = require("electron").remote;
 
 export default {
-    name: 'ui-window-toolbar',
+    name: "ui-window-toolbar",
 
     methods: {
         minimizeWindow () {
-            BrowserWindow.getFocusedWindow().minimize()
+            BrowserWindow.getFocusedWindow().minimize();
         },
         maximizeWindow () {
-            let window = BrowserWindow.getFocusedWindow()
+            let window = BrowserWindow.getFocusedWindow();
             if(window.isMaximized()){
-                window.unmaximize()
+                window.unmaximize();
             }
             else{
-                window.maximize()
+                window.maximize();
             }
         },
         closeWindow () {
-            BrowserWindow.getFocusedWindow().close()
-        }
-    }
-}
+            BrowserWindow.getFocusedWindow().close();
+        },
+    },
+};
 </script>
 <style lang="less" scoped>
 @import '../../colors.less';

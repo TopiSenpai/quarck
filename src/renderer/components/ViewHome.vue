@@ -6,10 +6,10 @@
 <script>
 
 export default {
-	
-	name: 'view-home'
 
-}
+	name: "view-home",
+
+};
 </script>
 <style lang="less" scoped>
 

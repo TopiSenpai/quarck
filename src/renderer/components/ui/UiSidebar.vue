@@ -6,14 +6,14 @@
 			</router-link>
 			<ui-tooltip position="right">Home</ui-tooltip>
 		</div>
-	
+
 		<div v-for="server in servers" :key="server.url">
 			<router-link :to="`/server/${server.url}`">
 				<img :src="server.icon" class="ui-sidebar-icon" />
 			</router-link>
 			<ui-tooltip position="right">{{ server.name }}</ui-tooltip>
 		</div>
-			
+
 		<ui-icon-button class="ui-sidebar-icon" type="secondary" icon="add" color="white" tooltip="Add Server" tooltipPosition="right" @click="openAddServerModal" />
 
 		<!-- Modals -->
@@ -33,27 +33,27 @@ export default {
 	props: {
 		servers: {
 			required: true,
-			type: Array
-		}
+			type: Array,
+		},
 	},
-	
+
 	data () {
 		return {
-			name: '',
-			address: ''
-		}
+			name: "",
+			address: "",
+		};
 	},
 
 	methods: {
 		openAddServerModal () {
-			this.$refs.addServer.open()
+			this.$refs.addServer.open();
 		},
 		addServer () {
-			this.$emit('add-server', this.name, this.address)
-			this.name = ''
-			this.address = ''
-		}
-	}
+			this.$emit("add-server", this.name, this.address);
+			this.name = "";
+			this.address = "";
+		},
+	},
 };
 </script>
 
