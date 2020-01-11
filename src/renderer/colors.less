@@ -29,3 +29,30 @@
 /* Scrollbar */
 	@scrollbar-thumb: #262626;
 	@scrollbar-track: #2e3233;
+
+/* General Ui-Modal styling */
+/deep/ .ui-modal__container {
+	background-color: transparent;
+	color: @fc;
+	.ui-textbox__label-text,
+	.ui-textbox__label-text:hover,
+	.ui-textbox__input {
+		color: @fc!important;
+	}
+	.ui-modal__close-button {
+		& .ui-icon {
+			color: @fc;
+		}
+		&:hover .ui-icon{
+			color: red;
+		}
+	}
+    .ui-focus-container__content {
+		background-color: @primary;
+		color: @fc;
+        .ui-modal__header {
+			background-color: @secondary;
+			color: @fc;
+		}
+    }
+}

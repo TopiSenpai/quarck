@@ -8,13 +8,21 @@
 			</div>
 			<ui-chat-list :chats="getChats" />
 			<div class="view-overview-sidebar-info">
-				<ui-icon-button type="secondary" >
-					<img width="36px" src="../assets/avatar.png"/>
-				</ui-icon-button>
-				<span class="view-overview-sidebar-info-username" @click="clickUsername">
-					{{ username }}
-					<ui-tooltip position="top">Click to copy username</ui-tooltip>
-				</span>
+				<div class="view-overview-sidebar-info-container">
+					<ui-icon-button type="secondary" >
+						<img width="36px" src="../assets/avatar.png"/>
+					</ui-icon-button>
+					<div class="view-overview-sidebar-info-container-info">
+						<span class="view-overview-sidebar-info-container-info-username" @click="copyUsername">
+							{{ username }}
+							<ui-tooltip position="top">Click to copy username</ui-tooltip>
+						</span>
+						<span class="view-overview-sidebar-info-container-info-status" @click="editStatus">
+							{{ status }}
+							<ui-tooltip position="top">Click to edit status</ui-tooltip>
+						</span>
+					</div>
+				</div>
 				<router-link to="/settings"><ui-icon-button type="secondary" color="white" icon="settings_application" tooltip="Settings" /></router-link>
 			</div>
 		</div>
@@ -37,16 +45,23 @@ export default {
 	computed: {
 		...mapGetters([
 			'getChats',
-			'getUsername'
+			'getUsername',
+			'getStatus'
 		]),
 		username(){
 			return this.getUsername
+		},
+		status(){
+			return this.getStatus
 		}
 	},
 
 	methods: {
-		clickUsername(){
+		copyUsername(){
 			clipboard.writeText(this.username)
+		},
+		editStatus(){
+			
 		}
 	}
 }
@@ -59,8 +74,10 @@ export default {
 	&-sidebar {
 		display: flex;
 		flex-direction: column;
+		flex-grow: 0;
 		background-color: @list;
 		border-top-left-radius: 16px;
+		width: 250px;
 		&-list {
 			display: flex;
 			flex-direction: column;
@@ -79,9 +96,30 @@ export default {
 		&-info {
 			display: flex;
 			align-items: center;
-			flex-shrink: 0;
+			justify-content: space-between;
 			padding: 8px;
 			background-color: @info;
+			&-container {
+				display: flex;
+				flex-shrink: 0;
+				&-info {
+					display: flex;
+					flex-direction: column;
+					flex-shrink: 1;
+					max-width: 160px;
+					&-status {
+						color: @fc-dark;
+						white-space: nowrap;
+						overflow: hidden;
+						text-overflow: ellipsis;
+					}
+					&-username {
+						white-space: nowrap;
+						overflow: hidden;
+						text-overflow: ellipsis;
+					}
+				}
+			}
 			a {
 				text-decoration: none;
 			}
