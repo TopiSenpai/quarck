@@ -2,6 +2,7 @@ import { app, BrowserWindow, Menu, Tray } from 'electron'
 import path from 'path'
 import store from '../stores/store'
 import Store from 'electron-store'
+import generateKey from './helper'
 import fs from 'fs'
 import { generateKeyPairSync } from 'crypto'
 import uuid from 'uuid'
@@ -65,10 +66,8 @@ if(!config.has('private_key') ||  !config.has('public_key')){
 	// 		passphrase: store.getters.getUsername
 	// 	}
 	// })
-	let privateKey = 'iuqrx8n7ntmcr'
-	let publicKey = 'wemcutznevgzeu'
-	config.set('private_key', privateKey)
-	config.set('public_key', publicKey)
+	config.set('private_key', generateKey())
+	config.set('public_key', generateKey())
 }
 store.dispatch('privateKey', config.get('private_key'))
 store.dispatch('publicKey', config.get('public_key'))
