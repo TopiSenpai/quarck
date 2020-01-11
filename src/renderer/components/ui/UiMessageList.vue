@@ -29,9 +29,11 @@ export default {
 
     updated() {
         this.$nextTick(() => {
-            let list = this.$refs.messageList
-            if(list.scrollTop >= list.scrollHeight - list.clientHeight - this.$refs.messages[this.$refs.messages.length - 1].$el.clientHeight) {
-                list.scrollTop = list.scrollHeight
+            if(this.messages.length > 1) {
+                let list = this.$refs.messageList
+                if(list.scrollTop >= list.scrollHeight - list.clientHeight - this.$refs.messages[this.$refs.messages.length - 1].$el.clientHeight) {
+                    list.scrollTop = list.scrollHeight
+                }
             }
         })
     }

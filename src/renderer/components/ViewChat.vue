@@ -40,13 +40,13 @@ export default {
 			'getShowUserlist'
 		]),
 		chat(){
-			return this.getChat(this.$route.params.name)
+			return this.getChat(this.$route.params.id)
 		}
 	},
 
 	methods: {
 		eventMessage (message) {
-			network.sendMessage(message, this.chat.name)
+			network.sendMessage(message, this.chat.id)
 		},
 		eventToggleUserList() {
 			store.dispatch('showUserlist', !this.getShowUserlist)

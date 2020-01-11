@@ -1,6 +1,6 @@
 <template>
     <div class="ui-chat">
-        <router-link class="ui-chat-link" :to="`/chat/${chat.name}`">
+        <router-link class="ui-chat-link" :to="`/chat/${chat.id}`">
             {{ chat.name }}
         </router-link>
     </div>

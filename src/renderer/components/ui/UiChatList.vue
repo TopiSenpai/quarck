@@ -6,15 +6,21 @@
         </div>
         <ui-chat v-for="chat in chats" :key="chat.hash" :chat="chat" />
         <ui-modal ref="add_chat">
-            <!-- //TODO user list to select user to create private chat -->
-            <ui-button color="green">create</ui-button>
+            <ui-textbox v-model="chatName" label="Chat Name" />
+            <multiselect :multiple="true" :hideSelected="true" :close-on-select="false" :clear-on-select="false" v-model="selectedUsers" :options="getUsers" placeholder="select user" label="username" track-by="username"/>
+            <br />
+            <br />
+            <ui-button color="green" @click="createChat">create</ui-button>
         </ui-modal>
     </div>
 </template>
 
 <script>
+import Multiselect from 'vue-multiselect'
 import UiChat from './UiChat'
-
+import generateKey from '../../../main/helper'
+import { mapGetters } from 'vuex'
+import 'vue-multiselect/dist/vue-multiselect.min.css'
 export default {
 
     name: 'ui-chat-list',
@@ -26,13 +32,40 @@ export default {
         }
     },
 
+    data(){
+        return {
+            chatName: '',
+            selectedUsers: []
+        }
+    },
+
     components: {
-        UiChat
+        UiChat,
+        Multiselect
+    },
+
+    computed: {
+        ...mapGetters([
+			'getUsers'
+		]),
     },
 
     methods: {
         openAddChatModal(){
+            this.chatName = ''
+            this.selectedUsers = []
             this.$refs.add_chat.open()
+        },
+        createChat(){
+            this.$store.dispatch('chat', {
+                name: this.chatName,
+                id: generateKey(),
+                messages: [],
+                users: this.selectedUsers
+            })
+            this.$refs.add_chat.close()
+            this.chatName = ''
+            this.selectedUsers = []
         }
     }
 
@@ -42,10 +75,11 @@ export default {
 <style lang="less" scoped>
 @import '../../colors.less';
 
+
 .ui-chat-list {
     display: flex;
     flex-direction: column;
-    width: 200px;
+    width: 250px;
     background-color: @list;
     flex-grow: 1;
     flex-shrink: 0;
