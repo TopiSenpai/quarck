@@ -20,9 +20,9 @@ module.exports = {
 		"vue",
 	],
 	"rules": {
-		"indent": ["warn", "tab"],
 		"quotes": ["warn", "double"],
 		"semi": ["warn", "always"],
+		"no-trailing-spaces": "warn",
 		"require-atomic-updates": "warn",
 		"no-unused-vars": "warn",
 		"no-useless-escape": "warn",
