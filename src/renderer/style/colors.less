@@ -1,3 +1,5 @@
+@import "./material-icons/material-icons.css";
+
 /* Background Colors */
 @primary: #34383b;
 @secondary: #202225;
@@ -33,6 +35,8 @@
 @font: 'roboto';
 @fc: #e6e6e6;
 @fc-dark: darken(@fc, 20%);
+@fs: 16px;
+@fs-small: 12px;
 
 /* Icon Color */
 @icon: #ffffff;
@@ -41,7 +45,7 @@
 
 /* Scrollbar */
 @scrollbar-thumb: #262626;
-@scrollbar-track: #2e3233;
+@scrollbar-track: #282b2c;
 
 
 /* Public Keen-ui styling */
@@ -64,6 +68,10 @@
 			color: @ui-red;
 		}
 	}
+}
+
+/deep/ .ui-menu {
+	background-color: red;
 }
 
 /deep/ .ui-button {
