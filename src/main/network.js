@@ -19,6 +19,7 @@ const IP = ip.address();
 const ADDRESS = "255.255.255.255";
 const UDP_PORT = 6969;
 const TCP_PORT = 9696;
+const sockets = [];
 
 /* TCP */
 
@@ -27,17 +28,19 @@ tcp.on("listening", () => {
 	console.log(`tcp server listening  on ${address.address}:${address.port}...`);
 });
 
-tcp.on("connection", (connection) => {
-	console.log(`new connection from ${connection}`);
+tcp.on("connection", (socket) => {
+	console.log(`new connection from ${socket}`);
+
+	socket.on("data", (data) => {
+		console.log("tcp data received!", data);
+	});
+
+	socket.on("error", (err) => {
+		console.log(`tcp error:\n${err.stack}`);
+	});
+	sockets.push({ key: store.getters.getUserByAddress(socket.address), socket: sockets });
 });
 
-tcp.on("error", (err) => {
-	console.log(`tcp error:\n${err.stack}`);
-});
-
-tcp.on("data", (data) => {
-	console.log("tcp data received!", data);
-});
 
 tcp.listen(TCP_PORT);
 
@@ -58,7 +61,7 @@ udp.on("message", (message, info) => {
 	if (info.address === IP)
 		return;
 
-	//console.log("new Packet", packet);
+	console.log("new Packet", packet);
 	switch (packet.type) {
 		case PacketTypes.ChannelMessage:
 			store.dispatch("message", packet.data);
@@ -66,7 +69,7 @@ udp.on("message", (message, info) => {
 			break;
 		case PacketTypes.DiscoverClients:
 			store.dispatch("user", packet.data);
-			sendUdpPacket(new DiscoverAnswerPacket(getPublicKey(), getUsername(), "image", getStatus(), IP), info.address, info.port);
+			sendUdpPacket(new DiscoverAnswerPacket(getPublicKey(), getUsername(), "image", getStatus()), info.address, info.port);
 			break;
 
 		case PacketTypes.DiscoverAnswer:
@@ -89,7 +92,7 @@ store.dispatch("user", { key: getPublicKey(), username: getUsername(), image: "b
 discoverClients();
 
 function discoverClients() {
-	broadcastUdpPacket(new DiscoverClientsPacket(getPublicKey(), getUsername(), "bla", "online", TCP_PORT));
+	broadcastUdpPacket(new DiscoverClientsPacket(getPublicKey(), getUsername(), "bla", "online", IP));
 }
 
 function broadcastUdpPacket(packet) {
