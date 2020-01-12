@@ -1,6 +1,6 @@
 <template>
     <div class="ui-messagebox">
-        <ui-icon-button icon="attach_file" color="white" />
+        <ui-icon-button icon="attach_file" type="secondary" />
         <ui-textbox v-model="text" :placeholder="placeholder" @keydown-enter="eventMessage" />
         <button class="emoji-button" @click="eventClickEmoji">
             {{ emojiIcon }}
@@ -63,7 +63,7 @@ export default {
 	padding: 8px;
     display: flex;
     flex-shrink: 0;
-	border-radius: 20px;
+	border-radius: 12px;
 	background-color: @box;
     align-items: center;
 	& .ui-textbox {
@@ -72,9 +72,6 @@ export default {
 		margin-right: 4px;
 		margin-top: 0;
 		margin-bottom: 0;
-	}
-	& /deep/ .ui-textbox__input {
-		color: @fc;
 	}
 }
 

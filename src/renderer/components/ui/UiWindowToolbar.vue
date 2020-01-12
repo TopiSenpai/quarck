@@ -77,7 +77,7 @@ export default {
         &:hover {
             background-color: @toolbar-hover;
             &.close-icon {
-                background-color: red;
+                background-color: @ui-red;
             }
         }
         & svg {

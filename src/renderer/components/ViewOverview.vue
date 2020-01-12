@@ -2,9 +2,9 @@
 	<div class="view-overview">
 		<div class="view-overview-sidebar">
 			<div class="view-overview-sidebar-list">
-				<router-link to="/"><ui-icon icon="home" />Home</router-link>
-				<router-link to="/users"><ui-icon icon="group" />Users</router-link>
-				<router-link to="/games"><ui-icon icon="sports_esports" />Games</router-link>
+				<router-link to="/"><ui-icon icon="home" /><span>Home</span></router-link>
+				<router-link to="/users"><ui-icon icon="group" /><span>Users</span></router-link>
+				<router-link to="/games"><ui-icon icon="sports_esports" /><span>Games</span></router-link>
 			</div>
 			<ui-chat-list :chats="getChats" />
 			<div class="view-overview-sidebar-info">
@@ -23,7 +23,7 @@
 						</span>
 					</div>
 				</div>
-				<router-link to="/settings"><ui-icon-button type="secondary" color="white" icon="settings_application" tooltip="Settings" /></router-link>
+				<router-link to="/settings"><ui-icon-button type="secondary" icon="settings_application" tooltip="Settings" /></router-link>
 			</div>
 		</div>
 		<router-view class="view-overview-view"></router-view>
@@ -84,9 +84,14 @@ export default {
 			padding: 8px;
 			flex-shrink: 0;
 			& > * {
+				display: flex;
+				align-items: center;
 				padding: 8px;
-				color: white;
+				color: @fc;
 				text-decoration: none;
+				& span:last-child {
+					margin-left: 8px;
+				}
 				&:hover{
 					background-color: @list-hover;
 					border-radius: 8px;

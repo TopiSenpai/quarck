@@ -5,7 +5,7 @@
 				<ui-icon icon="chat" />
 				<span>{{ chat.name }}</span>
 			</div>
-			<ui-icon-button type="secondary" icon="supervisor_account" color="white" @click="eventToggleUserList" />
+			<ui-icon-button type="secondary" icon="supervisor_account" @click="eventToggleUserList" />
 		</div>
 		<div class="view-chat-body">
 			<div class="view-chat-body-message">
