@@ -2,7 +2,7 @@
 	<div class="ui-sidebar">
 		<div>
 			<router-link to="/">
-				<ui-icon class="ui-sidebar-icon" type="secondary" icon="public" color="white" />
+				<ui-icon class="ui-sidebar-icon" type="secondary" icon="public" />
 			</router-link>
 			<ui-tooltip position="right">Home</ui-tooltip>
 		</div>
@@ -14,13 +14,12 @@
 			<ui-tooltip position="right">{{ server.name }}</ui-tooltip>
 		</div>
 
-		<ui-icon-button class="ui-sidebar-icon" type="secondary" icon="add" color="white" tooltip="Add Server" tooltipPosition="right" @click="openAddServerModal" />
+		<ui-icon-button class="ui-sidebar-icon" type="secondary" icon="add" tooltip="Add Server" tooltipPosition="right" @click="openAddServerModal" />
 
-		<!-- Modals -->
-		<ui-modal ref="addServer">
+		<ui-modal ref="addServer" title="Add Server">
 			<ui-textbox v-model="name" label="Name" />
 			<ui-textbox v-model="address" label="IP-Address" />
-			<ui-icon-button label="connect" icon="arrow_forward_ios" color="white" @click="addServer" />
+			<ui-button color="green" @click="addServer">Add</ui-button>
 		</ui-modal>
 	</div>
 </template>
@@ -61,7 +60,7 @@ export default {
 @import "../../colors.less";
 
 /deep/ .tippy-popper {
-	background-color: red;
+	background-color: @ui-red;
 }
 
 /deep/ .ui-icon {

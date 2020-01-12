@@ -2,15 +2,15 @@
     <div class="ui-chat-list">
         <div class="ui-chat-list-header">
             <span>Chats</span>
-            <ui-icon-button icon="person_add" type="secondary" color="white" @click="openAddChatModal" />
+            <ui-icon-button icon="add" type="secondary" @click="openAddChatModal" />
         </div>
         <ui-chat v-for="chat in chats" :key="chat.hash" :chat="chat" />
-        <ui-modal ref="add_chat">
+        <ui-modal ref="add_chat" title="Create Chat">
             <ui-textbox v-model="chatName" label="Chat Name" />
             <multiselect :multiple="true" :hideSelected="true" :close-on-select="false" :clear-on-select="false" v-model="selectedUsers" :options="getUsers" placeholder="select user" label="username" track-by="username"/>
             <br />
             <br />
-            <ui-button color="green" @click="createChat">create</ui-button>
+            <ui-button color="primary" @click="createChat">create</ui-button>
         </ui-modal>
     </div>
 </template>
@@ -57,7 +57,7 @@ export default {
             this.$refs.add_chat.open();
         },
         createChat(){
-            this.$store.dispatch("chat", {
+            this.$store.dispatch("addChat", {
                 name: this.chatName,
                 id: generateKey(),
                 messages: [],
@@ -75,7 +75,6 @@ export default {
 <style lang="less" scoped>
 @import '../../colors.less';
 
-
 .ui-chat-list {
     display: flex;
     flex-direction: column;
@@ -87,8 +86,13 @@ export default {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 8px;
-        border-bottom: 1px solid #2c2c2c;
+        padding-top: 8px;
+        padding-left: 16px;
+        padding-right: 16px;
+        border-top: 1px solid darken(@list, 2%);
+        /deep/ .ui-icon {
+            color: @icon-dark;
+        }
     }
 }
 

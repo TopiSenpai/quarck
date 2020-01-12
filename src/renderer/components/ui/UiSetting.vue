@@ -31,10 +31,6 @@ export default {
 <style lang="less" scoped>
 @import '../../colors.less';
 
-/deep/ .ui-textbox__input {
-    color: @fc;
-}
-
 .ui-setting {
     display: flex;
     padding: 8px;
@@ -44,7 +40,6 @@ export default {
         padding: 8px;
         width: 150px;
         &-text {
-            padding: 8px;
             font-weight: bold;
         }
     }
