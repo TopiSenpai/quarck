@@ -2,9 +2,9 @@
 	<div class="view-overview">
 		<div class="view-overview-sidebar">
 			<div class="view-overview-sidebar-list">
-				<router-link to="/"><ui-icon icon="home" /><span>Home</span></router-link>
-				<router-link to="/users"><ui-icon icon="group" /><span>Users</span></router-link>
-				<router-link to="/games"><ui-icon icon="sports_esports" /><span>Games</span></router-link>
+				<router-link :class="{ selected: isSelected('/') }" to="/"><ui-icon icon="home" /><span>Home</span></router-link>
+				<router-link :class="{ selected: isSelected('/users') }" to="/users"><ui-icon icon="group" /><span>Users</span></router-link>
+				<router-link :class="{ selected: isSelected('/games') }" to="/games"><ui-icon icon="games" /><span>Games</span></router-link>
 			</div>
 			<ui-chat-list :chats="getChats" />
 			<div class="view-overview-sidebar-info">
@@ -63,11 +63,14 @@ export default {
 		editStatus(){
 
 		},
+		isSelected(route) {
+			return this.$route.fullPath === route;
+		},
 	},
 };
 </script>
 <style lang="less" scoped>
-@import '../colors.less';
+@import '../style/colors.less';
 
 .view-overview {
 	display: flex;
@@ -86,15 +89,17 @@ export default {
 			& > * {
 				display: flex;
 				align-items: center;
+				border-radius: 8px;
 				padding: 8px;
+				margin-bottom: 2px;
 				color: @fc;
 				text-decoration: none;
 				& span:last-child {
 					margin-left: 8px;
 				}
-				&:hover{
+				&:hover,
+				&.selected {
 					background-color: @list-hover;
-					border-radius: 8px;
 				}
 			}
 		}
