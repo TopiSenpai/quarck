@@ -5,7 +5,7 @@
 		</div>
 		<div class="view-settings-content">
 			<div class="view-settings-content-account">
-				<ui-image-picker v-model="avatar" width="150px" height="150px"/>
+				<ui-image-picker v-model="avatar" width="150px" height="150px" @input="eventInputAvatar"/>
 				<div class="view-settings-content-account-textboxes">
 					<ui-textbox :value="getSettingValue('username')" label="Username" placeholder="username..." @input="eventInputUsername" />
 					<ui-textbox :value="getSettingValue('status')" label="Status" placeholder="status..." @input="eventInputStatus" />
@@ -13,14 +13,15 @@
 			</div>
 			<br />
 			<ui-setting label="Public Key">
-				<span>
+				<span style="user-select: all">
 					{{ getSettingValue('publicKey') }}
 				</span>
 			</ui-setting>
 			<ui-setting label="Private Key">
-				<span>
-					{{ getSettingValue('privateKey') }}
-				</span>
+				<div class="private-key" :class="{ hide: hidePrivateKey }">
+					<ui-icon-button type="secondary" :icon="privateKeyIcon" size="mini" @click="toggleHidePrivateKey" />
+					<span>{{ getSettingValue('privateKey') }}</span>
+				</div>
 			</ui-setting>
 			<ui-setting>
 				<ui-button color="primary" type="secondary" @click="eventRegenerateKeyPair">Regenerate Key Pair</ui-button>
@@ -55,7 +56,9 @@ export default {
 		return {
 			initialSettings: {},
 			settings: {},
-			avatar: null,
+			avatar: {},
+			hidePrivateKey: true,
+			privateKeyIcon: "visibility_off",
 		};
 	},
 
@@ -76,6 +79,15 @@ export default {
 	},
 
 	methods: {
+		toggleHidePrivateKey() {
+			this.hidePrivateKey = !this.hidePrivateKey;
+			if(this.hidePrivateKey) {
+				this.privateKeyIcon = "visibility_off";
+			}
+			else{
+				this.privateKeyIcon = "visibility";
+			}
+		},
 		getSettingValue(name) {
 			if(Object.keys(this.settings).includes(name)){
 				return this.settings[name];
@@ -89,6 +101,9 @@ export default {
 			else {
 				this.$set(this.settings, name, value);
 			}
+		},
+		eventInputAvatar(value) {
+			this.avatar = value;
 		},
 		eventInputUsername(value) {
 			this.setSettingValue("username", value);
@@ -120,7 +135,20 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-@import '../colors.less';
+@import '../style/colors.less';
+
+.private-key{
+	display: flex;
+	padding: 8px;
+	border-radius: 8px;
+	background-color: darken(@primary, 5%);
+	.ui-icon-button {
+		flex-shrink: 0;
+	}
+	&.hide {
+		color: darken(@primary, 5%);
+	}
+}
 
 .view-settings{
 	display: flex;
