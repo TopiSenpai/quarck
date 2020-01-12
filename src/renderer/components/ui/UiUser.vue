@@ -1,10 +1,10 @@
 
 <template>
     <div class="ui-user">
-        <!-- <img class="ui-user-icon" :src="user.icon"/> -->
+        <img class="ui-user-icon" src="../../assets/avatar.png"/>
         <div class="ui-user-name">
             <span class="ui-user-name-name">{{ user.username }}</span>
-
+            <span class="ui-user-name-status">{{ user.status }}</span>
         </div>
     </div>
 </template>
@@ -24,17 +24,18 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import '../../colors.less';
+@import '../../style/colors.less';
 
 .ui-user {
     display: flex;
     align-items: center;
-    padding: 8px;
-    padding-top: 16px;
-    padding-bottom: 16px;
+    padding-left: 8px;
+    padding-top: 4px;
+    padding-right: 8px;
+    padding-bottom: 4px;
     &-icon {
-        width: 30px;
-        height: 30px;
+        width: 40px;
+        height: 40px;
         margin-right: 8px;
     }
     &-name {
@@ -42,6 +43,10 @@ export default {
         flex-direction: column;
         &-name {
             font-weight: bold;
+        }
+        &-status {
+            color: @fc-dark;
+            font-size: @fs-small;
         }
         &-key {
             font-size: 60%;
