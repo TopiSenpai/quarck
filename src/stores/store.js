@@ -35,8 +35,11 @@ export default new Vuex.Store({
 		showUserlist(store, show) {
 			store.commit("showUserlist", show);
 		},
-		chat(store, chat) {
-			store.commit("chat", chat);
+		addChat(store, chat) {
+			store.commit("addChat", chat);
+		},
+		removeChat(store, chat) {
+			store.commit("removeChat", chat);
 		},
 		server(store, server) {
 			store.commit("server", server);
@@ -72,8 +75,11 @@ export default new Vuex.Store({
 		showUserlist(state, show) {
 			state.showUserlist = show;
 		},
-		chat(state, chat) {
+		addChat(state, chat) {
 			state.chats.push(chat);
+		},
+		removeChat(state, chat) {
+			state.chats.splice(state.chats.findIndex(c => c.id === chat), 1);
 		},
 		server(state, server) {
 			state.servers.push(server);
@@ -134,6 +140,7 @@ export default new Vuex.Store({
 		getChat: state => id => state.chats.find(c => c.id == id),
 		getUser: state => key => state.users.find(u => u.key === key),
 		getUsername: state => state.settings.username,
+		getUserByAddress: state => address => state.users.find(u => u.address === address),
 		getStatus: state => state.settings.status,
 		getPrivateKey: state => state.settings.privateKey,
 		getPublicKey: state => state.settings.publicKey,
