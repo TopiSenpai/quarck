@@ -1,5 +1,5 @@
 <template>
-    <div class="ui-chat">
+    <div class="ui-chat" :class="{ selected: selected }">
         <router-link class="ui-chat-link" :to="`/chat/${chat.id}`">
             {{ chat.name }}
         </router-link>
@@ -17,6 +17,11 @@ export default {
             required: true,
             type: Object,
         },
+        selected: {
+            required: false,
+            type: Boolean,
+            default: false,
+        },
     },
 
     methods: {
@@ -29,7 +34,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import '../../colors.less';
+@import '../../style/colors.less';
 
 .ui-chat {
     display: flex;
@@ -39,11 +44,12 @@ export default {
     margin-top: 2px;
     margin-right: 8px;
     border-radius: 8px;
-    &:hover {
+    &:hover,
+    &.selected {
         background-color: @list-hover;
-        & .ui-chat-close {
-            display: block;
-        }
+    }
+    &:hover .ui-chat-close {
+        display: block;
     }
     &-link {
         padding: 8px;

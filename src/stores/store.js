@@ -41,6 +41,9 @@ export default new Vuex.Store({
 		removeChat(store, chat) {
 			store.commit("removeChat", chat);
 		},
+		clearChat(store, chat){
+			store.commit("clearChat", chat);
+		},
 		server(store, server) {
 			store.commit("server", server);
 		},
@@ -80,6 +83,9 @@ export default new Vuex.Store({
 		},
 		removeChat(state, chat) {
 			state.chats.splice(state.chats.findIndex(c => c.id === chat), 1);
+		},
+		clearChat(state, chat){
+			state.chats.find(c => c.id === chat).messages = [];
 		},
 		server(state, server) {
 			state.servers.push(server);

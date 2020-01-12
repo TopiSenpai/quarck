@@ -5,14 +5,18 @@
 				<ui-icon icon="chat" />
 				<span>{{ chat.name }}</span>
 			</div>
-			<ui-icon-button type="secondary" icon="supervisor_account" @click="eventToggleUserList" />
+			<div>
+				<ui-icon-button type="secondary" icon="clear_all" tooltip="Clear Chat" @click="eventClearChat" />
+				<ui-icon-button type="secondary" icon="person_add" tooltip="Add User" />
+				<ui-icon-button type="secondary" icon="group" tooltip="User List" @click="eventToggleUserList" />
+			</div>
 		</div>
 		<div class="view-chat-body">
-			<div class="view-chat-body-message">
-				<ui-message-list class="view-chat-body-message-list" :messages="chat.messages" />
+			<div class="view-chat-body-chat">
+				<ui-message-list :messages="chat.messages" />
 				<ui-messagebox placeholder="Type Message..." @message="eventMessage" />
 			</div>
-			<ui-user-list v-if="getShowUserlist" :users="chat.users" />
+			<ui-user-list v-if="getShowUserlist" :users="users" />
 		</div>
 	</div>
 </template>
@@ -37,10 +41,17 @@ export default {
 	computed: {
 		...mapGetters([
 			"getChat",
+			"getUsers",
 			"getShowUserlist",
 		]),
-		chat(){
+		chat() {
 			return this.getChat(this.$route.params.id);
+		},
+		users() {
+			if(this.chat.id === "public") {
+				return this.getUsers;
+			}
+			return this.chat.users;
 		},
 	},
 
@@ -51,16 +62,14 @@ export default {
 		eventToggleUserList() {
 			store.dispatch("showUserlist", !this.getShowUserlist);
 		},
-
+		eventClearChat() {
+			store.dispatch("clearChat", this.chat.id);
+		},
 	},
 };
 </script>
 <style lang="less" scoped>
-@import '../colors.less';
-
-/deep/ .ui-icon-button {
-	cursor: pointer;
-}
+@import '../style/colors.less';
 
 .view-chat {
 	display: flex;
@@ -75,10 +84,6 @@ export default {
 		&-text {
 			display: flex;
 			align-items: center;
-			&-channel {
-				font-size: 200%;
-				color: rgb(138, 138, 138);
-			}
 			& * {
 				margin-right: 8px;
 			}
@@ -87,13 +92,10 @@ export default {
 	&-body {
 		display: flex;
 		flex-grow: 1;
-		&-message {
+		&-chat {
 			display: flex;
 			flex-direction: column;
 			flex-grow: 1;
-			&-list {
-				flex-grow: 1;
-			}
 		}
 	}
 }

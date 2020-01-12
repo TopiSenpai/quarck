@@ -2,9 +2,9 @@
     <div class="ui-chat-list">
         <div class="ui-chat-list-header">
             <span>Chats</span>
-            <ui-icon-button icon="add" type="secondary" @click="openAddChatModal" />
+            <ui-icon-button icon="add" type="secondary" tooltip="Create Chat" tooltipPosition="top" @click="openAddChatModal" />
         </div>
-        <ui-chat v-for="chat in chats" :key="chat.hash" :chat="chat" />
+        <ui-chat v-for="chat in chats" :key="chat.hash" :chat="chat" :selected="isSelected(chat.id)" />
         <ui-modal ref="add_chat" title="Create Chat">
             <ui-textbox v-model="chatName" label="Chat Name" />
             <multiselect :multiple="true" :hideSelected="true" :close-on-select="false" :clear-on-select="false" v-model="selectedUsers" :options="getUsers" placeholder="select user" label="username" track-by="username"/>
@@ -47,10 +47,13 @@ export default {
     computed: {
         ...mapGetters([
 			"getUsers",
-		]),
+        ]),
     },
 
     methods: {
+        isSelected(chat) {
+            return this.$route.params.id === chat;
+        },
         openAddChatModal(){
             this.chatName = "";
             this.selectedUsers = [];
@@ -73,7 +76,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import '../../colors.less';
+@import '../../style/colors.less';
 
 .ui-chat-list {
     display: flex;
