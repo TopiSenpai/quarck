@@ -1,63 +1,126 @@
 /* Background Colors */
 @primary: #34383b;
-@secondary: #242424;
-@info: #242424;
-@box: #414447;
+@secondary: #202225;
+@info: lighten(@toolbar, 2%);
+@highlight: #2196f3;
+
+/* Message Box */
+@box: #454a50;
 
 /* Lists */
 @list: #2e3233;
 @list-hover: darken(@list, 2%);
 
+/* Multiselect */
+@multiselect: darken(@primary, 10%);
+
 /* Toolbar */
-@toolbar: #262626;
+@toolbar: #222224;
 @toolbar-hover: lighten(@toolbar, 5%);
 
 /* Tooltip */
 @tooltip: #111111;
 
+/* Button Colors */
+@ui-default: #eeeeee;
+@ui-primary: #2196f3;
+@ui-accent: #d500f9;
+@ui-green: #4caf50;
+@ui-orange: #ff9800;
+@ui-red: #f44336;
 
 /* Font */
 @font: 'roboto';
 @fc: #e6e6e6;
-@fc-dark: darken(@fc, 10%);
+@fc-dark: darken(@fc, 20%);
 
 /* Icon Color */
 @icon: #ffffff;
-
+@icon-dark: darken(@icon, 30%);
 
 
 /* Scrollbar */
 @scrollbar-thumb: #262626;
 @scrollbar-track: #2e3233;
 
-/* General Ui-Modal styling */
-/deep/ .ui-modal__container {
-	background-color: transparent;
-	color: @fc;
 
-	.ui-textbox__label-text,
-	.ui-textbox__label-text:hover,
-	.ui-textbox__input {
-		color: @fc  !important;
+/* Public Keen-ui styling */
+/deep/ .ui-modal {
+	&__container {
+	background-color: @primary;
+	border-radius: 16px;
 	}
-
-	.ui-modal__close-button {
+	&__header {
+		background-color: @secondary;
+		color: @fc;
+		border-top-left-radius: 16px;
+		border-top-right-radius: 16px;
+	}
+	&__close-button {
 		& .ui-icon {
 			color: @fc;
 		}
-
 		&:hover .ui-icon {
-			color: red;
+			color: @ui-red;
 		}
 	}
+}
 
-	.ui-focus-container__content {
-		background-color: @primary;
+/deep/ .ui-button {
+	&--type-secondary.ui-button--color-{
+		&default {
+			border: 1px solid @ui-default;
+		}
+		&primary {
+			border: 1px solid @ui-primary;
+		}
+		&accent {
+			border: 1px solid @ui-accent;
+		}
+		&green {
+			border: 1px solid @ui-green;
+		}
+		&orange {
+			border: 1px solid @ui-orange;
+		}
+		&red {
+			border: 1px solid @ui-red;
+		}
+	}
+	&:not(.is-disabled) {
+		cursor: pointer;
+	}
+}
+
+/deep/ .ui-icon {
+	color: @icon;
+}
+
+/deep/ .ui-textbox {
+	&__label-text,
+	&__label-text:hover,
+	&__input {
+		color: @fc!important;
+	}
+}
+
+/deep/ .multiselect {
+	&__tags,
+	&__content-wrapper,
+	&__input {
+		border: none;
+		background-color: @multiselect;
 		color: @fc;
-
-		.ui-modal__header {
-			background-color: @secondary;
-			color: @fc;
+	}
+	&__placeholder {
+		color: @fc-dark;
+	}
+	&__option {
+		background-color: darken(@multiselect, 2%);
+		&--highlight,
+		&--highlight::after {
+			background-color: @highlight;
+			color:  @fc;
 		}
 	}
 }
