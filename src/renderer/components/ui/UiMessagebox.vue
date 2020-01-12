@@ -2,9 +2,7 @@
     <div class="ui-messagebox">
         <ui-icon-button icon="attach_file" type="secondary" />
         <ui-textbox v-model="text" :placeholder="placeholder" @keydown-enter="eventMessage" />
-        <button class="emoji-button" @click="eventClickEmoji">
-            {{ emojiIcon }}
-        </button>
+        <ui-icon-button icon="insert_emoticon" type="secondary" />
     </div>
 </template>
 
@@ -38,15 +36,12 @@ export default {
                 this.text = "";
             }
         },
-        eventClickEmoji(){
-            this.emojiIcon = emoji.random().emoji;
-        },
     },
 };
 </script>
 
 <style lang="less" scoped>
-@import '../../colors.less';
+@import '../../style/colors.less';
 
 .emoji-button {
     margin: 0;

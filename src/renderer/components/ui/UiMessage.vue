@@ -38,7 +38,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import '../../colors.less';
+@import '../../style/colors.less';
 
 .ui-message {
 	display: flex;

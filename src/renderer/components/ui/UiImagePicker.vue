@@ -2,7 +2,7 @@
 	<div class="ui-image-picker" @click="clickImagePicker" :style="{ width: width, height: height }">
 		<span v-if="!avatar" class="ui-image-picker-placeholder">Choose Avatar</span>
 		<div v-else class="ui-image-picker-preview" :style="{ 'background-image': `url(${avatar})` }"></div>
-		<input class="ui-image-picker-input" ref="imagePicker" type="file" @change="inputFile">
+		<input class="ui-image-picker-input" ref="imagePicker" type="file" accept=".gif, .jpg, .png" @change="inputFile">
 	</div>
 </template>
 <script>
@@ -49,7 +49,7 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-@import '../../colors.less';
+@import '../../style/colors.less';
 
 .ui-image-picker {
 	cursor: pointer;

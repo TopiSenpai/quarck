@@ -39,7 +39,7 @@ export default {
 </script>
 
 <style lang="less">
-@import './colors.less';
+@import './style/colors.less';
 
 #app {
 	display: flex;

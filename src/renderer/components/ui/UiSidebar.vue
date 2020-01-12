@@ -57,7 +57,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import "../../colors.less";
+@import "../../style/colors.less";
 
 /deep/ .tippy-popper {
 	background-color: @ui-red;

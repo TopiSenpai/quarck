@@ -29,7 +29,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import '../../colors.less';
+@import '../../style/colors.less';
 
 .ui-setting {
     display: flex;
@@ -47,7 +47,7 @@ export default {
         display: flex;
         flex-direction: column;
         padding: 8px;
-        max-width: 600px;
+        min-width: 150px;
     }
 }
 
