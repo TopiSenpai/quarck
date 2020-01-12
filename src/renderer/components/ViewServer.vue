@@ -44,7 +44,7 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-@import '../colors.less';
+@import '../style/colors.less';
 
 .view-server {
 	display: flex;

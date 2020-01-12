@@ -49,7 +49,7 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-@import '../../colors.less';
+@import '../../style/colors.less';
 
 .ui-window-toolbar {
     flex-shrink: 0;
