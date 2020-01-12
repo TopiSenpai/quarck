@@ -1,20 +1,47 @@
 <template>
 	<div class="view-users">
-		<h1>Users</h1>
-		<ui-user-list :users="users" />
+		<div class="view-users-header">
+			<div class="view-users-header-text">
+				<ui-icon icon="people" />
+				<span>Users</span>
+			</div>
+			<div>
+				<ui-icon-button type="secondary" icon="refresh" tooltip="Refresh Users" @click="eventRefreshUsers" />
+			</div>
+		</div>
+		<div class="view-users-body">
+			<div class="view-users-body-userlist">
+				<div class="view-users-body-userlist-header">
+					<span class="avatar"></span>
+					<span class="username">
+						Username
+					</span>
+					<span class="status">
+						Status
+					</span>
+					<span class="address">
+						Address
+					</span>
+				</div>
+				<div v-for="user of users" :key="user.key" class="view-users-body-userlist-entry">
+					<img class="avatar" src="../assets/avatar.png" height="30px">
+					<span class="username">{{ user.username }}</span>
+					<span class="status">{{ user.status }}</span>
+					<span class="address">{{ user.address }}</span>
+					<ui-icon-button class="more" type="secondary" icon="chat" size="mini" @click="createChat(user.key)" />
+					<ui-icon-button class="more" type="secondary" icon="block" size="mini" @click="removeUser(user.key)" />
+					<ui-icon-button class="more" type="secondary" icon="close" size="mini" @click="blockUser(user.key)" />
+				</div>
+			</div>
+		</div>
 	</div>
 </template>
 <script>
-import UiUserList from "./ui/UiUserList";
 import { mapGetters } from "vuex";
 
 export default {
 
 	name: "view-users",
-
-	components: {
-		UiUserList,
-	},
 
 	computed: {
 		...mapGetters([
@@ -24,8 +51,88 @@ export default {
 			return this.getUsers;
 		},
 	},
+
+	methods: {
+		eventRefreshUsers() {
+
+		},
+		eventCreateChat() {
+
+		},
+	},
 };
 </script>
 <style lang="less" scoped>
+@import '../style/colors.less';
+
+.view-users {
+	display: flex;
+	flex-direction: column;
+	&-header{
+		display: flex;
+		flex-shrink: 0;
+		align-items: center;
+		padding: 8px;
+		justify-content: space-between;
+		border-bottom: 1px solid darken(@primary, 5%);
+		&-text {
+			display: flex;
+			align-items: center;
+			& * {
+				margin-right: 8px;
+			}
+		}
+	}
+	&-body {
+		display: flex;
+		flex-grow: 1;
+		&-userlist {
+			display: flex;
+			flex-direction: column;
+			flex-grow: 1;
+			&-header {
+				border-bottom: 1px solid darken(@primary, 5%);
+				& *:nth-last-child(n+2) {
+					border-right: 1px solid darken(@primary, 5%);
+				}
+			}
+			&-entry,
+			&-header {
+				display: flex;
+				align-items: center;
+				padding: 8px;
+				& .more {
+					display: none;
+				}
+				&:hover .more {
+					display: block;
+				}
+				&:nth-child(n+2) {
+					border-bottom: 1px solid lighten(@primary, 5%);
+				}
+				& *:nth-last-child(n+2) {
+					margin-right: 8px;
+				}
+				& .avatar {
+					width: 30px;
+				}
+				& .username {
+					display: flex;
+					align-items: center;
+					width: 200px;
+				}
+				& .status {
+					display: flex;
+					align-items: center;
+					width: 200px;
+				}
+				& .address {
+					display: flex;
+					align-items: center;
+				}
+			}
+		}
+	}
+}
 
 </style>
