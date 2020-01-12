@@ -4,14 +4,14 @@
 			<span>Settings</span>
 		</div>
 		<div class="view-settings-content">
-			<ui-setting label="Username">
-				<ui-textbox :value="getSettingValue('username')" placeholder="username..." @input="eventInputUsername" />
-			</ui-setting>
-
-			<ui-setting label="Status">
-				<ui-textbox :value="getSettingValue('status')" placeholder="status..." @input="eventInputStatus" />
-			</ui-setting>
-
+			<div class="view-settings-content-account">
+				<ui-image-picker v-model="avatar" width="150px" height="150px"/>
+				<div class="view-settings-content-account-textboxes">
+					<ui-textbox :value="getSettingValue('username')" label="Username" placeholder="username..." @input="eventInputUsername" />
+					<ui-textbox :value="getSettingValue('status')" label="Status" placeholder="status..." @input="eventInputStatus" />
+				</div>
+			</div>
+			<br />
 			<ui-setting label="Public Key">
 				<span>
 					{{ getSettingValue('publicKey') }}
@@ -25,12 +25,11 @@
 			<ui-setting>
 				<ui-button color="primary" type="secondary" @click="eventRegenerateKeyPair">Regenerate Key Pair</ui-button>
 			</ui-setting>
-
 		</div>
 		<div class="view-settings-footer">
 			<ui-button color="green" type="primary" :disabled="saveButtonDisabled" @click="eventSaveSettings">Save</ui-button>
 			<ui-button color="red" type="secondary" @click="eventClickCancel">cancel</ui-button>
-			<ui-confirm ref="discardChangesModal" title="Discard changes" @confirm="$router.go(-1)">
+			<ui-confirm ref="discardChangesModal" title="Discard changes" @confirm="back">
 				Do you want to discard all changes?
 			</ui-confirm>
 		</div>
@@ -38,6 +37,7 @@
 </template>
 <script>
 import UiSetting from "./ui/UiSetting";
+import UiImagePicker from "./ui/UiImagePicker";
 import network from "../../main/network";
 import { mapGetters } from "vuex";
 import generateKey from "../../main/helper";
@@ -48,12 +48,14 @@ export default {
 
 	components: {
 		UiSetting,
+		UiImagePicker,
 	},
 
 	data () {
 		return {
 			initialSettings: {},
 			settings: {},
+			avatar: null,
 		};
 	},
 
@@ -100,27 +102,25 @@ export default {
 		},
 		eventSaveSettings(){
 			this.$store.dispatch("settings", this.settings);
-			network.sendUserUpdate(this.getPublicKey, this.username, "das ist ein status");
-			this.$router.go(-1);
+			network.sendUserUpdate(this.getSettingValue("publicKey"), this.getSettingValue("username"), this.getSettingValue("status"));
+			this.back();
 		},
 		eventClickCancel(){
 			if(!this.saveButtonDisabled){
 				this.$refs.discardChangesModal.open();
 			}
 			else{
-				this.$router.go(-1);
+				this.back();
 			}
+		},
+		back() {
+			this.$router.go(-1);
 		},
 	},
 };
 </script>
 <style lang="less" scoped>
 @import '../colors.less';
-
-/deep/ .ui-button {
-	width: fit-content;
-	cursor: pointer;
-}
 
 .view-settings{
 	display: flex;
@@ -142,6 +142,19 @@ export default {
 		padding: 16px;
 		flex-grow: 1;
 		border-bottom: 1px solid #2b2b2b;
+		&-account {
+			display: flex;
+			padding: 16px;
+			border-radius: 16px;
+			border: 1px solid darken(@primary, 5%);
+			background-color: darken(@primary, 2%);
+			&-textboxes {
+				display: flex;
+				flex-direction: column;
+				padding: 16px;
+				margin-left: 16px;
+			}
+		}
 	}
 	&-footer {
 		display: flex;
