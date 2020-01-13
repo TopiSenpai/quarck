@@ -28,9 +28,12 @@
 					<span class="username">{{ user.username }}</span>
 					<span class="status">{{ user.status }}</span>
 					<span class="address">{{ user.address }}</span>
-					<ui-icon-button class="more" type="secondary" icon="chat" size="mini" @click="createChat(user.key)" />
-					<ui-icon-button class="more" type="secondary" icon="block" size="mini" @click="removeUser(user.key)" />
-					<ui-icon-button class="more" type="secondary" icon="close" size="mini" @click="blockUser(user.key)" />
+					<div class="more">
+						<ui-icon-button type="secondary" icon="chat" tooltip="Open Chat" size="mini" tooltipPosition="top" @click="createChat(user.key)" />
+						<ui-icon-button type="secondary" icon="person_add" tooltip="Add User" size="mini" tooltipPosition="top" @click="removeUser(user.key)" />
+						<ui-icon-button type="secondary" icon="block" tooltip="Block User" size="mini" tooltipPosition="top" @click="addUser(user.key)" />
+						<ui-icon-button type="secondary" icon="close" tooltip="Remove User" size="mini" tooltipPosition="top" @click="blockUser(user.key)" />
+					</div>
 				</div>
 			</div>
 		</div>
@@ -38,6 +41,7 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
+import network from "../../main/network";
 
 export default {
 
@@ -54,9 +58,19 @@ export default {
 
 	methods: {
 		eventRefreshUsers() {
+			this.$store.dispatch("clearUsers");
+			network.discoverClients();
+		},
+		createChat(key) {
 
 		},
-		eventCreateChat() {
+		removeUser(key) {
+
+		},
+		addUser(key) {
+
+		},
+		blockUser(key) {
 
 		},
 	},
@@ -103,9 +117,11 @@ export default {
 				padding: 8px;
 				& .more {
 					display: none;
+					flex-grow: 1;
+					justify-content: flex-end;
 				}
 				&:hover .more {
-					display: block;
+					display: flex;
 				}
 				&:nth-child(n+2) {
 					border-bottom: 1px solid lighten(@primary, 5%);

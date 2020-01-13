@@ -15,7 +15,6 @@ import UserUpdatePacket from "./packets/UserUpdatePacket";
 const tcp = net.createServer();
 const udp = dgram.createSocket("udp4");
 
-const IP = ip.address();
 const ADDRESS = "255.255.255.255";
 const UDP_PORT = 6969;
 const TCP_PORT = 9696;
@@ -58,7 +57,7 @@ udp.on("error", (err) => {
 
 udp.on("message", (message, info) => {
 	var packet = JSON.parse(message);
-	if (info.address === IP)
+	if (info.address === ip.address())
 		return;
 
 	console.log("new Packet", packet);
@@ -68,6 +67,7 @@ udp.on("message", (message, info) => {
 			console.log("=>", packet.data);
 			break;
 		case PacketTypes.DiscoverClients:
+			packet.data.address = info.address;
 			store.dispatch("user", packet.data);
 			sendUdpPacket(new DiscoverAnswerPacket(getPublicKey(), getUsername(), "image", getStatus()), info.address, info.port);
 			break;
@@ -87,12 +87,11 @@ udp.on("message", (message, info) => {
 
 udp.bind(UDP_PORT);
 
-
-store.dispatch("user", { key: getPublicKey(), username: getUsername(), image: "blaaa", status: getStatus() });
 discoverClients();
 
 function discoverClients() {
-	broadcastUdpPacket(new DiscoverClientsPacket(getPublicKey(), getUsername(), "bla", "online", IP));
+	store.dispatch("user", { key: getPublicKey(), username: getUsername(), image: "blaaa", status: getStatus(), address: ip.address() });
+	broadcastUdpPacket(new DiscoverClientsPacket(getPublicKey(), getUsername(), "bla", getStatus()));
 }
 
 function broadcastUdpPacket(packet) {
