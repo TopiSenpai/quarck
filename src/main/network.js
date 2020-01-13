@@ -156,4 +156,5 @@ export default {
 	sendUdpPacket,
 	sendMessage,
 	sendUserUpdate,
+	sendAddChat,
 };
