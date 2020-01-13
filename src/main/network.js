@@ -8,7 +8,7 @@ import PacketTypes from "./packets/PacketTypes";
 import DiscoverAnswerPacket from "./packets/DiscoverAnswerPacket";
 import DiscoverClientsPacket from "./packets/DiscoverClientsPacket";
 import ChannelMessagePacket from "./packets/ChannelMessagePacket";
-//import PrivateMessagePacket from "./packets/PrivateMessagePacket";
+import ChatAddPacket from "./packets/ChatAddPacket";
 import UserUpdatePacket from "./packets/UserUpdatePacket";
 
 
@@ -65,6 +65,9 @@ udp.on("message", (message, info) => {
 		case PacketTypes.ChannelMessage:
 			store.dispatch("message", packet.data);
 			console.log("=>", packet.data);
+			break;
+		case PacketTypes.ChatAdd:
+			store.dispatch("addChat", packet.data.chat);
 			break;
 		case PacketTypes.DiscoverClients:
 			packet.data.address = info.address;
@@ -127,6 +130,12 @@ function sendUserUpdate() {
 	let packet = new UserUpdatePacket(getPublicKey(), getUsername(), getStatus());
 	store.dispatch("updateUser", packet.data);
 	broadcastUdpPacket(packet);
+}
+
+function sendAddChat(chat){
+	let packet = new ChatAddPacket(getPublicKey(), chat );
+	store.dispatch("addChat", chat);
+	broadcastUdpPacketUsers(packet, chat.users);
 }
 
 function getPublicKey() {

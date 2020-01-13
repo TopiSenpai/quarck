@@ -9,7 +9,7 @@ const config = new Store();
 
 export default new Vuex.Store({
 	plugins: [
-		createPersistedState(),
+		//createPersistedState(),
 		createSharedMutations(),
 	],
 	state: {

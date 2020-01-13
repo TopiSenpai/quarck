@@ -20,7 +20,9 @@ import Multiselect from "vue-multiselect";
 import UiChat from "./UiChat";
 import generateKey from "../../../main/helper";
 import { mapGetters } from "vuex";
+import network from "../../../main/network";
 import "vue-multiselect/dist/vue-multiselect.min.css";
+
 export default {
 
     name: "ui-chat-list",
@@ -60,7 +62,7 @@ export default {
             this.$refs.add_chat.open();
         },
         createChat(){
-            this.$store.dispatch("addChat", {
+            network.sendAddChat({
                 name: this.chatName,
                 id: generateKey(),
                 messages: [],
