@@ -1,13 +1,14 @@
 <template>
     <div class="ui-messagebox">
         <ui-icon-button icon="attach_file" type="secondary" />
-        <ui-textbox v-model="text" :placeholder="placeholder" :multiLine="true"  />
-        <ui-icon-button icon="send" type="secondary" @click="eventMessage"/>
+        <!-- <ui-textbox v-model="text" :placeholder="placeholder" :multiLine="true"  /> -->
+        <ui-textarea @send="eventSendMessage" />
+        <ui-icon-button icon="insert_emoticon" type="secondary" @click="eventMessage"/>
     </div>
 </template>
 
 <script>
-import emoji from "node-emoji";
+import UiTextarea from "./UiTextarea";
 
 export default {
 
@@ -21,20 +22,13 @@ export default {
         },
     },
 
-    data () {
-        return {
-            text: "",
-            emojiIcon: emoji.random().emoji,
-        };
+    components: {
+        UiTextarea,
     },
 
     methods: {
-        eventMessage () {
-            let text = this.text.trim();
-            if(text !== ""){
-                this.$emit("message", this.text);
-                this.text = "";
-            }
+        eventMessage (text) {
+            this.$emit("message", text);
         },
     },
 };
