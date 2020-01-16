@@ -29,11 +29,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import '../../style/colors.less';
+@import '../../style/style.less';
 
 .ui-user-list {
-    display: flex;
-    flex-direction: column;
+    .flexColumn;
     flex-shrink: 0;
     width: 200px;
     padding-top: 8px;

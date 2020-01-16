@@ -60,10 +60,10 @@ udp.on("message", (message, info) => {
 	if (info.address === ip.address())
 		return;
 
-	console.log("new Packet", packet);
+	console.log("new Packet", packet.type, packet.data);
 	switch (packet.type) {
 		case PacketTypes.ChannelMessage:
-			store.dispatch("message", packet.data);
+			store.dispatch("addChatMessage", packet.data);
 			console.log("=>", packet.data);
 			break;
 		case PacketTypes.ChatAdd:
@@ -105,6 +105,7 @@ function broadcastUdpPacket(packet) {
 function broadcastUdpPacketUsers(packet, users) {
 	var string = packet.decode();
 	users.forEach(u => {
+		console.log("key:", u);
 		let user = store.getters.getUser(u);
 		udp.send(string, 0, string.length + 1, UDP_PORT, user.address);
 	});
@@ -117,7 +118,7 @@ function sendUdpPacket(packet, address, port = UDP_PORT) {
 
 function sendMessage(message, chat) {
 	let packet = new ChannelMessagePacket(getPublicKey(), message, chat);
-	store.dispatch("message", packet.data);
+	store.dispatch("addChatMessage", packet.data);
 	console.log("<=", packet.data);
 	if (chat === "public") {
 		broadcastUdpPacket(packet);
@@ -133,9 +134,9 @@ function sendUserUpdate() {
 }
 
 function sendAddChat(chat){
-	let packet = new ChatAddPacket(getPublicKey(), chat );
-	store.dispatch("addChat", chat);
+	let packet = new ChatAddPacket(getPublicKey(), chat);
 	broadcastUdpPacketUsers(packet, chat.users);
+	store.dispatch("addChat", chat);
 }
 
 function getPublicKey() {

@@ -49,11 +49,11 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-@import '../../style/colors.less';
+@import '../../style/style.less';
 
 .ui-window-toolbar {
+    .flexRow;
     flex-shrink: 0;
-    display: flex;
     height: 22px;
     width: 100%;
     margin-top: 2px;
@@ -62,7 +62,7 @@ export default {
     user-select: none;
     justify-content: space-between;
     &-container {
-        display: flex;
+        .flexRow;
     }
     &-icon {
         width: 22px;
@@ -75,7 +75,7 @@ export default {
         cursor: pointer;
         outline: none;
         &:hover {
-            background-color: @toolbar-hover;
+            background-color: @toolbar-dark;
             &.close-icon {
                 background-color: @ui-red;
             }

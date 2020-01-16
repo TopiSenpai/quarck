@@ -2,15 +2,18 @@
 	<div class="ui-message">
 		<div class="ui-message-header">
 			<span class="ui-message-header-username">{{ user.username }}</span>
-			<span class="ui-message-header-time">{{ getTime }}</span>
+			<span class="ui-message-header-time">{{ time }}</span>
 		</div>
-		<div class="ui-message-text">
-			{{ message.text }}
+		<div class="ui-message-text" v-html="messageHtml">
+
 		</div>
 	</div>
 </template>
 <script>
+import showdown from "showdown";
 import { mapGetters } from "vuex";
+
+const converter = new showdown.Converter();
 
 export default {
 	name: "ui-message",
@@ -29,22 +32,27 @@ export default {
 		user(){
 			return this.getUser(this.message.key);
 		},
-		getTime () {
+		time () {
 			let date = new Date(this.message.time);
 			return `${date.getHours()}:${date.getMinutes()}`;
+		},
+		messageHtml() {
+			return converter.makeHtml(this.message.text);
 		},
 	},
 };
 </script>
 
 <style lang="less" scoped>
-@import '../../style/colors.less';
+@import '../../style/style.less';
 
 .ui-message {
-	display: flex;
-	flex-direction: column;
+	.flexColumn;
 	flex-shrink: 0;
 	padding: 16px;
+	&:hover {
+		background-color: darken(@primary, 2%);
+	}
 	&-text {
 		color: @fc;
 		word-break: break-all;

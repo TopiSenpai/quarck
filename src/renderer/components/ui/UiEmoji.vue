@@ -34,7 +34,7 @@ export default {
 	height: 400px;
 	overflow-y: hidden;
 	&-emojis {
-		display: flex;
+		.flexRow;
 		flex-wrap: wrap;
 		overflow-y: scroll;
 	}

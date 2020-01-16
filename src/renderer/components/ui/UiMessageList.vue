@@ -42,11 +42,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import '../../style/colors.less';
+@import '../../style/style.less';
 
 .ui-message-list {
-    display: flex;
-    flex-direction: column;
+    .flexColumn;
     flex-grow: 1;
     overflow: auto;
     user-select: text;

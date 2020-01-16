@@ -69,32 +69,29 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-@import '../style/colors.less';
+@import '../style/style.less';
 
 .view-chat {
-	display: flex;
-	flex-direction: column;
+	.flexColumn;
 	&-header{
-		display: flex;
+		.flexRow;
 		flex-shrink: 0;
 		align-items: center;
 		padding: 8px;
 		justify-content: space-between;
 		border-bottom: 1px solid #2c2c2c;
 		&-text {
-			display: flex;
-			align-items: center;
+			.flexRow;
 			& * {
 				margin-right: 8px;
 			}
 		}
 	}
 	&-body {
-		display: flex;
+		.flexRow;
 		flex-grow: 1;
 		&-chat {
-			display: flex;
-			flex-direction: column;
+			.flexColumn;
 			flex-grow: 1;
 		}
 	}

@@ -34,10 +34,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import '../../style/colors.less';
+@import '../../style/style.less';
 
 .ui-chat {
-    display: flex;
+    .flexRow;
     justify-content: space-between;
     align-items: center;
     margin-left: 8px;
@@ -46,7 +46,7 @@ export default {
     border-radius: 8px;
     &:hover,
     &.selected {
-        background-color: @list-hover;
+        background-color: @list-dark;
     }
     &:hover .ui-chat-close {
         display: block;

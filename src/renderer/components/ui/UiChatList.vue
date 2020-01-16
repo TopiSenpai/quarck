@@ -66,7 +66,7 @@ export default {
                 name: this.chatName,
                 id: generateKey(),
                 messages: [],
-                users: this.selectedUsers,
+                users: this.selectedUsers.map(u => u.key),
             });
             this.$refs.add_chat.close();
             this.chatName = "";
@@ -78,17 +78,16 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import '../../style/colors.less';
+@import '../../style/style.less';
 
 .ui-chat-list {
-    display: flex;
-    flex-direction: column;
+    .flexColumn;
     width: 250px;
     background-color: @list;
     flex-grow: 1;
     flex-shrink: 0;
     &-header {
-        display: flex;
+        .flexRow;
         justify-content: space-between;
         align-items: center;
         padding-top: 8px;

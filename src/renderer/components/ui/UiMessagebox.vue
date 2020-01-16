@@ -1,8 +1,8 @@
 <template>
     <div class="ui-messagebox">
         <ui-icon-button icon="attach_file" type="secondary" />
-        <ui-textbox v-model="text" :placeholder="placeholder" @keydown-enter="eventMessage" />
-        <ui-icon-button icon="insert_emoticon" type="secondary" />
+        <ui-textbox v-model="text" :placeholder="placeholder" :multiLine="true"  />
+        <ui-icon-button icon="send" type="secondary" @click="eventMessage"/>
     </div>
 </template>
 
@@ -41,7 +41,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import '../../style/colors.less';
+@import '../../style/style.less';
 
 .emoji-button {
     margin: 0;
@@ -54,13 +54,13 @@ export default {
 }
 
 .ui-messagebox {
+    .flexRow;
+    align-items: center;
+    flex-shrink: 0;
 	margin: 20px;
 	padding: 8px;
-    display: flex;
-    flex-shrink: 0;
 	border-radius: 12px;
 	background-color: @box;
-    align-items: center;
 	& .ui-textbox {
         flex-grow: 1;
         margin-left: 4px;

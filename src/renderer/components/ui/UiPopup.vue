@@ -23,7 +23,7 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-@import '../../style/colors.less';
+@import '../../style/style.less';
 
 .ui-popup {
 	position: fixed;

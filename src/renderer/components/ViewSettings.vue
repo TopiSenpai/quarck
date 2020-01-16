@@ -135,10 +135,10 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-@import '../style/colors.less';
+@import '../style/style.less';
 
 .private-key{
-	display: flex;
+	.flexRow;
 	padding: 8px;
 	border-radius: 8px;
 	background-color: darken(@primary, 5%);
@@ -151,12 +151,11 @@ export default {
 }
 
 .view-settings{
-	display: flex;
-	flex-direction: column;
+	.flexColumn;
 	background-color: @primary;
 	border-top-left-radius: 16px;
 	&-header {
-		display: flex;
+		.flexRow;
 		align-items: center;
 		justify-content: space-between;
 		padding: 16px;
@@ -165,28 +164,25 @@ export default {
 		border-bottom: 1px solid #2b2b2b;
 	}
 	&-content{
-		display: flex;
-		flex-direction: column;
+		.flexColumn;
 		padding: 16px;
 		flex-grow: 1;
 		border-bottom: 1px solid #2b2b2b;
 		&-account {
-			display: flex;
+			.flexRow;
 			padding: 16px;
 			border-radius: 16px;
 			border: 1px solid darken(@primary, 5%);
 			background-color: darken(@primary, 2%);
 			&-textboxes {
-				display: flex;
-				flex-direction: column;
+				.flexColumn;
 				padding: 16px;
 				margin-left: 16px;
 			}
 		}
 	}
 	&-footer {
-		display: flex;
-		flex-direction: row;
+		.flexRow;
 		justify-content: space-between;
 		padding: 16px;
 	}

@@ -39,18 +39,16 @@ export default {
 </script>
 
 <style lang="less">
-@import './style/colors.less';
+@import './style/style.less';
 
 #app {
-	display: flex;
-	flex-direction: column;
+	.flexColumn;
 	user-select: none;
 }
 
 .app-content {
-	display: flex;
+	.flexRow;
 	flex-grow: 1;
-	align-items: stretch;
 	background-color: @toolbar;
 	&-content {
 		flex-grow: 1;
@@ -59,12 +57,11 @@ export default {
 
 html, body, #app {
 	margin: 0;
-	color: @fc;
-	background-color: @toolbar;
+	.fc;
+	.font();
+	.toolbar;
 	width: 100%;
 	height: 100%;
-	font-family: @font;
-	font-size: 100%;
 	cursor: default;
 }
 

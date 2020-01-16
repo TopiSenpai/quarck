@@ -1,24 +1,25 @@
-@import "./material-icons/material-icons.css";
+@import "./fonts/material-icons/material-icons.css";
+@import "./background-colors.less";
+@import "./font-colors.less";
 
 /* Background Colors */
 @primary: #34383b;
 @secondary: #202225;
 @info: lighten(@toolbar, 2%);
-@highlight: #2196f3;
 
 /* Message Box */
 @box: #454a50;
 
 /* Lists */
 @list: #2e3233;
-@list-hover: darken(@list, 2%);
+@list-dark: darken(@list, 2%);
 
 /* Multiselect */
 @multiselect: darken(@primary, 10%);
 
 /* Toolbar */
 @toolbar: #222224;
-@toolbar-hover: lighten(@toolbar, 5%);
+@toolbar-dark: lighten(@toolbar, 5%);
 
 /* Tooltip */
 @tooltip: #111111;
@@ -32,7 +33,7 @@
 @ui-red: #f44336;
 
 /* Font */
-@font: 'roboto';
+@font: "Roboto";
 @fc: #e6e6e6;
 @fc-dark: darken(@fc, 20%);
 @fs: 16px;
@@ -47,6 +48,15 @@
 @scrollbar-thumb: #262626;
 @scrollbar-track: #282b2c;
 
+.flexRow(){
+	display: flex;
+	flex-direction: row;
+}
+
+.flexColumn(){
+	display: flex;
+	flex-direction: column;
+}
 
 /* Public Keen-ui styling */
 /deep/ .ui-modal {
@@ -70,8 +80,8 @@
 	}
 }
 
-/deep/ .ui-menu {
-	background-color: red;
+/deep/ .ui-switch__label-text {
+	margin-right: 4px!important;
 }
 
 /deep/ .ui-button {
@@ -127,7 +137,7 @@
 		background-color: darken(@multiselect, 2%);
 		&--highlight,
 		&--highlight::after {
-			background-color: @highlight;
+			background-color: @ui-primary;
 			color:  @fc;
 		}
 	}

@@ -44,10 +44,10 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-@import '../style/colors.less';
+@import '../style/style.less';
 
 .view-server {
-	display: flex;
+	.flexRow;
 	flex-grow: 1;
 }
 

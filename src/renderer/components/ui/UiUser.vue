@@ -24,10 +24,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import '../../style/colors.less';
+@import '../../style/style.less';
 
 .ui-user {
-    display: flex;
+    .flexRow;
     align-items: center;
     padding-left: 8px;
     padding-top: 4px;
@@ -39,8 +39,7 @@ export default {
         margin-right: 8px;
     }
     &-name {
-        display: flex;
-        flex-direction: column;
+        .flexColumn;
         &-name {
             font-weight: bold;
         }

@@ -70,24 +70,22 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-@import '../style/colors.less';
+@import '../style/style.less';
 
 .view-overview {
-	display: flex;
+	.flexRow;
 	&-sidebar {
-		display: flex;
-		flex-direction: column;
+		.flexColumn;
 		flex-grow: 0;
 		background-color: @list;
 		border-top-left-radius: 16px;
 		width: 250px;
 		&-list {
-			display: flex;
-			flex-direction: column;
+			.flexColumn;
 			padding: 8px;
 			flex-shrink: 0;
 			& > * {
-				display: flex;
+				.flexRow;
 				align-items: center;
 				border-radius: 8px;
 				padding: 8px;
@@ -99,22 +97,21 @@ export default {
 				}
 				&:hover,
 				&.selected {
-					background-color: @list-hover;
+					background-color: @list-dark;
 				}
 			}
 		}
 		&-info {
-			display: flex;
+			.flexRow;
 			align-items: center;
 			justify-content: space-between;
 			padding: 8px;
 			background-color: @info;
 			&-container {
-				display: flex;
+				.flexRow;
 				flex-shrink: 0;
 				&-info {
-					display: flex;
-					flex-direction: column;
+					.flexColumn;
 					flex-shrink: 1;
 					max-width: 160px;
 					&-status {

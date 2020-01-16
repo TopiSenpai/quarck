@@ -57,7 +57,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import "../../style/colors.less";
+@import "../../style/style.less";
 
 /deep/ .tippy-popper {
 	background-color: @ui-red;
@@ -68,8 +68,7 @@ export default {
 }
 
 .ui-sidebar {
-	display: flex;
-	flex-direction: column;
+	.flexColumn;
 	flex-shrink: 0;
 	padding: 8px;
 	background-color: @toolbar;

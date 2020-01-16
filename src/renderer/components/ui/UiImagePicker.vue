@@ -49,7 +49,7 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-@import '../../style/colors.less';
+@import '../../style/style.less';
 
 .ui-image-picker {
 	cursor: pointer;
@@ -66,11 +66,11 @@ export default {
 		background-position: center center;
 	}
 	&-placeholder {
-		width: 100%;
-		height: 100%;
-		display: flex;
+		.flexRow;
 		justify-content: center;
 		align-items: center;
+		width: 100%;
+		height: 100%;
 		font-size: 20px;
 		font-weight: bold;
 		font-family: Helvetica;

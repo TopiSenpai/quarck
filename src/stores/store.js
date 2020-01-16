@@ -14,6 +14,8 @@ export default new Vuex.Store({
 	],
 	state: {
 		users: [],
+		friends: [],
+		blockedUsers: [],
 		chats: [
 			{
 				name: "public",
@@ -28,12 +30,14 @@ export default new Vuex.Store({
 			status: "",
 			privateKey: "",
 			publicKey: "",
+			showUserlist: true,
+			usersFilter: "friends",
 		},
-		showUserlist: true,
 	},
 	actions: {
-		showUserlist(store, show) {
-			store.commit("showUserlist", show);
+		/* Chat Stuff */
+		addChatMessage(store, message) {
+			store.commit("addChatMessage", message);
 		},
 		addChat(store, chat) {
 			store.commit("addChat", chat);
@@ -44,12 +48,25 @@ export default new Vuex.Store({
 		clearChat(store, chat){
 			store.commit("clearChat", chat);
 		},
+
+		/* User Stuff */
+		user(store, user) {
+			store.commit("user", user);
+		},
+		updateUser(store, user) {
+			store.commit("updateUser", user);
+		},
 		clearUsers(store){
 			store.commit("clearUsers");
 		},
-		server(store, server) {
-			store.commit("server", server);
+		addFriend(store, user) {
+			store.commit("addFriend", user);
 		},
+		removeFriend(store, user) {
+			store.commit("removeFriend", user);
+		},
+
+		/* Own Settings */
 		username(store, username) {
 			store.commit("username", username);
 		},
@@ -62,24 +79,27 @@ export default new Vuex.Store({
 		publicKey(store, publicKey){
 			store.commit("publicKey", publicKey);
 		},
+
+		/* Settings Stuff */
 		settings(store, settings){
 			store.commit("settings", settings);
 		},
-
-
-		message(store, message) {
-			store.commit("message", message);
+		showUserlist(store, show) {
+			store.commit("showUserlist", show);
 		},
-		user(store, user) {
-			store.commit("user", user);
+		setUsersFilter(store, show) {
+			store.commit("setUsersFilter", show);
 		},
-		updateUser(store, user) {
-			store.commit("updateUser", user);
+
+		/* Server Stuff */
+		server(store, server) {
+			store.commit("server", server);
 		},
 	},
 	mutations: {
-		showUserlist(state, show) {
-			state.showUserlist = show;
+		/* Chat Stuff */
+		addChatMessage(state, message) {
+			state.chats.find(c => c.id === message.chat).messages.push(message);
 		},
 		addChat(state, chat) {
 			state.chats.push(chat);
@@ -90,12 +110,37 @@ export default new Vuex.Store({
 		clearChat(state, chat){
 			state.chats.find(c => c.id === chat).messages = [];
 		},
+
+		/* User Stuff */
+		user(state, user) {
+			if(state.users.find(u => u.key === user.key) === undefined){
+				state.users.push(user);
+			}
+		},
+		updateUser(state, user) {
+			let u = state.users.find(u => u.key === user.key);
+			if(u !== undefined){
+				Object.entries(u).forEach(([k, v]) => {
+					u[k] = v;
+				});
+			}
+		},
 		clearUsers(state){
 			state.users = [];
 		},
-		server(state, server) {
-			state.servers.push(server);
+		addFriend(state, user) {
+			if(!state.friends.includes(user)){
+				state.friends.push(user);
+			}
 		},
+		removeFriend(state, user) {
+			let i = state.friends.findIndex(f => f === user);
+			if(i > -1) {
+				state.friends.splice(i, 1);
+			}
+		},
+
+		/* Own Settings */
 		username(state, username) {
 			state.settings.username = username;
 			let u = state.users.find(u => u.key === this.state.publicKey);
@@ -115,6 +160,8 @@ export default new Vuex.Store({
 			state.settings.publicKey = publicKey;
 			config.set("public_key", publicKey);
 		},
+
+		/* Settings Stuff */
 		settings(state, settings){
 			Object.entries(settings).forEach(([k, v]) => {
 				state.settings[k] = v;
@@ -127,23 +174,16 @@ export default new Vuex.Store({
 				u.username = state.settings.username;
 			}
 		},
-
-
-		message(state, message) {
-			state.chats.find(c => c.id === message.chat).messages.push(message);
+		showUserlist(state, show) {
+			state.settings.showUserlist = show;
 		},
-		user(state, user) {
-			if(state.users.find(u => u.key === user.key) === undefined){
-				state.users.push(user);
-			}
+		setUsersFilter(state, show) {
+			state.settings.usersFilter = show;
 		},
-		updateUser(state, user) {
-			let u = state.users.find(u => u.key === user.key);
-			if(u !== undefined){
-				Object.entries(u).forEach(([k, v]) => {
-					u[k] = v;
-				});
-			}
+
+		/* Server Stuff */
+		server(state, server) {
+			state.servers.push(server);
 		},
 	},
 	getters: {
@@ -160,6 +200,9 @@ export default new Vuex.Store({
 		getSettings: state => state.settings,
 
 		getUsers: state => state.users,
-		getShowUserlist: state => state.showUserlist,
+		getFriends: state => state.friends.map(f => state.users.find(u => u.key === f)),
+		isFriend: state => key => state.friends.includes(key),
+		getShowUserlist: state => state.settings.showUserlist,
+		getUsersFilter: state => state.settings.usersFilter,
 	},
 });
