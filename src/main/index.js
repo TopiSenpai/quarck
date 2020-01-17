@@ -4,6 +4,7 @@ import store from "../stores/store";
 import Store from "electron-store";
 import generateKey from "./helper";
 import windowStateKeeper from "electron-window-state";
+import fs from "fs";
 
 if (process.env.NODE_ENV !== "development") {
 	global.__static = require("path").join(__dirname, "/static").replace(/\\/g, "\\\\");
@@ -14,6 +15,9 @@ let winState;
 const winURL = process.env.NODE_ENV === "development" ?
 	"http://localhost:9080" :
 	`file://${__dirname}/index.html`;
+
+let envPath = fs.realpathSync("./data");
+app.setPath("userData", envPath);
 
 
 function createWindow() {
@@ -39,7 +43,9 @@ function createWindow() {
 }
 
 let tray = null;
-//app.setPath ('userData', './data');
+//console.log(app);
+//app.setPath("userData", "./data");
+//console.log(app.getPath("userData"));
 
 const config = new Store();
 

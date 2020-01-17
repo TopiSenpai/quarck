@@ -49,6 +49,10 @@ export default {
 			border: 1px solid darken(@primary, 5%)!important;
 		}
 	}
+	&primary {
+		.fc;
+		.ui-primary!important;
+	}
 }
 .ui-shuffle {
 	.flexRow;

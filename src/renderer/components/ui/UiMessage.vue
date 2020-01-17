@@ -50,11 +50,14 @@ export default {
 	.flexColumn;
 	flex-shrink: 0;
 	padding: 16px;
+	border-radius: 8px;
 	&:hover {
 		background-color: darken(@primary, 2%);
 	}
 	&-text {
+		margin-left: 8px;
 		color: @fc;
+		white-space: pre;
 		word-break: break-all;
 	}
 	&-header {

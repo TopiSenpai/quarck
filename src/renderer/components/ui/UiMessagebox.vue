@@ -1,14 +1,13 @@
 <template>
     <div class="ui-messagebox">
         <ui-icon-button icon="attach_file" type="secondary" />
-        <!-- <ui-textbox v-model="text" :placeholder="placeholder" :multiLine="true"  /> -->
-        <ui-textarea @send="eventSendMessage" />
-        <ui-icon-button icon="insert_emoticon" type="secondary" @click="eventMessage"/>
+        <ui-textinput class="ui-messagebox-textinput" @send="eventSendMessage" />
+        <ui-icon-button icon="insert_emoticon" type="secondary" />
     </div>
 </template>
 
 <script>
-import UiTextarea from "./UiTextarea";
+import UiTextinput from "./UiTextinput";
 
 export default {
 
@@ -23,11 +22,11 @@ export default {
     },
 
     components: {
-        UiTextarea,
+        UiTextinput,
     },
 
     methods: {
-        eventMessage (text) {
+        eventSendMessage (text) {
             this.$emit("message", text);
         },
     },
@@ -49,19 +48,20 @@ export default {
 
 .ui-messagebox {
     .flexRow;
-    align-items: center;
+    align-items: flex-start;
     flex-shrink: 0;
 	margin: 20px;
 	padding: 8px;
 	border-radius: 12px;
 	background-color: @box;
-	& .ui-textbox {
+	& .ui-textinput {
         flex-grow: 1;
         margin-left: 4px;
 		margin-right: 4px;
 		margin-top: 0;
-		margin-bottom: 0;
-	}
+        margin-bottom: 0;
+        align-self: center;
+    }
 }
 
 </style>
