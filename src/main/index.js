@@ -16,9 +16,12 @@ const winURL = process.env.NODE_ENV === "development" ?
 	"http://localhost:9080" :
 	`file://${__dirname}/index.html`;
 
+
+if(!fs.existsSync("./data")) {
+	fs.mkdirSync("./data");
+}
 let envPath = fs.realpathSync("./data");
 app.setPath("userData", envPath);
-
 
 function createWindow() {
 	win = new BrowserWindow({
@@ -43,9 +46,6 @@ function createWindow() {
 }
 
 let tray = null;
-//console.log(app);
-//app.setPath("userData", "./data");
-//console.log(app.getPath("userData"));
 
 const config = new Store();
 
