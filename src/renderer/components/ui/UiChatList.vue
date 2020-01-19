@@ -7,16 +7,16 @@
         <ui-chat v-for="chat in chats" :key="chat.hash" :chat="chat" :selected="isSelected(chat.id)" />
         <ui-modal ref="add_chat" title="Create Chat">
             <ui-textbox v-model="chatName" label="Chat Name" />
-            <multiselect :multiple="true" :hideSelected="true" :close-on-select="false" :clear-on-select="false" v-model="selectedUsers" :options="getUsers" placeholder="select user" label="username" track-by="username"/>
-            <br />
-            <br />
+            <!-- <multiselect :multiple="true" :hideSelected="true" :close-on-select="false" :clear-on-select="false" v-model="selectedUsers" :options="getUsers" placeholder="select user" label="username" track-by="username"/> -->
+            <ui-select v-model="selectedUsers" :options="getUsers" valueProp="key" labelProp="username" />
             <ui-button color="primary" @click="createChat">create</ui-button>
         </ui-modal>
     </div>
 </template>
 
 <script>
-import Multiselect from "vue-multiselect";
+//import Multiselect from "vue-multiselect";
+import UiSelect from "./UiSelect";
 import UiChat from "./UiChat";
 import generateKey from "../../../main/helper";
 import { mapGetters } from "vuex";
@@ -43,7 +43,8 @@ export default {
 
     components: {
         UiChat,
-        Multiselect,
+        //Multiselect,
+        UiSelect,
     },
 
     computed: {

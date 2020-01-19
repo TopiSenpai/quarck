@@ -12,9 +12,7 @@ if (process.env.NODE_ENV !== "development") {
 
 let win;
 let winState;
-const winURL = process.env.NODE_ENV === "development" ?
-	"http://localhost:9080" :
-	`file://${__dirname}/index.html`;
+const winURL = process.env.NODE_ENV === "development" ? "http://localhost:9080" : `file://${__dirname}/index.html`;
 
 
 if(!fs.existsSync("./data")) {
@@ -107,7 +105,7 @@ app.on("ready", () => {
 });
 
 app.on("window-all-closed", () => {
-
+	app.quit();
 });
 
 app.on("activate", () => {
