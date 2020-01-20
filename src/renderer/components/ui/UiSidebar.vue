@@ -19,7 +19,7 @@
 		<ui-modal ref="addServer" title="Add Server">
 			<ui-textbox v-model="name" label="Name" />
 			<ui-textbox v-model="address" label="IP-Address" />
-			<ui-button color="green" @click="addServer">Add</ui-button>
+			<ui-button color="green" :disabled="isDisabled" @click="addServer">Add</ui-button>
 		</ui-modal>
 	</div>
 </template>
@@ -42,6 +42,12 @@ export default {
 			address: "",
 		};
 	},
+
+	computed: {
+        isDisabled() {
+            return this.name.trim().length === 0 || this.address.trim().length === 0;
+        },
+    },
 
 	methods: {
 		openAddServerModal () {

@@ -42,6 +42,7 @@ export default {
         .flexColumn;
         &-name {
             font-weight: bold;
+            text-overflow: ellipsis;
         }
         &-status {
             color: @fc-dark;

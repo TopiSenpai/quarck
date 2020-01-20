@@ -47,7 +47,6 @@ app.setPath("userData", envPath);
 
 function init() {
 	config = new Store();
-	store.dispatch("test");
 
 	if (!config.has("username")) {
 		let username = `user#${(Math.random() * 10000).toString().substring(0, 4)}`;

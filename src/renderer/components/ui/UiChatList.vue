@@ -9,7 +9,7 @@
             <ui-textbox v-model="chatName" label="Chat Name" />
             <!-- <multiselect :multiple="true" :hideSelected="true" :close-on-select="false" :clear-on-select="false" v-model="selectedUsers" :options="getUsers" placeholder="select user" label="username" track-by="username"/> -->
             <ui-select v-model="selectedUsers" :options="getUsers" valueProp="key" labelProp="username" />
-            <ui-button color="primary" @click="createChat">create</ui-button>
+            <ui-button color="green" :disabled="isDisabled" @click="createChat">create</ui-button>
         </ui-modal>
     </div>
 </template>
@@ -51,6 +51,9 @@ export default {
         ...mapGetters([
 			"getUsers",
         ]),
+        isDisabled() {
+            return this.chatName.trim().length === 0 || this.selectedUsers.length === 0;
+        },
     },
 
     methods: {

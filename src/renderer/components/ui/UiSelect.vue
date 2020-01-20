@@ -1,17 +1,20 @@
 <template>
 	<div class="ui-select">
 		<div class="ui-select-selected">
-			{{ search }}
 			<div class="ui-select-selected-entry" v-for="v in value" :key="v[valueProp]" @click="toggleSelect(v)">
 				<span>{{ v[labelProp] }}</span>
+				<ui-icon icon="close" />
 			</div>
 			<input type="text" v-model="search" placeholder="type to search..." />
 		</div>
-		<div class="ui-select-list">
-			<div class="ui-select-list-entry" v-for="option in filteredOptions" :key="option[valueProp]" @click="toggleSelect(option)">
+		<div class="ui-select-list" v-if="filteredOptions.length > 0">
+			<div class="ui-select-list-entry" :class="{ selected: isSelected(option) }" v-for="option in filteredOptions" :key="option[valueProp]" @click="toggleSelect(option)">
+				<img class="ui-select-list-entry-icon" src="../../assets/avatar.png"/>
 				<span>{{ option[labelProp] }}</span>
-				<ui-checkbox :value="isSelected(option)" @input="toggleSelect(option)" />
 			</div>
+		</div>
+		<div class="ui-select-list" v-else>
+			<center>No entries to display...</center>
 		</div>
 	</div>
 </template>
@@ -86,7 +89,12 @@ export default {
 
 	computed: {
 		filteredOptions() {
-			return this.options.filter(o => this.search === "" ? true : o[this.labelProp].toLowerCase().includes(this.search.toLowerCase()));
+			let str = this.search.trim().toLowerCase();
+			let options = this.options.filter(o => !this.isSelected(o));
+			if(str !== "") {
+				return options.filter(o => o[this.labelProp].toLowerCase().includes(str));
+			}
+			return options;
 		},
 	},
 
@@ -119,7 +127,8 @@ export default {
 		flex-grow: 1;
 		background-color: @secondary;
 		min-height: 32px;
-		border-radius: 4px;
+		border-top-left-radius: 4px;
+		border-top-right-radius: 4px;
 		& input {
 			background-color: transparent;
 			border: 0;
@@ -132,15 +141,18 @@ export default {
 			.fc;
 		}
 		&-entry {
+			.flexRow;
+			justify-content: space-between;
+			align-items: center;
 			.ui-green;
 			border-radius: 4px;
 			padding: 4px;
 			margin: 2px;
 			cursor: pointer;
-			& span::after {
-				content: "x";
-				.fc-dark;
-				margin-left: 4px;
+			/deep/ .ui-icon {
+				font-size: 12px;
+				color: #202020;
+				font-weight: 600;
 			}
 			&:hover {
 				.ui-green-dark;
@@ -150,18 +162,32 @@ export default {
 	&-list {
 		.flexColumn;
 		flex-grow: 1;
-		max-height: 20vh;
+		max-height: 150px;
 		overflow-y: auto;
-		margin-top: 2px;
+		border: 1px solid darken(@primary, 5%);
+		border-bottom-left-radius: 4px;
+		border-bottom-right-radius: 4px;
 		&-entry {
 			.flexRow;
 			align-items: center;
-			justify-content: space-between;
+			justify-content: flex-start;
+			flex-shrink: 0;
 			padding: 4px;
-			cursor: pointer;
+			margin-top: 2px;
 			border-radius: 4px;
+			cursor: pointer;
+			&-icon {
+				width: 30px;
+				height: 30px;
+			}
 			&:hover {
 				background-color: darken(@primary, 5%);
+			}
+			&.selected {
+				.ui-primary;
+				&:hover {
+					.ui-primary-dark;
+				}
 			}
 		}
 	}
