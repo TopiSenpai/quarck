@@ -31,7 +31,7 @@ export default new Vuex.Store({
 			privateKey: "",
 			publicKey: "",
 			showUserlist: true,
-			usersFilter: "friends",
+			usersFilter: "all",
 		},
 	},
 	actions: {
@@ -45,7 +45,7 @@ export default new Vuex.Store({
 		removeChat(store, chat) {
 			store.commit("removeChat", chat);
 		},
-		clearChat(store, chat){
+		clearChat(store, chat) {
 			store.commit("clearChat", chat);
 		},
 
@@ -56,7 +56,7 @@ export default new Vuex.Store({
 		updateUser(store, user) {
 			store.commit("updateUser", user);
 		},
-		clearUsers(store){
+		clearUsers(store) {
 			store.commit("clearUsers");
 		},
 		addFriend(store, user) {
@@ -73,15 +73,15 @@ export default new Vuex.Store({
 		status(store, status) {
 			store.commit("status", status);
 		},
-		privateKey(store, privateKey){
+		privateKey(store, privateKey) {
 			store.commit("privateKey", privateKey);
 		},
-		publicKey(store, publicKey){
+		publicKey(store, publicKey) {
 			store.commit("publicKey", publicKey);
 		},
 
 		/* Settings Stuff */
-		settings(store, settings){
+		settings(store, settings) {
 			store.commit("settings", settings);
 		},
 		showUserlist(store, show) {
@@ -107,35 +107,35 @@ export default new Vuex.Store({
 		removeChat(state, chat) {
 			state.chats.splice(state.chats.findIndex(c => c.id === chat), 1);
 		},
-		clearChat(state, chat){
+		clearChat(state, chat) {
 			state.chats.find(c => c.id === chat).messages = [];
 		},
 
 		/* User Stuff */
 		user(state, user) {
-			if(state.users.find(u => u.key === user.key) === undefined){
+			if (state.users.find(u => u.key === user.key) === undefined) {
 				state.users.push(user);
 			}
 		},
 		updateUser(state, user) {
 			let u = state.users.find(u => u.key === user.key);
-			if(u !== undefined){
+			if (u !== undefined) {
 				Object.entries(u).forEach(([k, v]) => {
 					u[k] = v;
 				});
 			}
 		},
-		clearUsers(state){
+		clearUsers(state) {
 			state.users = [];
 		},
 		addFriend(state, user) {
-			if(!state.friends.includes(user)){
+			if (!state.friends.includes(user)) {
 				state.friends.push(user);
 			}
 		},
 		removeFriend(state, user) {
 			let i = state.friends.findIndex(f => f === user);
-			if(i > -1) {
+			if (i > -1) {
 				state.friends.splice(i, 1);
 			}
 		},
@@ -145,14 +145,14 @@ export default new Vuex.Store({
 			state.settings.username = username;
 			let u = state.users.find(u => u.key === this.state.publicKey);
 			config.set("username", username);
-			if(u !== undefined){
+			if (u !== undefined) {
 				u.username = username;
 			}
 		},
 		status(state, status) {
 			state.settings.status = status;
 		},
-		privateKey(state, privateKey){
+		privateKey(state, privateKey) {
 			state.settings.privateKey = privateKey;
 			config.set("private_key", privateKey);
 		},
@@ -162,7 +162,7 @@ export default new Vuex.Store({
 		},
 
 		/* Settings Stuff */
-		settings(state, settings){
+		settings(state, settings) {
 			Object.entries(settings).forEach(([k, v]) => {
 				state.settings[k] = v;
 			});
@@ -170,7 +170,7 @@ export default new Vuex.Store({
 			config.set("private_key", state.settings.privateKey);
 			config.set("username", state.settings.username);
 			let u = state.users.find(u => u.key === state.settings.publicKey);
-			if(u !== undefined){
+			if (u !== undefined) {
 				u.username = state.settings.username;
 			}
 		},

@@ -13,13 +13,7 @@ if (process.env.NODE_ENV !== "development") {
 let win;
 let winState;
 const winURL = process.env.NODE_ENV === "development" ? "http://localhost:9080" : `file://${__dirname}/index.html`;
-
-
-if(!fs.existsSync("./data")) {
-	fs.mkdirSync("./data");
-}
-let envPath = fs.realpathSync("./data");
-app.setPath("userData", envPath);
+let config;
 
 function createWindow() {
 	win = new BrowserWindow({
@@ -44,34 +38,30 @@ function createWindow() {
 }
 
 let tray = null;
-
-const config = new Store();
-
-if (!config.has("username")) {
-	let username = `user#${(Math.random() * 10000).toString().substring(0, 4)}`;
-	config.set("username", username);
+if (!fs.existsSync("./data")) {
+	fs.mkdirSync("./data");
 }
-store.dispatch("username", config.get("username"));
 
-if (!config.has("private_key") || !config.has("public_key")) {
-	// const { publicKey, privateKey } = generateKeyPairSync('rsa', {
-	// 	modulusLength: 4096,
-	// 	publicKeyEncoding: {
-	// 		type: 'spki',
-	// 		format: 'pem'
-	// 	},
-	// 	privateKeyEncoding: {
-	// 		type: 'pkcs8',
-	// 		format: 'pem',
-	// 		cipher: 'aes-256-cbc',
-	// 		passphrase: store.getters.getUsername
-	// 	}
-	// })
-	config.set("private_key", generateKey());
-	config.set("public_key", generateKey());
+let envPath = fs.realpathSync("./data");
+app.setPath("userData", envPath);
+
+function init() {
+	config = new Store();
+	store.dispatch("test");
+
+	if (!config.has("username")) {
+		let username = `user#${(Math.random() * 10000).toString().substring(0, 4)}`;
+		config.set("username", username);
+	}
+	store.dispatch("username", config.get("username"));
+
+	if (!config.has("private_key") || config.get("private_key") === "" || !config.has("public_key") || config.get("public_key") === "") {
+		config.set("private_key", generateKey());
+		config.set("public_key", generateKey());
+	}
+	store.dispatch("privateKey", config.get("private_key"));
+	store.dispatch("publicKey", config.get("public_key"));
 }
-store.dispatch("privateKey", config.get("private_key"));
-store.dispatch("publicKey", config.get("public_key"));
 
 app.on("ready", () => {
 	winState = windowStateKeeper({
@@ -80,6 +70,7 @@ app.on("ready", () => {
 		fullScreen: true,
 	});
 	createWindow();
+	init();
 	tray = new Tray(path.join(__dirname, "logo.png"));
 	const contextMenu = Menu.buildFromTemplate([
 		{

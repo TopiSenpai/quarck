@@ -1,7 +1,11 @@
 {
 	"name": "quarck",
 	"version": "0.0.1",
-	"author": "Topi",
+	"author": {
+		"name": "TopiSenpai",
+		"email": "tobi@strasserhof.com",
+		"url": "https://github.com/TopiSenpai"
+	},
 	"description": "A decentralized chat program",
 	"license": "ISC",
 	"repository": {
@@ -57,7 +61,8 @@
 			"target": "portable"
 		},
 		"linux": {
-			"icon": "build/icons"
+			"icon": "build/icons",
+			"target": "deb"
 		}
 	},
 	"dependencies": {
