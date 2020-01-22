@@ -113,8 +113,10 @@ export default new Vuex.Store({
 
 		/* User Stuff */
 		user(state, user) {
-			if (state.users.find(u => u.key === user.key) === undefined) {
-				state.users.push(user);
+			if (user.key !== "") {
+				if (state.users.find(u => u.key === user.key) === undefined) {
+					state.users.push(user);
+				}
 			}
 		},
 		updateUser(state, user) {
@@ -187,9 +189,9 @@ export default new Vuex.Store({
 		},
 	},
 	getters: {
-		getServers: state => state.servers,
 		getChats: state => state.chats,
 		getChat: state => id => state.chats.find(c => c.id == id),
+
 		getUser: state => key => state.users.find(u => u.key === key),
 		getUsername: state => state.settings.username,
 		getUserByAddress: state => address => state.users.find(u => u.address === address),
@@ -202,7 +204,10 @@ export default new Vuex.Store({
 		getUsers: state => state.users,
 		getFriends: state => state.friends.map(f => state.users.find(u => u.key === f)),
 		isFriend: state => key => state.friends.includes(key),
+		isOnline: state => key => state.friends.find(k => k === key).online,
 		getShowUserlist: state => state.settings.showUserlist,
 		getUsersFilter: state => state.settings.usersFilter,
+
+		getServers: state => state.servers,
 	},
 });
