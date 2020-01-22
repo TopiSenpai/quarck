@@ -17,7 +17,7 @@ const udp = dgram.createSocket("udp4");
 
 const ADDRESS = "255.255.255.255";
 const UDP_PORT = 6969;
-const tcpServer_PORT = 9696;
+const TCP_PORT = 9696;
 const sockets = [];
 
 /* tcpServer */
@@ -46,7 +46,7 @@ tcpServer.on("connection", (socket) => {
 	});
 
 	socket.on("error", (err) => {
-		console.log(`tcpServer error:\n${err.stack}`);
+		console.log(`tcp2 error: ${err.stack}`);
 	});
 	socket.on("close", () => {
 		console.log("closing socket");
@@ -64,7 +64,7 @@ tcpServer.on("connection", (socket) => {
 });
 
 
-tcpServer.listen(tcpServer_PORT);
+tcpServer.listen(TCP_PORT);
 
 /* UDP */
 
@@ -125,7 +125,7 @@ function discoverClients() {
 
 function createTcpConnection(user, address) {
 	let socket = net.Socket();
-	socket.connect(UDP_PORT, address);
+	socket.connect(TCP_PORT, address);
 	socket.on("data", data => {
 		console.log(data);
 		let packet = JSON.parse(data);
@@ -141,7 +141,7 @@ function createTcpConnection(user, address) {
 		}
 	});
 	socket.on("error", err => {
-		console.log(`tcpServer error:\n${err.stack}`);
+		console.log(`tcp1 error: ${err.stack}`);
 	});
 	socket.on("close", () => {
 		console.log("closing socket");
