@@ -202,6 +202,7 @@ export default new Vuex.Store({
 		getSettings: state => state.settings,
 
 		getUsers: state => state.users,
+		getUserKeys: state => state.users.map(u => u.key),
 		getFriends: state => state.friends.map(f => state.users.find(u => u.key === f)),
 		isFriend: state => key => state.friends.includes(key),
 		isOnline: state => key => state.friends.find(k => k === key).online,

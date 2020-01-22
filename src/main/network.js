@@ -45,6 +45,12 @@ tcpServer.on("connection", (socket) => {
 		}
 	});
 
+	socket.on("ready", () => {
+		console.log("sending test");
+		socket.write("test");
+		socket.end();
+	});
+
 	socket.on("error", (err) => {
 		console.log(`tcp2 error: ${err.stack}`);
 	});
@@ -140,9 +146,17 @@ function createTcpConnection(user, address) {
 				break;
 		}
 	});
+
+	socket.on("ready", () => {
+		console.log("sending test");
+		socket.write("test");
+		socket.end();
+	});
+
 	socket.on("error", err => {
 		console.log(`tcp1 error: ${err.stack}`);
 	});
+
 	socket.on("close", () => {
 		console.log("closing socket");
 		store.dispatch("updateUser", { online: false });
@@ -187,6 +201,7 @@ function sendTcpPacketUsers(packet, keys) {
 		let socket = sockets.find(s => s.key === key);
 		if (socket !== undefined) {
 			socket.write(string);
+			socket.flush();
 		}
 	});
 }
@@ -201,7 +216,7 @@ function sendMessage(message, chat) {
 	store.dispatch("addChatMessage", packet.data);
 	console.log("<=", packet.data);
 	if (chat === "public") {
-		sendTcpPacket(packet, store.getters.getUsers);
+		sendTcpPacket(packet, store.getters.getUserKeys);
 	} else {
 		sendTcpPacketUsers(packet, store.getters.getChat(chat).users);
 	}
