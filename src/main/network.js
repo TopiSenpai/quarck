@@ -1,8 +1,6 @@
 import dgram from "dgram";
 import ip from "ip";
 
-import crypto from "crypto";
-
 import store from "../stores/store";
 import Store from "electron-store";
 import generateKey from "./helper";

@@ -13,7 +13,6 @@ export default {
 	methods: {
 		open(){
 			this.$refs.popup.style.display = "block";
-			console.log("open");
 		},
 		close() {
 			this.$refs.popup.style.display = "none";

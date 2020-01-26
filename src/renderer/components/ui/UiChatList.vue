@@ -7,21 +7,18 @@
         <ui-chat v-for="chat in chats" :key="chat.hash" :chat="chat" :selected="isSelected(chat.id)" />
         <ui-modal ref="add_chat" title="Create Chat">
             <ui-textbox v-model="chatName" label="Chat Name" />
-            <!-- <multiselect :multiple="true" :hideSelected="true" :close-on-select="false" :clear-on-select="false" v-model="selectedUsers" :options="getUsers" placeholder="select user" label="username" track-by="username"/> -->
-            <ui-select v-model="selectedUsers" :options="getUsers" valueProp="key" labelProp="username" />
-            <ui-button color="green" :disabled="isDisabled" @click="createChat">create</ui-button>
+            <ui-select v-model="selectedUsers" :options="getOtherUsers" valueProp="key" labelProp="username" />
+            <ui-button color="green" @click="createChat">create</ui-button>
         </ui-modal>
     </div>
 </template>
 
 <script>
-//import Multiselect from "vue-multiselect";
 import UiSelect from "./UiSelect";
 import UiChat from "./UiChat";
 import generateKey from "../../../main/helper";
 import { mapGetters } from "vuex";
 import network from "../../../main/network";
-import "vue-multiselect/dist/vue-multiselect.min.css";
 
 export default {
 
@@ -49,7 +46,8 @@ export default {
 
     computed: {
         ...mapGetters([
-			"getUsers",
+			"getOtherUsers",
+			"getPublicKey",
         ]),
         isDisabled() {
             return this.chatName.trim().length === 0 || this.selectedUsers.length === 0;
@@ -70,7 +68,7 @@ export default {
                 name: this.chatName,
                 id: generateKey(),
                 messages: [],
-                users: this.selectedUsers.map(u => u.key),
+                users: this.selectedUsers.map(u => u.key).concat([this.getPublicKey]),
             });
             this.$refs.add_chat.close();
             this.chatName = "";
