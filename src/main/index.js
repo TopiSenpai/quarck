@@ -45,22 +45,6 @@ if (!fs.existsSync("./data")) {
 let envPath = fs.realpathSync("./data");
 app.setPath("userData", envPath);
 
-function init() {
-	config = new Store();
-
-	if (!config.has("username")) {
-		let username = `user#${(Math.random() * 10000).toString().substring(0, 4)}`;
-		config.set("username", username);
-	}
-	store.dispatch("username", config.get("username"));
-
-	if (!config.has("private_key") || config.get("private_key") === "" || !config.has("public_key") || config.get("public_key") === "") {
-		config.set("private_key", generateKey());
-		config.set("public_key", generateKey());
-	}
-	store.dispatch("privateKey", config.get("private_key"));
-	store.dispatch("publicKey", config.get("public_key"));
-}
 
 app.on("ready", () => {
 	winState = windowStateKeeper({
@@ -69,7 +53,6 @@ app.on("ready", () => {
 		fullScreen: true,
 	});
 	createWindow();
-	init();
 	tray = new Tray(path.join(__dirname, "logo.png"));
 	const contextMenu = Menu.buildFromTemplate([
 		{
@@ -103,23 +86,3 @@ app.on("activate", () => {
 		createWindow();
 	}
 });
-
-/**
- * Auto Updater
- *
- * Uncomment the following code below and install `electron-updater` to
- * support auto updating. Code Signing with a valid certificate is required.
- * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-electron-builder.html#auto-updating
- */
-
-/*
-import { autoUpdater } from 'electron-updater'
-
-autoUpdater.on('update-downloaded', () => {
-	autoUpdater.quitAndInstall()
-})
-
-app.on('ready', () => {
-	if (process.env.NODE_ENV === 'production') autoUpdater.checkForUpdates()
-})
- */

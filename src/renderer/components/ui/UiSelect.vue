@@ -19,43 +19,7 @@
 	</div>
 </template>
 <script>
-/*
-{
-				"address": "192.168.178.77",
-				"image": "blaaa",
-				"key": "gbjgj",
-				"status": "koten",
-				"username": "Hans"
-			},
-			{
-				"address": "192.168.178.76",
-				"image": "blaaa",
-				"key": "gjbgjng",
-				"status": "koten",
-				"username": "Franz"
-			},
-			{
-				"address": "192.168.178.45",
-				"image": "blaaa",
-				"key": "rdfbhftgbz",
-				"status": "koten",
-				"username": "Kanz"
-			},
-			{
-				"address": "192.168.178.35",
-				"image": "blaaa",
-				"key": "345609ef hnuz",
-				"status": "koten",
-				"username": "Platz"
-			},
-			{
-				"address": "192.168.178.56",
-				"image": "blaaa",
-				"key": "6dNdgEbwLVx40hoWsFpPOCJOPq90OuazwLL4ngOq010f9HU2a567xnjG7TFxlI",
-				"status": "koten",
-				"username": "Topi"
-			}
-*/
+
 export default {
 
 	name: "ui-select",
@@ -176,6 +140,9 @@ export default {
 			margin-top: 2px;
 			border-radius: 4px;
 			cursor: pointer;
+			&:first-child {
+				margin-top: 0;
+			}
 			&-icon {
 				width: 30px;
 				height: 30px;

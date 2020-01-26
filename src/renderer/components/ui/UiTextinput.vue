@@ -35,7 +35,9 @@ export default {
 					let msg = this.text.trim();
 					if(msg.length > 0) {
 						this.text = "";
-						this.$refs.textarea.refreshSize();
+						this.$nextTick(() => {
+							this.$refs.textarea.refreshSize();
+						});
 						this.$emit("send", msg);
 					}
 				}

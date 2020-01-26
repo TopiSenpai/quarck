@@ -1,8 +1,11 @@
 import dgram from "dgram";
-import net from "net";
 import ip from "ip";
 
+import crypto from "crypto";
+
 import store from "../stores/store";
+import Store from "electron-store";
+import generateKey from "./helper";
 
 import PacketTypes from "./packets/PacketTypes";
 import DiscoverAnswerPacket from "./packets/DiscoverAnswerPacket";
@@ -12,59 +15,28 @@ import ChatAddPacket from "./packets/ChatAddPacket";
 import UserUpdatePacket from "./packets/UserUpdatePacket";
 
 
-const tcpServer = net.createServer();
 const udp = dgram.createSocket("udp4");
 
 const ADDRESS = "255.255.255.255";
 const UDP_PORT = 6969;
-const tcpServer_PORT = 9696;
-const sockets = [];
 
-/* tcpServer */
+/* user data */
 
-tcpServer.on("listening", () => {
-	let address = tcpServer.address();
-	console.log(`tcpServer server listening  on ${address.address}:${address.port}...`);
-});
+const config = new Store();
 
-tcpServer.on("connection", (socket) => {
-	console.log(`new connection from ${socket}`);
+if (!config.has("username")) {
+	let username = `user#${(Math.random() * 10000).toString().substring(0, 4)}`;
+	config.set("username", username);
+}
+store.dispatch("username", config.get("username"));
 
-	socket.on("data", data => {
-		console.log(data);
-		let packet = JSON.parse(data);
-		console.log("new Packet", packet.type, packet.data);
-		switch (packet.type) {
-			case PacketTypes.ChannelMessage:
-				store.dispatch("addChatMessage", packet.data);
-				console.log("=>", packet.data);
-				break;
-			case PacketTypes.ChatAdd:
-				store.dispatch("addChat", packet.data.chat);
-				break;
-		}
-	});
+if (!config.has("private_key") || config.get("private_key") === "" || !config.has("public_key") || config.get("public_key") === "") {
+	config.set("private_key", generateKey());
+	config.set("public_key", generateKey());
+}
+store.dispatch("privateKey", config.get("private_key"));
+store.dispatch("publicKey", config.get("public_key"));
 
-	socket.on("error", (err) => {
-		console.log(`tcpServer error:\n${err.stack}`);
-	});
-	socket.on("close", () => {
-		console.log("closing socket");
-		store.dispatch("updateUser", { online: false });
-		let i = sockets.findIndex(s => s.address === socket.address());
-		if (i !== -1) {
-			sockets.splice(i, 1);
-		}
-	});
-	sockets.push({
-		key: store.getters.getUserByAddress(socket.address),
-		address: socket.address(),
-		socket: socket,
-	});
-});
-
-
-tcpServer.listen(tcpServer_PORT);
 
 /* UDP */
 
@@ -102,7 +74,6 @@ udp.on("message", (message, info) => {
 		case PacketTypes.DiscoverAnswer:
 			packet.data.address = info.address;
 			store.dispatch("user", packet.data);
-			createTcpConnection(packet.data, info.address);
 			break;
 
 		case PacketTypes.UserUpdate:
@@ -123,42 +94,6 @@ function discoverClients() {
 	broadcastUdpPacket(new DiscoverClientsPacket(getPublicKey(), getUsername(), "bla", getStatus()));
 }
 
-function createTcpConnection(user, address) {
-	let socket = net.Socket();
-	socket.connect(UDP_PORT, address);
-	socket.on("data", data => {
-		console.log(data);
-		let packet = JSON.parse(data);
-		console.log("new Packet", packet.type, packet.data);
-		switch (packet.type) {
-			case PacketTypes.ChannelMessage:
-				store.dispatch("addChatMessage", packet.data);
-				console.log("=>", packet.data);
-				break;
-			case PacketTypes.ChatAdd:
-				store.dispatch("addChat", packet.data.chat);
-				break;
-		}
-	});
-	socket.on("error", err => {
-		console.log(`tcpServer error:\n${err.stack}`);
-	});
-	socket.on("close", () => {
-		console.log("closing socket");
-		store.dispatch("updateUser", { online: false });
-		let i = sockets.findIndex(s => s.address === socket.address());
-		if (i !== -1) {
-			sockets.splice(i, 1);
-		}
-	});
-	sockets.push({
-		key: user.key,
-		socket: socket,
-		address: socket.address(),
-	});
-}
-
-
 function broadcastUdpPacket(packet) {
 	var string = packet.decode();
 	udp.send(string, 0, string.length + 1, UDP_PORT, ADDRESS);
@@ -173,24 +108,6 @@ function broadcastUdpPacketUsers(packet, users) {
 	});
 }
 
-function sendTcpPacket(packet, key) {
-	var string = packet.decode();
-	let socket = sockets.find(s => s.key === key);
-	if (socket !== undefined) {
-		socket.write(string);
-	}
-}
-
-function sendTcpPacketUsers(packet, keys) {
-	var string = packet.decode();
-	keys.forEach(key => {
-		let socket = sockets.find(s => s.key === key);
-		if (socket !== undefined) {
-			socket.write(string);
-		}
-	});
-}
-
 function sendUdpPacket(packet, address, port = UDP_PORT) {
 	var string = packet.decode();
 	udp.send(string, 0, string.length + 1, port, address);
@@ -201,9 +118,9 @@ function sendMessage(message, chat) {
 	store.dispatch("addChatMessage", packet.data);
 	console.log("<=", packet.data);
 	if (chat === "public") {
-		sendTcpPacket(packet, store.getters.getUsers);
+		broadcastUdpPacket(packet, store.getters.getUsers);
 	} else {
-		sendTcpPacketUsers(packet, store.getters.getChat(chat).users);
+		broadcastUdpPacketUsers(packet, store.getters.getChat(chat).users);
 	}
 }
 
@@ -215,7 +132,7 @@ function sendUserUpdate() {
 
 function sendAddChat(chat) {
 	let packet = new ChatAddPacket(getPublicKey(), chat);
-	sendTcpPacketUsers(packet, chat.users);
+	broadcastUdpPacketUsers(packet, chat.users);
 	store.dispatch("addChat", chat);
 }
 
@@ -233,7 +150,6 @@ function getUsername() {
 
 export default {
 	discoverClients,
-	broadcastUdpPacket,
 	sendUdpPacket,
 	sendMessage,
 	sendUserUpdate,

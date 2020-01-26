@@ -32,7 +32,7 @@ export default {
 		user(){
 			return this.getUser(this.message.key);
 		},
-		time () {
+		time() {
 			let date = new Date(this.message.time);
 			return `${date.getHours()}:${date.getMinutes()}`;
 		},

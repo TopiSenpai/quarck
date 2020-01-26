@@ -43,6 +43,7 @@ export default {
 			"getChat",
 			"getUsers",
 			"getShowUserlist",
+			"getUsersByKeys",
 		]),
 		chat() {
 			return this.getChat(this.$route.params.id);
@@ -51,7 +52,7 @@ export default {
 			if(this.chat.id === "public") {
 				return this.getUsers;
 			}
-			return this.chat.users;
+			return this.getUsersByKeys(this.chat.users);
 		},
 	},
 

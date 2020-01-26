@@ -68,7 +68,6 @@
 	"dependencies": {
 		"axios": "^0.18.0",
 		"clean-css": "^4.2.1",
-		"crypto": "^1.0.1",
 		"dgram": "^1.0.1",
 		"electron-localshortcut": "^3.2.1",
 		"electron-store": "^5.1.0",

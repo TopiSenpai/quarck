@@ -150,6 +150,7 @@ export default new Vuex.Store({
 			if (u !== undefined) {
 				u.username = username;
 			}
+			console.log(state.settings.username);
 		},
 		status(state, status) {
 			state.settings.status = status;
@@ -202,6 +203,7 @@ export default new Vuex.Store({
 		getSettings: state => state.settings,
 
 		getUsers: state => state.users,
+		getUsersByKeys: state => keys => keys.map(key => state.users.find(u => u.key === key)),
 		getFriends: state => state.friends.map(f => state.users.find(u => u.key === f)),
 		isFriend: state => key => state.friends.includes(key),
 		isOnline: state => key => state.friends.find(k => k === key).online,
