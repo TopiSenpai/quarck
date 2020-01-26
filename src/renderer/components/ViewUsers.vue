@@ -30,7 +30,7 @@
 					<span class="status">{{ user.status }}</span>
 					<span class="address">{{ user.address }}</span>
 					<div class="more">
-						<ui-icon-button type="secondary" icon="chat" tooltip="Open Chat" size="mini" tooltipPosition="top" @click="createChat(user.key)" />
+						<ui-icon-button type="secondary" icon="chat" tooltip="Open Chat" size="mini" tooltipPosition="top" @click="createChat(user)" />
 						<ui-icon-button v-if="isFriend(user.key)" type="secondary" icon="close" tooltip="Remove Friend" size="mini" tooltipPosition="top" @click="removeFriend(user.key)" />
 						<ui-icon-button v-else type="secondary" icon="person_add" tooltip="Add Friend" size="mini" tooltipPosition="top" @click="addFriend(user.key)" />
 						<ui-icon-button type="secondary" icon="block" tooltip="Block User" size="mini" tooltipPosition="top" @click="blockUser(user.key)" />
@@ -43,6 +43,7 @@
 <script>
 import UiShuffle from "./ui/UiShuffle";
 import { mapGetters } from "vuex";
+import generateKey from "../../../main/helper";
 import network from "../../main/network";
 
 export default {
@@ -55,19 +56,20 @@ export default {
 
 	computed: {
 		...mapGetters([
-			"getUsers",
+			"getOtherUsers",
 			"isFriend",
 			"isOnline",
 			"getUsersFilter",
+			"getPrivateKey",
 		]),
 		users(){
 			if(this.usersFilter === "friends") {
-				return this.getUsers.filter(u => this.isFriend(u.key));
+				return this.getOtherUsers.filter(u => this.isFriend(u.key));
 			}
 			if(this.usersFilter === "online") {
-				return this.getUsers.filter(u => this.isOnline(u.key));
+				return this.getOtherUsers.filter(u => this.isOnline(u.key));
 			}
-			return this.getUsers;
+			return this.getOtherUsers;
 		},
 		usersFilter(){
 			return this.getUsersFilter;
@@ -82,8 +84,13 @@ export default {
 			this.$store.dispatch("clearUsers");
 			network.discoverClients();
 		},
-		createChat(key) {
-
+		createChat(user) {
+			network.sendAddChat({
+				name: user.username,
+				id: generateKey(),
+				messages: [],
+				users: [this.getPrivateKey, user.key],
+			});
 		},
 		removeFriend(key) {
 			this.$store.dispatch("removeFriend", key);
