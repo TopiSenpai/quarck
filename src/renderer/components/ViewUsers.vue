@@ -43,7 +43,7 @@
 <script>
 import UiShuffle from "./ui/UiShuffle";
 import { mapGetters } from "vuex";
-import generateKey from "../../../main/helper";
+import generateKey from "../../main/helper";
 import network from "../../main/network";
 
 export default {
