@@ -1,15 +1,18 @@
 <template>
 	<div class="ui-message">
+		<img class="ui-message-avatar" src="../../assets/avatar.png" />
 		<div class="ui-message-header">
-			<span class="ui-message-header-username">{{ user.username }}</span>
+			<span class="ui-message-header-username">
+				{{ user.username }}
+				<ui-user-popup :user="user" />
+			</span>
 			<span class="ui-message-header-time">{{ time }}</span>
 		</div>
-		<div class="ui-message-text" v-html="messageHtml">
-
-		</div>
+		<div class="ui-message-text" v-html="messageHtml"></div>
 	</div>
 </template>
 <script>
+import UiUserPopup from "./UiUserPopup";
 import showdown from "showdown";
 import { mapGetters } from "vuex";
 
@@ -23,6 +26,10 @@ export default {
 			required: true,
 			type: Object,
 		},
+	},
+
+	components: {
+		UiUserPopup,
 	},
 
 	computed: {
@@ -47,9 +54,9 @@ export default {
 @import '../../style/style.less';
 
 .ui-message {
-	.flexColumn;
+	.flexRow;
 	flex-shrink: 0;
-	padding: 16px;
+	padding: 8px;
 	border-radius: 8px;
 	&:hover {
 		background-color: darken(@primary, 2%);
@@ -59,6 +66,10 @@ export default {
 		color: @fc;
 		white-space: pre;
 		word-break: break-all;
+	}
+	&-avatar {
+		width: 30px;
+		height: 30px;
 	}
 	&-header {
 		&-username {

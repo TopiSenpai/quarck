@@ -1,6 +1,6 @@
 <template>
-	<div class="ui-textinput">
-		<ui-textbox ref="textarea" v-model="text" :multiLine="multiLine" :rows="1" :autofocus="true" :placholder="placeholder" @keydown="eventKeydown" />
+	<!-- <ui-textbox ref="textarea" v-model="text" :multiLine="multiLine" :rows="1" :autofocus="true" :placholder="placeholder" @keydown="eventKeydown" /> -->
+	<div class="ui-textinput" contenteditable="true" ref="textarea" @keydown="eventKeydown" >
 	</div>
 </template>
 <script>
@@ -14,11 +14,6 @@ export default {
 			type: String,
 			default: "Type Text...",
 		},
-		multiLine: {
-			required: false,
-			type: Boolean,
-			default: true,
-		},
 	},
 
 	data() {
@@ -30,25 +25,29 @@ export default {
 	methods: {
 		eventKeydown(event) {
 			if(event.keyCode === 13) {
-				if((this.multiLine && !event.shiftKey) || (!this.multiLine)) {
+				if(!event.shiftKey) {
 					event.preventDefault();
-					let msg = this.text.trim();
+					let msg = event.target.innerText.trim();
 					if(msg.length > 0) {
-						this.text = "";
-						this.$nextTick(() => {
-							this.$refs.textarea.refreshSize();
-						});
+						event.target.innerText = "";
 						this.$emit("send", msg);
 					}
 				}
 			}
 			else if(event.keyCode === 9) {
 				event.preventDefault();
-				let el = event.path[0];
-				var s = el.selectionStart;
-				this.text = this.text.substring(0, el.selectionStart) + "\t" + this.text.substring(el.selectionEnd);
-				el.selectionEnd = s + 1;
+				let el = event.target;
+				let html = event.target.innerText;
+				let selection = window.getSelection();
+				console.log(selection);
+				console.log(selection.anchorOffset);
+				el.innerHTML = html.substring(0, selection.anchorOffset) + "\t" + html.substring(selection.anchorOffset);
+				//selection.anchorOffset = selection.anchorOffset + 1;
+				window.setSelectionRange(1, 5);
 			}
+		},
+		parseMArkupPreview() {
+
 		},
 	},
 };
@@ -67,7 +66,12 @@ export default {
 }
 
 .ui-textinput {
-	flex-grow: 1;
+	max-height: 300px;
+	overflow-y: auto;
+	overflow-x: hidden;
+	white-space: pre-wrap;
+	word-wrap: break-word;
+	word-break: break-all;
 }
 
 </style>

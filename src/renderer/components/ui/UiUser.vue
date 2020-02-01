@@ -6,10 +6,13 @@
             <span class="ui-user-name-name">{{ user.username }}</span>
             <span class="ui-user-name-status">{{ user.status }}</span>
         </div>
+        <ui-user-popup :user="user" />
     </div>
 </template>
 
 <script>
+import UiUserPopup from "./UiUserPopup";
+
 export default {
 
     name: "ui-user",
@@ -19,6 +22,10 @@ export default {
             required: true,
             type: Object,
         },
+    },
+
+    components: {
+        UiUserPopup,
     },
 };
 </script>

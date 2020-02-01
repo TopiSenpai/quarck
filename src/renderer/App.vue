@@ -58,8 +58,8 @@ export default {
 html, body, #app {
 	margin: 0;
 	.fc;
-	.font();
-	.toolbar;
+	.font;
+	.bg-toolbar;
 	width: 100%;
 	height: 100%;
 	cursor: default;
