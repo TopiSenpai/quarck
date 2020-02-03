@@ -31,6 +31,7 @@ export default new Vuex.Store({
 			privateKey: "",
 			publicKey: "",
 			showUserlist: true,
+			"showEditorbar": false,
 			usersFilter: "all",
 		},
 	},
@@ -86,6 +87,9 @@ export default new Vuex.Store({
 		},
 		showUserlist(store, show) {
 			store.commit("showUserlist", show);
+		},
+		showEditorbar(store, show) {
+			store.commit("showEditorbar", show);
 		},
 		setUsersFilter(store, show) {
 			store.commit("setUsersFilter", show);
@@ -179,6 +183,9 @@ export default new Vuex.Store({
 		showUserlist(state, show) {
 			state.settings.showUserlist = show;
 		},
+		showEditorbar(state, show) {
+			state.settings.showEditorbar = show;
+		},
 		setUsersFilter(state, show) {
 			state.settings.usersFilter = show;
 		},
@@ -209,6 +216,7 @@ export default new Vuex.Store({
 		isFriend: state => key => state.friends.includes(key),
 		isOnline: state => key => state.friends.find(k => k === key).online,
 		getShowUserlist: state => state.settings.showUserlist,
+		getShowEditorbar: state => state.settings.showEditorbar,
 		getUsersFilter: state => state.settings.usersFilter,
 
 		getServers: state => state.servers,
