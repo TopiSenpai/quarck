@@ -16,7 +16,7 @@
 import SimpleMDE from "simplemde";
 import "simplemde/dist/simplemde.min.css";
 import { mapGetters } from "vuex";
-import highlightjs from "highlight.js";
+//import highlightjs from "highlight.js";
 import "highlight.js/styles/github.css";
 
 export default {
@@ -42,6 +42,9 @@ export default {
             element: this.$refs.editor,
             autofocus: true,
             spellChecker: false,
+            autosave: {
+                simplemde: false,
+            },
             renderingConfig: {
                 codeSyntaxHighlighting: true,
                 status: false,

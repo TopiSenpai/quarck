@@ -46,7 +46,6 @@ export default {
 
 .ui-message-list {
     .flexColumn;
-    padding: 8px;
     flex-grow: 1;
     overflow: auto;
     user-select: text;

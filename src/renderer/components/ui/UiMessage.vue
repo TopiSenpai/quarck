@@ -1,24 +1,28 @@
 <template>
 	<div class="ui-message">
 		<img class="ui-message-avatar" src="../../assets/avatar.png" />
-		<div class="ui-message-header">
-			<span class="ui-message-header-username">
-				{{ user.username }}
-				<ui-user-popup :user="user" />
-			</span>
-			<span class="ui-message-header-time">{{ time }}</span>
+		<div class="ui-message-content">
+			<div class="ui-message-content-header">
+				<span class="ui-message-content-header-username">
+					{{ user.username }}
+					<ui-user-popup :user="user" />
+				</span>
+				<span class="ui-message-content-header-time">{{ time }}</span>
+			</div>
+			<div class="ui-message-content-text" v-html="messageHtml"></div>
 		</div>
-		<div class="ui-message-text" v-html="messageHtml"></div>
 	</div>
 </template>
 <script>
 import UiUserPopup from "./UiUserPopup";
-import showdown from "showdown";
-import highlightjs from "highlight.js";
-import "highlight.js/styles/github.css";
+//import showdown from "showdown";
 import { mapGetters } from "vuex";
+import Prism from "prismjs";
+import "prismjs/themes/prism.css";
 
-const converter = new showdown.Converter();
+//const converter = new showdown.Converter();
+//Prism.plugins.autoloader.languages_path = "../../prism-components";
+
 
 export default {
 	name: "ui-message",
@@ -34,6 +38,10 @@ export default {
 		UiUserPopup,
 	},
 
+	mounted() {
+		Prism.highlightAll();
+	},
+
 	computed: {
 		...mapGetters([
 			"getUser",
@@ -46,7 +54,7 @@ export default {
 			return `${date.getHours()}:${date.getMinutes()}`;
 		},
 		messageHtml() {
-			return converter.makeHtml(highlightjs.highlightAuto(this.message.text).value);
+			return this.message.text;
 		},
 	},
 };
@@ -59,27 +67,28 @@ export default {
 	.flexRow;
 	flex-shrink: 0;
 	padding: 8px;
-	border-radius: 8px;
 	&:hover {
 		background-color: darken(@primary, 2%);
 	}
-	&-text {
-		margin-left: 8px;
-		color: @fc;
-		white-space: pre;
-		word-break: break-all;
-	}
 	&-avatar {
-		width: 30px;
-		height: 30px;
+		width: 40px;
+		height: 40px;
 	}
-	&-header {
-		&-username {
-			font-weight: bold;
+	&-content {
+		.flexColumn;
+		&-text {
+			color: @fc;
+			white-space: pre;
+			word-break: break-all;
 		}
-		&-time {
-			color: @fc-dark;
-			font-size: 70%;
+		&-header {
+			&-username {
+				font-weight: bold;
+			}
+			&-time {
+				color: @fc-dark;
+				font-size: 70%;
+			}
 		}
 	}
 }

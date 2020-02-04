@@ -26,5 +26,13 @@
       ]
     }
   },
-  "plugins": ["transform-runtime"]
+  "plugins": [
+    "transform-runtime",
+    ["prismjs", {
+      "languages": [],
+      "plugins": ["autoloader", "show-language"],
+      "theme": "dark",
+      "css": true
+    }]
+  ]
 }
