@@ -14,6 +14,8 @@
 <script>
 import UiUserPopup from "./UiUserPopup";
 import showdown from "showdown";
+import highlightjs from "highlight.js";
+import "highlight.js/styles/github.css";
 import { mapGetters } from "vuex";
 
 const converter = new showdown.Converter();
@@ -44,7 +46,7 @@ export default {
 			return `${date.getHours()}:${date.getMinutes()}`;
 		},
 		messageHtml() {
-			return converter.makeHtml(this.message.text);
+			return converter.makeHtml(highlightjs.highlightAuto(this.message.text).value);
 		},
 	},
 };
