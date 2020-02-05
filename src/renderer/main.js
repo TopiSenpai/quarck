@@ -1,6 +1,6 @@
 import Vue from "vue";
-import axios from "axios";
 import KeenUi from "keen-ui";
+import VueShowdown from "vue-showdown";
 
 import store from "../stores/store";
 
@@ -9,10 +9,17 @@ import router from "./router";
 import "keen-ui/dist/keen-ui.css";
 
 if (!process.env.IS_WEB) Vue.use(require("vue-electron"));
-Vue.http = Vue.prototype.$http = axios;
 Vue.config.productionTip = false;
 
 Vue.use(KeenUi);
+Vue.use(VueShowdown, {
+	flavor: "github",
+	options: {
+		emoji: true,
+		tables: true,
+		//openLinksInNewWindow: true,
+	},
+});
 
 new Vue({
 	router,

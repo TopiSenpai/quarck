@@ -1,4 +1,5 @@
-import { app, BrowserWindow, Menu, Tray } from "electron";
+import { app, BrowserWindow, Menu, Tray, shell } from "electron";
+import contextMenu from "electron-context-menu";
 import path from "path";
 import store from "../stores/store";
 import Store from "electron-store";
@@ -14,6 +15,19 @@ let win;
 let winState;
 const winURL = process.env.NODE_ENV === "development" ? "http://localhost:9080" : `file://${__dirname}/index.html`;
 let config;
+
+
+contextMenu({
+	prepend: (defaultActions, params, browserWindow) => [
+		{
+			label: "Search Google for “{selection}”",
+			visible: params.selectionText.trim().length > 0,
+			click: () => {
+				shell.openExternal(`https://google.com/search?q=${encodeURIComponent(params.selectionText)}`);
+			},
+		},
+	],
+});
 
 function createWindow() {
 	win = new BrowserWindow({

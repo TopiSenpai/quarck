@@ -9,20 +9,13 @@
 				</span>
 				<span class="ui-message-content-header-time">{{ time }}</span>
 			</div>
-			<div class="ui-message-content-text" v-html="messageHtml"></div>
+			<vue-showdown class="ui-message-content-text" :markdown="message.text" />
 		</div>
 	</div>
 </template>
 <script>
 import UiUserPopup from "./UiUserPopup";
-//import showdown from "showdown";
 import { mapGetters } from "vuex";
-import Prism from "prismjs";
-import "prismjs/themes/prism.css";
-
-//const converter = new showdown.Converter();
-//Prism.plugins.autoloader.languages_path = "../../prism-components";
-
 
 export default {
 	name: "ui-message",
@@ -38,10 +31,6 @@ export default {
 		UiUserPopup,
 	},
 
-	mounted() {
-		Prism.highlightAll();
-	},
-
 	computed: {
 		...mapGetters([
 			"getUser",
@@ -52,9 +41,6 @@ export default {
 		time() {
 			let date = new Date(this.message.time);
 			return `${date.getHours()}:${date.getMinutes()}`;
-		},
-		messageHtml() {
-			return this.message.text;
 		},
 	},
 };
@@ -76,9 +62,10 @@ export default {
 	}
 	&-content {
 		.flexColumn;
+		margin-left: 8px;
 		&-text {
 			color: @fc;
-			white-space: pre;
+			//white-space: pre;
 			word-break: break-all;
 		}
 		&-header {

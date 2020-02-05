@@ -16,8 +16,6 @@
 import SimpleMDE from "simplemde";
 import "simplemde/dist/simplemde.min.css";
 import { mapGetters } from "vuex";
-//import highlightjs from "highlight.js";
-import "highlight.js/styles/github.css";
 
 export default {
 
@@ -42,6 +40,7 @@ export default {
             element: this.$refs.editor,
             autofocus: true,
             spellChecker: false,
+            tabSize: 4,
             autosave: {
                 simplemde: false,
             },
@@ -82,6 +81,9 @@ export default {
     border: 1px solid transparent;
     .fc;
     flex-grow: 0;
+}
+/deep/ .CodeMirror-selected {
+    background-color: @select;
 }
 /deep/ .CodeMirror, /deep/ .CodeMirror-scroll {
 	max-height: 300px;
