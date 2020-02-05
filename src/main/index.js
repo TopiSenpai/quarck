@@ -1,9 +1,6 @@
 import { app, BrowserWindow, Menu, Tray, shell } from "electron";
 import contextMenu from "electron-context-menu";
 import path from "path";
-import store from "../stores/store";
-import Store from "electron-store";
-import generateKey from "./helper";
 import windowStateKeeper from "electron-window-state";
 import fs from "fs";
 
@@ -14,11 +11,10 @@ if (process.env.NODE_ENV !== "development") {
 let win;
 let winState;
 const winURL = process.env.NODE_ENV === "development" ? "http://localhost:9080" : `file://${__dirname}/index.html`;
-let config;
 
 
 contextMenu({
-	prepend: (defaultActions, params, browserWindow) => [
+	prepend: (defaultActions, params) => [
 		{
 			label: "Search Google for “{selection}”",
 			visible: params.selectionText.trim().length > 0,
