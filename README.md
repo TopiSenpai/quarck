@@ -1,18 +1,5 @@
 # quarrck
 
-> An electron-vue project
-
-#### Build Setup
-
-``` bash
-# install dependencies
-npm install
-
-# serve with hot reload at localhost:9080
-npm run dev
-
-# build electron application for production
-npm run build
-
-
-```
+> This is quarrck
+> quarrck is a local network text client
+> no the ui is not copied by Discord
