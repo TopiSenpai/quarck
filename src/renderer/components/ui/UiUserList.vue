@@ -32,8 +32,7 @@ export default {
     .flexColumn;
     flex-shrink: 0;
     width: 200px;
-    padding-top: 8px;
-    padding-bottom: 8px;
+    padding: 8px;
     background-color: @list;
     overflow-y: auto;
 }

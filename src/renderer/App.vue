@@ -55,6 +55,14 @@ export default {
 	}
 }
 
+blockquote {
+	margin: 0;
+	padding-left: 4px;
+	border-radius: 2px;
+	border-left: 3px solid @quote;
+	background-color: darken(@primary, 3%);
+}
+
 html, body, #app {
 	margin: 0;
 	.fc;
@@ -71,6 +79,7 @@ html, body, #app {
 
 .tippy-tooltip{
 	background-color: @tooltip!important;
+	border-radius: 8px;
 }
 
 *,

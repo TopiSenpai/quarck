@@ -36,10 +36,14 @@ export default {
 .ui-user {
     .flexRow;
     align-items: center;
+    border-radius: 8px;
     padding-left: 8px;
     padding-top: 4px;
     padding-right: 8px;
     padding-bottom: 4px;
+    &:hover {
+        background-color: @list-dark;
+    }
     &-icon {
         width: 40px;
         height: 40px;

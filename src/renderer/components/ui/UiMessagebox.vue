@@ -3,7 +3,9 @@
         <ui-icon-button icon="attach_file" type="secondary" />
         <div class="ui-messagebox-editor" :class="{ show: !getShowEditorbar }">
             <div class="ui-messagebox-editor-container">
-                <textarea ref="editor"></textarea>
+                <div class="ui-messagebox-editor-container-container">
+                    <textarea ref="editor"></textarea>
+                </div>
             </div>
             <ui-icon-button class="show-editorbar" type="secondary" :icon="getShowEditorbar ? 'arrow_drop_down' : 'arrow_drop_up'" size="tiny" @click="toggleShowEditorbar" />
         </div>
@@ -14,8 +16,8 @@
 
 <script>
 import SimpleMDE from "simplemde";
-import "simplemde/dist/simplemde.min.css";
 import { mapGetters } from "vuex";
+import "simplemde/dist/simplemde.min.css";
 
 export default {
 
@@ -52,6 +54,11 @@ export default {
                 allowAtxHeaderWithoutSpace: true,
             },
             toolbar: ["bold", "italic", "strikethrough", "heading", "|", "code", "quote", "horizontal-rule", "|", "unordered-list", "ordered-list", "|", "image", "table", "|", "clean-block"],
+            shortcuts: {
+                toggleFullScreen: null,
+                toggleSideBySide: null,
+                togglePreview: null,
+            },
         });
     },
 
@@ -80,7 +87,6 @@ export default {
     background-color: transparent;
     border: 1px solid transparent;
     .fc;
-    flex-grow: 0;
 }
 /deep/ .CodeMirror-selected {
     background-color: @select;
@@ -138,7 +144,12 @@ export default {
         flex-shrink: 1;
         flex-grow: 1;
         &-container {
-            flex-grow: 1;
+            display: block;
+            max-width: 100%;
+            &-container{
+                display: block;
+                max-width: 100%;
+            }
         }
         &.show /deep/.editor-toolbar {
             display: none;

@@ -52,7 +52,9 @@ export default {
 .ui-message {
 	.flexRow;
 	flex-shrink: 0;
-	padding: 8px;
+	padding-left: 8px;
+	padding-right: 8px;
+	margin-bottom: 16px;
 	&:hover {
 		background-color: darken(@primary, 2%);
 	}
@@ -65,7 +67,6 @@ export default {
 		margin-left: 8px;
 		&-text {
 			color: @fc;
-			//white-space: pre;
 			word-break: break-all;
 		}
 		&-header {
